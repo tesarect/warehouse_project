@@ -1,4 +1,6 @@
 import os
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -6,9 +8,15 @@ from launch_ros.actions import Node
 def generate_launch_description():
     
     rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', 'map_display.rviz')
-    map_file = os.path.join(get_package_share_directory('map_server'), 'config', 'warehouse_map_sim.yaml')
+    map_file = LaunchConfiguration('map_file', default='warehouse_map_sim.yaml')
+    map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
 
     return LaunchDescription([
+
+        DeclareLaunchArgument(
+            'map_file',
+            default_value='warehouse_map_sim.yaml',
+            description='Name of the map file to use'),
 
         Node(
             package='rviz2',
@@ -24,7 +32,7 @@ def generate_launch_description():
             name='map_server',
             output='screen',
             parameters=[{'use_sim_time': True}, 
-                        {'yaml_filename':map_file} 
+                        {'yaml_filename':[map_dir, '/', map_file]} 
                        ]),
 
         Node(
