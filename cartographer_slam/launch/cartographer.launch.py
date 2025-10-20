@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    rviz_config = os.path.join(get_package_share_directory('cartographer_slam'), 'rviz', 'warehouse.rviz')
+    rviz_config = os.path.join(get_package_share_directory('cartographer_slam'), 'rviz', 'mapping.rviz')
     cartographer_config_dir = os.path.join(get_package_share_directory('cartographer_slam'), 'config')
     configuration_basename = 'cartographer_sim.lua'
 
