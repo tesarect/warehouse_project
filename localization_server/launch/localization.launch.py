@@ -1,13 +1,17 @@
 import os
 from launch.substitutions import LaunchConfiguration, PythonExpression
-from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import PathJoinSubstitution
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
     
-    rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', 'map_display.rviz')
+    rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', '3rd_prsn_view.rviz')
+    # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', 'map_display.rviz')
     nav2_amcl = os.path.join(get_package_share_directory('localization_server'), 'config', 'amcl_config_sim.yaml')
 
     map_file = LaunchConfiguration('map_file', default='warehouse_map_sim.yaml')
@@ -73,10 +77,19 @@ def generate_launch_description():
             name='base_to_footprint_tf',
             arguments=['0', '0', '0', '0', '0', '0', 'robot_base_footprint', 'robot_base_link']),
 
-        # Initial Position initializer
-        Node(
-            package='localization_server',
-            executable='initial_pose_pub',
-            output='screen'),
-
+        # Initial Position initializer  
+        # Node(
+        #     package='localization_server',
+        #     executable='initial_pose_pub',
+        #     output='screen'),
+        # Initial Position initializer's  Launch file [need to try this]
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                PathJoinSubstitution([
+                    FindPackageShare('localization_server'),
+                    'launch',
+                    'init_robot.launch.py'
+                ])
+            )
+        ),
     ])
