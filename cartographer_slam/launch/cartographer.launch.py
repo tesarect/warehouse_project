@@ -1,20 +1,20 @@
 import os
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 
 def generate_launch_description():
 
-
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
 
     rviz_config = os.path.join(get_package_share_directory('cartographer_slam'), 'rviz', 'mapping.rviz')
+    
     cartographer_config_dir = os.path.join(get_package_share_directory('cartographer_slam'), 'config')
-    configuration_basename = 'cartographer_sim.lua'
-    if not(use_sim_time):
-        configuration_basename = 'cartographer_real.lua'
+    configuration_basename = PythonExpression([
+        "'cartographer_sim.lua' if '", use_sim_time, "' == 'true' else 'cartographer_real.lua'"
+    ])
 
     return LaunchDescription([
 

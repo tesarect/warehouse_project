@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'map_server'
+package_name = 'localization_server'
 
 setup(
     name=package_name,
@@ -25,6 +25,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'initial_pose_pub = localization_server.initial_pose_pub:main',
         ],
     },
 )
