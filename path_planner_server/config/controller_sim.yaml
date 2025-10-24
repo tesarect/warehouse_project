@@ -19,8 +19,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      xy_goal_tolerance: 0.30
+      yaw_goal_tolerance: 0.30
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -61,19 +61,23 @@ controller_server:
       RotateToGoal.scale: 32.0
       RotateToGoal.slowing_factor: 5.0
       RotateToGoal.lookahead_time: -1.0
+      allow_reversing: false      # newly added 
+      rotate_to_heading_angular_vel: 1.0
+      min_theta_velocity_threshold: 0.1
+      use_rotate_to_heading: true
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 2.0
-      global_frame: odom
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map    # odom
       robot_base_frame: robot_base_footprint
       use_sim_time: True
       rolling_window: true
       width: 3
       height: 2
       resolution: 0.05
-      robot_radius: 0.15
+      robot_radius: 0.25
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"

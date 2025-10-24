@@ -10,8 +10,10 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     
-    rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', '3rd_prsn_view.rviz')
+    # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', '3rd_prsn_view.rviz')
     # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', 'map_display.rviz')
+    rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
+
     nav2_amcl = os.path.join(get_package_share_directory('localization_server'), 'config', 'amcl_config_sim.yaml')
 
     map_file = LaunchConfiguration('map_file', default='warehouse_map_sim.yaml')

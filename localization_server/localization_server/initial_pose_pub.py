@@ -14,6 +14,7 @@ class Publisher(Node):
         self.subscriber_  # prevent unused variable warning
         self.shutdown_timer = None
         # self.initial_position_published = False  # to avoid multiple triggers
+        self.get_logger().info('Initializer node started')
     
     def callback(self, msg):
         self.get_logger().info('Recieved Data:\n X : %f \n Y : %f \n Z : %f' % (msg.point.x, msg.point.y, msg.point.z))
@@ -42,8 +43,8 @@ def main(args=None):
     rclpy.init(args=args)
     publisher = Publisher()
     rclpy.spin(publisher)
-    # publisher.destroy_node()
-    # rclpy.shutdown()
+    publisher.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

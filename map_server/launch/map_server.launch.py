@@ -25,7 +25,7 @@ def generate_launch_description():
             'use_sim_time',
             default_value='true',
             description='Use simulation time'),
-            
+ 
         Node(
             package='rviz2',
             executable='rviz2',
@@ -40,8 +40,7 @@ def generate_launch_description():
             name='map_server',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time}, 
-                        {'yaml_filename':[map_dir, '/', map_file]} 
-                       ]),
+                        {'yaml_filename':[map_dir, '/', map_file]}]),
 
         Node(
             package='nav2_lifecycle_manager',
