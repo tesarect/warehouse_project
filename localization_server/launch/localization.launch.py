@@ -10,18 +10,23 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     
-    # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', '3rd_prsn_view.rviz')
-    # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', 'map_display.rviz')
     rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
-
-    nav2_amcl = os.path.join(get_package_share_directory('localization_server'), 'config', 'amcl_config_sim.yaml')
 
     map_file = LaunchConfiguration('map_file', default='warehouse_map_sim.yaml')
     map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
+    
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     
     # Set up conditional parameters based on map_file
     is_sim = PythonExpression(['"warehouse_map_sim.yaml" in "', map_file, '"'])
+
+
+    loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
+    nav2_amcl = PythonExpression([
+        '"', loc_config_dir, '/amcl_config_sim.yaml" if "warehouse_map_sim.yaml" in "', map_file, '" else "',
+        loc_config_dir, '/amcl_config_real.yaml"'
+    ])
+
 
     return LaunchDescription([
 
@@ -61,7 +66,7 @@ def generate_launch_description():
             executable='amcl',
             name='amcl',
             output='screen',
-            parameters=[nav2_amcl]),
+            parameters=[nav2_amcl, {'use_sim_time': use_sim_time}]),
 
         Node(
             package='nav2_lifecycle_manager',
@@ -79,12 +84,6 @@ def generate_launch_description():
             name='base_to_footprint_tf',
             arguments=['0', '0', '0', '0', '0', '0', 'robot_base_footprint', 'robot_base_link']),
 
-        # Initial Position initializer  
-        # Node(
-        #     package='localization_server',
-        #     executable='initial_pose_pub',
-        #     output='screen'),
-        # Initial Position initializer's  Launch file [need to try this]
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution([

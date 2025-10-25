@@ -7,7 +7,6 @@ from launch_ros.actions import Node
 
 def launch_setup(context, *args, **kwargs):
 
-    # rviz_config = os.path.join(get_package_share_directory('map_server'), 'rviz', '3rd_prsn_view.rviz')
     rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
 
@@ -21,7 +20,18 @@ def launch_setup(context, *args, **kwargs):
     planner_yaml = os.path.join(pkg_path, 'config', f'planner_{config_suffix}.yaml')
     recovery_yaml = os.path.join(pkg_path, 'config', f'recoveries_{config_suffix}.yaml')
 
-    
+    # Define controller node with conditional remapping
+    controller_node = Node(
+        package='nav2_controller',
+        executable='controller_server',
+        name='controller_server',
+        output='screen',
+        parameters=[controller_yaml],
+    )
+    # Only add the remapping for simulation
+    if use_sim_time:
+        controller_node.remappings = [('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')]
+  
     nodes = [
 
         Node(
@@ -32,14 +42,7 @@ def launch_setup(context, *args, **kwargs):
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=['-d', rviz_config]), 
 
-        Node(
-            package='nav2_controller',
-            executable='controller_server',
-            name='controller_server',
-            output='screen',
-            parameters=[controller_yaml],
-            remappings=[
-                ('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')]),
+        controller_node,
 
         Node(
             package='nav2_planner',
