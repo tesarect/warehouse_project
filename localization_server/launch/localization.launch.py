@@ -1,88 +1,87 @@
 import os
-from launch.substitutions import LaunchConfiguration, PythonExpression
-from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.substitutions import FindPackageShare
-from launch.substitutions import PathJoinSubstitution
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import IncludeLaunchDescription
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch_ros.substitutions import FindPackageShare
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
+    map_file = LaunchConfiguration('map_file').perform(context)
+    
+    # Determine if simulation based on map file name
+    is_sim = 'warehouse_map_sim.yaml' in map_file
+    use_sim_time_value = True if is_sim else False
+    
+    print(f"Map file: {map_file}")
+    print(f"Is simulation: {is_sim}")
+    print(f"use_sim_time: {use_sim_time_value}")
     
     rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
-
-    map_file = LaunchConfiguration('map_file', default='warehouse_map_sim.yaml')
     map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
     
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    
-    # Set up conditional parameters based on map_file
-    is_sim = PythonExpression(['"warehouse_map_sim.yaml" in "', map_file, '"'])
-
-
+    # Select the appropriate AMCL config file
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
-    nav2_amcl = PythonExpression([
-        '"', loc_config_dir, '/amcl_config_sim.yaml" if "warehouse_map_sim.yaml" in "', map_file, '" else "',
-        loc_config_dir, '/amcl_config_real.yaml"'
-    ])
-
-
-    return LaunchDescription([
-
-        DeclareLaunchArgument(
-            'map_file',
-            default_value='warehouse_map_sim.yaml',
-            description='Name of the map file to use'),
-        
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='true',
-            description='Use simulation time if true'),
-        
-        # Set use_sim_time based on map file
-        SetEnvironmentVariable(
-            name='USE_SIM_TIME',
-            value=PythonExpression(['"true" if ', is_sim, ' else "false"'])),
-        
+    amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
+    
+    print(f"AMCL config file: {amcl_config_file}")
+    
+    # Make sure map file path is constructed correctly
+    map_file_path = os.path.join(map_dir, map_file)
+    print(f"Full map path: {map_file_path}")
+    
+    nodes = [
         Node(
             package='rviz2',
             executable='rviz2',
             output='screen',
             name='rviz_node',
-            parameters=[{'use_sim_time': use_sim_time}],
-            arguments=['-d', rviz_config]),   
+            parameters=[{'use_sim_time': use_sim_time_value}],
+            arguments=['-d', rviz_config]),
             
+        # Make sure to pass the full path to the map file
         Node(
             package='nav2_map_server',
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time}, 
-                        {'yaml_filename':[map_dir, '/', map_file]}]),
+            parameters=[
+                {'use_sim_time': use_sim_time_value},
+                {'yaml_filename': map_file_path}
+            ]),
             
         Node(
             package='nav2_amcl',
             executable='amcl',
             name='amcl',
             output='screen',
-            parameters=[nav2_amcl, {'use_sim_time': use_sim_time}]),
+            parameters=[
+                amcl_config_file,
+                {'use_sim_time': use_sim_time_value}
+            ]),
 
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_localization',
             output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': True},
-                        {'node_names': ['map_server', 'amcl']}]),
+            parameters=[
+                {'use_sim_time': use_sim_time_value},
+                {'autostart': True},
+                {'node_names': ['map_server', 'amcl']}
+            ]),
 
-        # adding missing TF frame
+        # Updated static transform publisher with new-style arguments
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='base_to_footprint_tf',
-            arguments=['0', '0', '0', '0', '0', '0', 'robot_base_footprint', 'robot_base_link']),
+            arguments=['--x', '0', '--y', '0', '--z', '0', 
+                      '--roll', '0', '--pitch', '0', '--yaw', '0', 
+                      '--frame-id', 'robot_base_footprint', 
+                      '--child-frame-id', 'robot_base_link']),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -93,4 +92,16 @@ def generate_launch_description():
                 ])
             )
         ),
+    ]
+    
+    return nodes
+
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            'map_file',
+            default_value='warehouse_map_sim.yaml',
+            description='Name of the map file to use'),
+            
+        OpaqueFunction(function=launch_setup)
     ])
