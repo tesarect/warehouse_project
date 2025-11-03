@@ -11,7 +11,6 @@ from launch_ros.substitutions import FindPackageShare
 def launch_setup(context, *args, **kwargs):
     map_file = LaunchConfiguration('map_file').perform(context)
     
-    # Determine if simulation based on map file name
     is_sim = 'warehouse_map_sim.yaml' in map_file
     use_sim_time_value = True if is_sim else False
     
@@ -22,15 +21,13 @@ def launch_setup(context, *args, **kwargs):
     rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
     map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
     
-    # Select the appropriate AMCL config file
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
     amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
     
-    print(f"AMCL config file: {amcl_config_file}")
+    # print(f"AMCL config file: {amcl_config_file}")
     
-    # Make sure map file path is constructed correctly
     map_file_path = os.path.join(map_dir, map_file)
-    print(f"Full map path: {map_file_path}")
+    # print(f"Full map path: {map_file_path}")
     
     nodes = [
         Node(
@@ -41,7 +38,6 @@ def launch_setup(context, *args, **kwargs):
             parameters=[{'use_sim_time': use_sim_time_value}],
             arguments=['-d', rviz_config]),
             
-        # Make sure to pass the full path to the map file
         Node(
             package='nav2_map_server',
             executable='map_server',

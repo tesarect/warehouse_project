@@ -4,7 +4,8 @@ bt_navigator:
     global_frame: map
     robot_base_frame: robot_base_footprint
     odom_topic: /odom
-    bt_loop_duration: 10
+    # bt_loop_duration: 10
+    bt_loop_duration: 20
     default_server_timeout: 20
     default_nav_to_pose_bt_xml: "/home/user/ros2_ws/src/warehouse_project/path_planner_server/config/navigate_w_replanning_and_recovery.xml"
     plugin_lib_names:
@@ -33,7 +34,6 @@ bt_navigator:
     - nav2_recovery_node_bt_node
     - nav2_pipeline_sequence_bt_node
     - nav2_round_robin_node_bt_node
-    # - nav2_rotate_recovery_bt_node        # newly added
     - nav2_transform_available_condition_bt_node
     - nav2_time_expired_condition_bt_node
     - nav2_path_expiring_timer_condition
