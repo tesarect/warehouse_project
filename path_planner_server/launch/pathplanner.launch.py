@@ -11,7 +11,6 @@ def launch_setup(context, *args, **kwargs):
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() in ['true', '1', 'yes']
 
     pkg_path = get_package_share_directory('path_planner_server')
-    rviz_config = os.path.join(pkg_path, 'rviz', 'pathplanning.rviz')
 
     config_suffix = 'sim' if use_sim_time else 'real'
     controller_yaml = os.path.join(pkg_path, 'config', f'controller_{config_suffix}.yaml')
@@ -25,13 +24,13 @@ def launch_setup(context, *args, **kwargs):
         controller_remappings = [('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')]
 
 
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
+    approach_service_server_node = Node(
+        package='attach_shelf',
+        executable='approach_service_server',
+        name='approach_service_server',
         output='screen',
-        name='rviz_node',
-        parameters=[{'use_sim_time': use_sim_time}],
-        arguments=['-d', rviz_config])
+        # prefix='bash -c \'sleep 10; $0 $@\''
+        )
 
     controller_node = Node(
         package='nav2_controller',
@@ -74,7 +73,7 @@ def launch_setup(context, *args, **kwargs):
                                     'bt_navigator']}])
 
     nodes = [
-        rviz_node,
+        approach_service_server_node,
         controller_node,
         planner_node,
         behavior_node,

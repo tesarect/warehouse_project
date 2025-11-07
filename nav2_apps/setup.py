@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'nav2_apps'
 
@@ -20,6 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+           'move_shelf_to_ship = nav2_apps.scripts.move_shelf_to_ship:main',
         ],
     },
 )

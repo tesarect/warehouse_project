@@ -211,8 +211,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.2100435048341751
-        Min Value: 0.20999304950237274
+        Max Value: 0.21004346013069153
+        Min Value: 0.20999301970005035
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -406,7 +406,7 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Class: rviz_default_plugins/Polygon
-      Color: 255; 170; 0
+      Color: 0; 0; 0
       Enabled: true
       Name: Local FootPrint
       Topic:
@@ -478,10 +478,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9947963953018188
+      Pitch: 1.5697963237762451
       Target Frame: robot_base_footprint
       Value: ThirdPersonFollower (rviz_default_plugins)
-      Yaw: 3.1404006481170654
+      Yaw: 3.1304006576538086
     Saved: ~
 Window Geometry:
   Displays:

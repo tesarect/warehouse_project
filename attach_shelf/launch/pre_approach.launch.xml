@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- RViz launch section -->
+    <arg name="rviz_config" default="$(find-pkg-share attach_shelf)/rviz/warehouse_rb1.rviz" />
+
+    <node name="rviz" pkg="rviz2" exec="rviz2" args="-d $(var rviz_config)" output="screen"/>
+
+    <!-- `attach_shelf` node section -->
+    <arg name="obstacle" default="0.3" />
+    <arg name="degrees" default="-90" />
+
+    <node pkg="attach_shelf" 
+          exec="pre_approach" 
+          name="pre_approach_node"
+          launch-prefix="bash -c 'sleep 2; $0 $@'"
+          output="screen">
+        
+        <param name="obstacle" value="$(var obstacle)" />
+        <param name="degrees" value="$(var degrees)" />
+        
+    </node>
+</launch>

@@ -11,23 +11,22 @@ from launch_ros.substitutions import FindPackageShare
 def launch_setup(context, *args, **kwargs):
     map_file = LaunchConfiguration('map_file').perform(context)
     
-    is_sim = 'warehouse_map_sim.yaml' in map_file
+    is_sim = 'warehouse_map_keepout_sim.yaml' in map_file
     use_sim_time_value = True if is_sim else False
     
     print(f"Map file: {map_file}")
     print(f"Is simulation: {is_sim}")
     print(f"use_sim_time: {use_sim_time_value}")
     
-    rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
+    # rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
+    rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning_3rd_prsn.rviz')
     map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
     
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
     amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
     
-    # print(f"AMCL config file: {amcl_config_file}")
-    
     map_file_path = os.path.join(map_dir, map_file)
-    # print(f"Full map path: {map_file_path}")
+    print(f"Map_file_path: {map_file_path}")
     
     nodes = [
         Node(
@@ -96,7 +95,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'map_file',
-            default_value='warehouse_map_sim.yaml',
+            default_value='warehouse_map_keepout_sim.yaml',
             description='Name of the map file to use'),
             
         OpaqueFunction(function=launch_setup)
