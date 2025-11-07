@@ -1,4 +1,5 @@
 import time
+import math
 from copy import deepcopy
 
 from geometry_msgs.msg import PoseStamped
@@ -85,7 +86,6 @@ def bot_attach_shelf():
 
     # Call service asynchronously
     attach_shelf_future = approach_client.call_async(attach_shelf_request)
-    # attach_shelf_future = approach_client.call(attach_shelf_request)
 
     # Wait for response
     rclpy.spin_until_future_complete(shelf_attacing_node, attach_shelf_future)
@@ -95,14 +95,79 @@ def bot_attach_shelf():
         print('Move towards shelf INCOMPLETE')
         return 0
 
-    print('Move to shelf and attach shelf sucessfull')
+    print('Move underneath shelf and attached shelf sucessfully')
     
     update_footprint_for_shelf(shelf=True)
 
     return True
 
-def bot_reverse():
-    pass
+def move_backward_to_pose(node, target_pose, distance=1.0):
+    """Move backward to target_pose by specified distance"""
+    # Create velocity publisher
+    cmd_vel_publisher = node.create_publisher(
+        Twist, 
+        '/diffbot_base_controller/cmd_vel_unstamped',
+        10
+    )
+    
+    # Create odometry listener
+    odom_listener = OdomListener(node)
+    
+    # Wait for odometry to be available
+    print("Waiting for odometry data...")
+    start_time = time.time()
+    while odom_listener.get_current_pose() is None:
+        time.sleep(0.1)
+        if time.time() - start_time > 5.0:
+            print("Timeout waiting for odometry!")
+            return False
+    
+    # Record starting position
+    start_pose = odom_listener.get_current_pose()
+    start_x = start_pose.position.x
+    start_y = start_pose.position.y
+    
+    # Calculate direction vector from robot to target
+    dx = target_pose.pose.position.x - start_x
+    dy = target_pose.pose.position.y - start_y
+    
+    # Normalize direction vector
+    mag = math.sqrt(dx*dx + dy*dy)
+    if mag > 0:
+        dx /= mag
+        dy /= mag
+    
+    # Move backward (opposite direction)
+    vel_msg = Twist()
+    vel_msg.linear.x = -0.2  # Constant backward speed
+    
+    distance_moved = 0.0
+    rate = node.create_rate(10)  # 10 Hz
+    
+    print("Moving backward toward loading position...")
+    while distance_moved < distance:
+        # Get current position
+        current_pose = odom_listener.get_current_pose()
+        if current_pose is None:
+            cmd_vel_publisher.publish(Twist())  # Stop if odometry lost
+            return False
+        
+        # Calculate distance moved
+        current_x = current_pose.position.x
+        current_y = current_pose.position.y
+        distance_moved = math.sqrt((current_x - start_x)**2 + (current_y - start_y)**2)
+        
+        # Publish velocity
+        cmd_vel_publisher.publish(vel_msg)
+        rate.sleep()
+    
+    # Stop the robot
+    stop_msg = Twist()
+    cmd_vel_publisher.publish(stop_msg)
+    time.sleep(0.5)  # Make sure stop command is processed
+    
+    print(f"Moved backward {distance_moved:.2f} meters")
+    return True
 
 def main():
 
@@ -168,16 +233,18 @@ def main():
 
     result = navigator.getResult()
     if result == TaskResult.SUCCEEDED:
-        print('Reached loading position.')
+        print('Reached loading position')
 
         _shelf_attached = bot_attach_shelf()
         
-        # # ❌ AttributeError: 'bool' object has no attribute 'results'
+        # # TODO: fix ❌ AttributeError: 'bool' object has no attribute 'results'
         # if not _shelf_attached.results[0].successful:
         #     print('----Unable to attach the shelf, should figure out how to use retry or recovery')
         
+
+        move_backward_to_pose(shelf_attacing_node, load_pose, distance=0.5)
+
         navigator.goToPose(ship_pose)
-        print('Shelf being attached to the RB1')
         # print('Got product from ' + request_item_location +
         #     '! Bringing product to shipping destination (' + request_destination + ')...')
 
