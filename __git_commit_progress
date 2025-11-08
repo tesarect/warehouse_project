@@ -1,0 +1,16 @@
+----- initial commit
+1. init_pose initialized through Simple Commander API.
+2. history policy from `Keep Last` to `Keep All` for rviz config.
+3. inclreased goal yaw tolarance.
+4. Reaches loading and shipping positions without cart
+
+git commit -m "Added init_pose through Simple Commander API, goal pose for both loading and shipping. able to reach both pose without cart.
+changed history policy from `Keep Last` to `Keep All` for rviz config and inclreased goal yaw tolarance form both sim and real env."
+
+----- initial commit
+
+1. updated keep out map
+2. added 'approach_shelf' to the path planner launch file and removed duplicate rviz
+3. main file updated with approach shelf, attach shelf and transformed footprint 
+
+git commit -m "Added keepout cost map, approach shelf. Updated main file with approach shelf, attach shelf and transformed footprint"
