@@ -24,6 +24,7 @@ def launch_setup(context, *args, **kwargs):
     
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
     amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
+    filters_yaml = os.path.join(get_package_share_directory('path_planner_server'), 'config', 'filters.yaml')
     
     map_file_path = os.path.join(map_dir, map_file)
     print(f"Map_file_path: {map_file_path}")
@@ -46,7 +47,23 @@ def launch_setup(context, *args, **kwargs):
                 {'use_sim_time': use_sim_time_value},
                 {'yaml_filename': map_file_path}
             ]),
-            
+
+        Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='filter_mask_server',
+            output='screen',
+            emulate_tty=True,
+            parameters=[filters_yaml]),
+
+        Node(
+            package='nav2_map_server',
+            executable='costmap_filter_info_server',
+            name='costmap_filter_info_server',
+            output='screen',
+            emulate_tty=True,
+            parameters=[filters_yaml]),
+
         Node(
             package='nav2_amcl',
             executable='amcl',
@@ -65,7 +82,11 @@ def launch_setup(context, *args, **kwargs):
             parameters=[
                 {'use_sim_time': use_sim_time_value},
                 {'autostart': True},
-                {'node_names': ['map_server', 'amcl']}
+                {'node_names': [
+                                'map_server', 
+                                'amcl',
+                                'filter_mask_server',
+                                'costmap_filter_info_server']}
             ]),
 
         # Updated static transform publisher with new-style arguments

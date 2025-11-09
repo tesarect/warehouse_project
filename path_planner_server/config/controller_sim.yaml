@@ -81,10 +81,15 @@ local_costmap:
       # robot_radius: 0.25
       footprint: '[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]'
       plugins: ["voxel_layer", "inflation_layer"]
+      filters: ["keepout_filter"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.35
+      keepout_filter:
+        plugin: "nav2_costmap_2d::KeepoutFilter"
+        enabled: True
+        filter_info_topic: "/costmap_filter_info"
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True

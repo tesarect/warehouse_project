@@ -10,6 +10,7 @@ from rcl_interfaces.srv import SetParameters
 from rclpy.parameter import Parameter
 
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+from nav2_msgs.srv import ClearEntireCostmap
 
 from attach_shelf.srv import GoToLoading
 from geometry_msgs.msg import Twist
@@ -23,9 +24,9 @@ _initial_position = [0.0306187, 0.0211561, 0.00883951]
 _loading_position = [5.7098795, -0.1307365, -0.6950259, 0.7189846]
 _shipping_position = [2.5659244, 1.3705197, 0.7073400, 0.7068734]
 _throughPoint1_position = [2.6281423, 0.1889415, 0.7113135, 0.7028748]
+_route_routine = [_shipping_position, _throughPoint1_position]
 
-
-_footprint_with_shelf = "[[0.40, 0.40], [0.40, -0.40], [-0.40, -0.40], [-0.40, 0.40]]"
+_footprint_with_shelf = "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
 
 
@@ -52,28 +53,69 @@ def update_footprint_for_shelf(shelf):
     if shelf:
         # Larger footprint when carrying shelf
         footprint = _footprint_with_shelf
+        footprint_clearing = False
     else:
         # RB1's original footprint
         footprint = _footprint_without_shelf
+        footprint_clearing = True
 
-    
-    # Create a simple Parameter directly
-    param = Parameter(name='footprint', value=footprint)
-    
+    # Create parameters list
+    # parameters = [
+    #     Parameter(name='footprint', value=footprint),
+    #     Parameter(name='footprint_clearing_enabled', value=clearing_enabled)
+    # ]
+    parameters = [
+        Parameter(name='footprint', value=footprint),
+        Parameter(name='voxel_layer.enabled', value=True),
+        Parameter(name='voxel_layer.footprint_clearing_enabled', value=footprint_clearing)
+    ]
+
     # Convert to the ROS service parameter type
-    ros_param = Parameter.to_parameter_msg(param)
+    ros_parameters = [Parameter.to_parameter_msg(param) for param in parameters]
     
     # Create request
     request = SetParameters.Request()
-    request.parameters = [ros_param]
+    request.parameters = ros_parameters
     
     # Call service
     updated_footprint_future = param_client.call_async(request)
     rclpy.spin_until_future_complete(shelf_attacing_node, updated_footprint_future)
+    time.sleep(0.5)
     
     # rcl_interfaces.srv.SetParameters_Response(results=[rcl_interfaces.msg.SetParametersResult(successful=True, reason='')])
     return updated_footprint_future.result()
 
+def clear_costmaps():
+    
+    # Clear local costmap
+    local_clear_client = shelf_attacing_node.create_client(
+        ClearEntireCostmap,
+        'local_costmap/clear_entirely_local_costmap'
+    )
+    
+    while not local_clear_client.wait_for_service(timeout_sec=1.0):
+        print('Clear local costmap service not available, waiting...')
+    
+    request = ClearEntireCostmap.Request()
+    future = local_clear_client.call_async(request)
+    rclpy.spin_until_future_complete(shelf_attacing_node, future)
+    print("Cleared local costmap")
+    
+    # Clear global costmap
+    global_clear_client = shelf_attacing_node.create_client(
+        ClearEntireCostmap,
+        'global_costmap/clear_entirely_global_costmap'
+    )
+    
+    while not global_clear_client.wait_for_service(timeout_sec=1.0):
+        print('Clear global costmap service not available, waiting...')
+    
+    request = ClearEntireCostmap.Request()
+    future = global_clear_client.call_async(request)
+    rclpy.spin_until_future_complete(shelf_attacing_node, future)
+    print("Cleared global costmap")
+    
+    return True
 
 def bot_attach_shelf():
 
@@ -99,75 +141,46 @@ def bot_attach_shelf():
     
     update_footprint_for_shelf(shelf=True)
 
+    clear_costmaps()
+
     return True
 
-def move_backward_to_pose(node, target_pose, distance=1.0):
-    """Move backward to target_pose by specified distance"""
-    # Create velocity publisher
-    cmd_vel_publisher = node.create_publisher(
+def move_backward_from_shelf(distance=0.5, speed=0.2):
+    """Simple backward motion without turning"""
+    cmd_vel_publisher = shelf_attacing_node.create_publisher(
         Twist, 
         '/diffbot_base_controller/cmd_vel_unstamped',
         10
     )
     
-    # Create odometry listener
-    odom_listener = OdomListener(node)
+    print(f"Moving backward {distance} meters at {speed} m/s")
     
-    # Wait for odometry to be available
-    print("Waiting for odometry data...")
-    start_time = time.time()
-    while odom_listener.get_current_pose() is None:
-        time.sleep(0.1)
-        if time.time() - start_time > 5.0:
-            print("Timeout waiting for odometry!")
-            return False
-    
-    # Record starting position
-    start_pose = odom_listener.get_current_pose()
-    start_x = start_pose.position.x
-    start_y = start_pose.position.y
-    
-    # Calculate direction vector from robot to target
-    dx = target_pose.pose.position.x - start_x
-    dy = target_pose.pose.position.y - start_y
-    
-    # Normalize direction vector
-    mag = math.sqrt(dx*dx + dy*dy)
-    if mag > 0:
-        dx /= mag
-        dy /= mag
-    
-    # Move backward (opposite direction)
+    # Create velocity message for pure backward motion
     vel_msg = Twist()
-    vel_msg.linear.x = -0.2  # Constant backward speed
+    vel_msg.linear.x = -speed  # Negative for backward motion
+    vel_msg.angular.z = 0.0    # No rotation
     
-    distance_moved = 0.0
-    rate = node.create_rate(10)  # 10 Hz
+    # Publish for several seconds to ensure the robot moves
+    start_time = time.time()
+    duration = distance / speed  # Calculate time needed to move the distance
     
-    print("Moving backward toward loading position...")
-    while distance_moved < distance:
-        # Get current position
-        current_pose = odom_listener.get_current_pose()
-        if current_pose is None:
-            cmd_vel_publisher.publish(Twist())  # Stop if odometry lost
-            return False
-        
-        # Calculate distance moved
-        current_x = current_pose.position.x
-        current_y = current_pose.position.y
-        distance_moved = math.sqrt((current_x - start_x)**2 + (current_y - start_y)**2)
-        
-        # Publish velocity
+    # Add extra time to make sure command is received
+    print(f"Publishing backward command for {duration:.2f} seconds...")
+    
+    while time.time() - start_time < duration:
         cmd_vel_publisher.publish(vel_msg)
-        rate.sleep()
+        time.sleep(0.1)
     
-    # Stop the robot
+    # Send stop command multiple times to ensure it stops
+    print("Sending stop command...")
     stop_msg = Twist()
-    cmd_vel_publisher.publish(stop_msg)
-    time.sleep(0.5)  # Make sure stop command is processed
+    for i in range(10):  # Send multiple stop commands
+        cmd_vel_publisher.publish(stop_msg)
+        time.sleep(0.1)
     
-    print(f"Moved backward {distance_moved:.2f} meters")
+    print("Backward motion complete")
     return True
+
 
 def main():
 
@@ -186,23 +199,6 @@ def main():
     initial_pose.pose.orientation.z = q[2]
     initial_pose.pose.orientation.w = q[3]
 
-    # initialize loading position
-    load_pose = PoseStamped()
-    load_pose.header.frame_id = 'map'
-    load_pose.header.stamp = navigator.get_clock().now().to_msg()
-    load_pose.pose.position.x = _loading_position[0]
-    load_pose.pose.position.y = _loading_position[1]
-    load_pose.pose.orientation.z = _loading_position[2]
-    load_pose.pose.orientation.w = _loading_position[3]
-    
-    # initialize shipping position
-    ship_pose = PoseStamped()
-    ship_pose.header.frame_id = 'map'
-    ship_pose.header.stamp = navigator.get_clock().now().to_msg()
-    ship_pose.pose.position.x = _shipping_position[0]
-    ship_pose.pose.position.y = _shipping_position[1]
-    ship_pose.pose.orientation.z = _shipping_position[2]
-    ship_pose.pose.orientation.w = _shipping_position[3]
 
     # initialize 1st through point position
     thru1_pose = PoseStamped()
@@ -219,6 +215,15 @@ def main():
     # Wait for navigation to activate fully
     navigator.waitUntilNav2Active()
 
+    # initialize loading position
+    load_pose = PoseStamped()
+    load_pose.header.frame_id = 'map'
+    load_pose.header.stamp = navigator.get_clock().now().to_msg()
+    load_pose.pose.position.x = _loading_position[0]
+    load_pose.pose.position.y = _loading_position[1]
+    load_pose.pose.orientation.z = _loading_position[2]
+    load_pose.pose.orientation.w = _loading_position[3]
+
     # Navigate to loading position
     navigator.goToPose(load_pose)
 
@@ -232,7 +237,18 @@ def main():
                   + ' seconds.')
 
     result = navigator.getResult()
-    if result == TaskResult.SUCCEEDED:
+
+    if result == TaskResult.CANCELED:
+        print('Task was canceled. Returning to staging point...')
+        initial_pose.header.stamp = navigator.get_clock().now().to_msg()
+        navigator.goToPose(initial_pose)
+
+    elif result == TaskResult.FAILED:
+        print('Task failed!')
+        exit(-1)
+    
+
+    elif result == TaskResult.SUCCEEDED:
         print('Reached loading position')
 
         _shelf_attached = bot_attach_shelf()
@@ -242,57 +258,28 @@ def main():
         #     print('----Unable to attach the shelf, should figure out how to use retry or recovery')
         
 
-        move_backward_to_pose(shelf_attacing_node, load_pose, distance=0.5)
+        reverse_status = move_backward_from_shelf(distance=1.2)
 
+        if not reverse_status:
+            print('Unable to take a reverse')
+            print('Task failed!')
+            exit(-1)
+
+
+        print('Preparing to move to shipping location')
+        # initialize shipping position
+        ship_pose = PoseStamped()
+        ship_pose.header.frame_id = 'map'
+        ship_pose.header.stamp = navigator.get_clock().now().to_msg()
+        ship_pose.pose.position.x = _shipping_position[0]
+        ship_pose.pose.position.y = _shipping_position[1]
+        ship_pose.pose.orientation.z = _shipping_position[2]
+        ship_pose.pose.orientation.w = _shipping_position[3]
+
+        # Navigate to shipping position
         navigator.goToPose(ship_pose)
-        # print('Got product from ' + request_item_location +
-        #     '! Bringing product to shipping destination (' + request_destination + ')...')
 
-
-
-        # # instead try to use goThroughPoses (_loading_position -> _throughPoint1_position -> _shipping_position)
-        # while rclpy.ok():
-        #     route_poses = []
-        #     route_poses.append(deepcopy(load_pose))
-        #     route_poses.append(deepcopy(thru1_pose))
-        #     route_poses.append(deepcopy(ship_pose))
-        #     navigator.goThroughPoses(route_poses)
-
-        #     i = 0
-        #     while not navigator.isTaskComplete():
-        #         i = i + 1
-        #         feedback = navigator.getFeedback()
-        #         if feedback and i % 10 == 0:
-        #             print('Estimated time to complete current route: ' + '{0:.0f}'.format(
-        #                 Duration.from_msg(feedback.estimated_time_remaining).nanoseconds / 1e9)
-        #                 + ' seconds.')
-
-        #             # Some failure mode, must stop since the robot is clearly stuck
-        #             if Duration.from_msg(feedback.navigation_time) > Duration(seconds=180.0):
-        #                 print('Navigation has exceeded timeout of 180s, canceling the request.')
-        #                 navigator.cancelTask()
-
-        #     # If at the end of the route, go to initial postion
-        #     navigator.goToPose(load_pose)
-
-        #     result = navigator.getResult()
-        #     if result == TaskResult.SUCCEEDED:
-        #         print('Route complete! Restarting...')
-        #     elif result == TaskResult.CANCELED:
-        #         print('Security route was canceled, exiting.')
-        #         exit(1)
-        #     elif result == TaskResult.FAILED:
-        #         print('Security route failed! Restarting from the other side...')
-
-    elif result == TaskResult.CANCELED:
-        print('Task was canceled. Returning to staging point...  ..............................')
-        initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-        navigator.goToPose(initial_pose)
-
-    elif result == TaskResult.FAILED:
-        print('Task failed!')
-        exit(-1)
-
+    
     while not navigator.isTaskComplete():
         pass
     

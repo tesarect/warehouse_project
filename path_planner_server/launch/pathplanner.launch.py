@@ -18,7 +18,6 @@ def launch_setup(context, *args, **kwargs):
     planner_yaml = os.path.join(pkg_path, 'config', f'planner_{config_suffix}.yaml')
     recovery_yaml = os.path.join(pkg_path, 'config', f'recoveries_{config_suffix}.yaml')
 
-
     controller_remappings = []
     if use_sim_time:
         controller_remappings = [('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')]
