@@ -378,7 +378,7 @@ private:
     auto elevator_publisher =
         this->create_publisher<std_msgs::msg::String>("/elevator_up", 10);
     rclcpp::sleep_for(
-        std::chrono::milliseconds(200)); // Let publisher initialize
+        std::chrono::milliseconds(1000)); // Let publisher initialize
 
     auto elevator_msg = std_msgs::msg::String();
     elevator_msg.data = "";

@@ -10,8 +10,17 @@ ros2 launch localization_server localization.launch.py map_file:=warehouse_map_k
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/scripts/move_shelf_to_ship.py
+python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship.py
 
 ros2 run attach_shelf approach_service_server
 
-ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}"
+ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}44
+
+------------------------------------------------------------
+
+even after costmap is reduced the goal is met.
+
+the keep out is not being added to local costmap for me
+
+changing the raytracing in config file will seemlesly affect with or without shape transformation right ?
 

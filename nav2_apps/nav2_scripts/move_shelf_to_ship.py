@@ -21,13 +21,15 @@ from odom_listener import OdomListener
 _initial_position = [0.0306187, 0.0211561, 0.00883951]
 
 # Obtained from `/goal_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
-_loading_position = [5.7098795, -0.1307365, -0.6950259, 0.7189846]
+# _loading_position = [5.7098795, -0.1307365, -0.6950259, 0.7189846]
+_loading_position = [5.7098795, -0.0307365, -0.6950259, 0.7189846]
 _shipping_position = [2.5659244, 1.3705197, 0.7073400, 0.7068734]
 _throughPoint1_position = [2.6281423, 0.1889415, 0.7113135, 0.7028748]
 _route_routine = [_shipping_position, _throughPoint1_position]
 
 _footprint_with_shelf = "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
+
 
 
 rclpy.init()
@@ -53,21 +55,16 @@ def update_footprint_for_shelf(shelf):
     if shelf:
         # Larger footprint when carrying shelf
         footprint = _footprint_with_shelf
-        footprint_clearing = False
+        # footprint_clearing = False
     else:
         # RB1's original footprint
         footprint = _footprint_without_shelf
-        footprint_clearing = True
+        # footprint_clearing = True
 
     # Create parameters list
-    # parameters = [
-    #     Parameter(name='footprint', value=footprint),
-    #     Parameter(name='footprint_clearing_enabled', value=clearing_enabled)
-    # ]
     parameters = [
         Parameter(name='footprint', value=footprint),
-        Parameter(name='voxel_layer.enabled', value=True),
-        Parameter(name='voxel_layer.footprint_clearing_enabled', value=footprint_clearing)
+        # Parameter(name='footprint_clearing_enabled', value=footprint_clearing)
     ]
 
     # Convert to the ROS service parameter type
@@ -155,23 +152,34 @@ def move_backward_from_shelf(distance=0.5, speed=0.2):
     
     print(f"Moving backward {distance} meters at {speed} m/s")
     
-    # Create velocity message for pure backward motion
+    # Create velocity
     vel_msg = Twist()
-    vel_msg.linear.x = -speed  # Negative for backward motion
-    vel_msg.angular.z = 0.0    # No rotation
+    vel_msg.linear.x = -speed 
+    vel_msg.angular.z = 0.10
     
     # Publish for several seconds to ensure the robot moves
     start_time = time.time()
-    duration = distance / speed  # Calculate time needed to move the distance
+    duration = distance / speed  # time needed to move the distance
     
-    # Add extra time to make sure command is received
     print(f"Publishing backward command for {duration:.2f} seconds...")
     
     while time.time() - start_time < duration:
         cmd_vel_publisher.publish(vel_msg)
         time.sleep(0.1)
+
+    print ('------------- curved backing up done')
+
+    vel_msg.angular.z = -0.7854
+    vel_msg.linear.x = 0.0
+    start_time = time.time()
+    while time.time() - start_time < 3:
+        cmd_vel_publisher.publish(vel_msg)
+        time.sleep(1.0)
+
+    print('---------- rotation comlete')
+
     
-    # Send stop command multiple times to ensure it stops
+    # Send stop multiple times to ensure
     print("Sending stop command...")
     stop_msg = Twist()
     for i in range(10):  # Send multiple stop commands
@@ -199,16 +207,6 @@ def main():
     initial_pose.pose.orientation.z = q[2]
     initial_pose.pose.orientation.w = q[3]
 
-
-    # initialize 1st through point position
-    thru1_pose = PoseStamped()
-    thru1_pose.header.frame_id = 'map'
-    thru1_pose.header.stamp = navigator.get_clock().now().to_msg()
-    thru1_pose.pose.position.x = _throughPoint1_position[0]
-    thru1_pose.pose.position.y = _throughPoint1_position[1]
-    thru1_pose.pose.orientation.z = _throughPoint1_position[2]
-    thru1_pose.pose.orientation.w = _throughPoint1_position[3]
-    
     # Set initial pose in the navigation system
     navigator.setInitialPose(initial_pose)
 
@@ -258,13 +256,23 @@ def main():
         #     print('----Unable to attach the shelf, should figure out how to use retry or recovery')
         
 
-        reverse_status = move_backward_from_shelf(distance=1.2)
+        reverse_status = move_backward_from_shelf(distance=1.750)
 
         if not reverse_status:
             print('Unable to take a reverse')
             print('Task failed!')
             exit(-1)
 
+
+        # initialize 1st through point position
+        thru1_pose = PoseStamped()
+        thru1_pose.header.frame_id = 'map'
+        thru1_pose.header.stamp = navigator.get_clock().now().to_msg()
+        thru1_pose.pose.position.x = _throughPoint1_position[0]
+        thru1_pose.pose.position.y = _throughPoint1_position[1]
+        thru1_pose.pose.orientation.z = _throughPoint1_position[2]
+        thru1_pose.pose.orientation.w = _throughPoint1_position[3]
+        
 
         print('Preparing to move to shipping location')
         # initialize shipping position
@@ -276,9 +284,20 @@ def main():
         ship_pose.pose.orientation.z = _shipping_position[2]
         ship_pose.pose.orientation.w = _shipping_position[3]
 
-        # Navigate to shipping position
-        navigator.goToPose(ship_pose)
+        # # Navigate to shipping position
+        # navigator.goToPose(thru1_pose)
 
+        _route_pose = []
+        _pose = PoseStamped()
+        _pose.header.frame_id = 'map'
+        _pose.header.stamp = navigator.get_clock().now().to_msg()
+        for pt in _route_routine:
+            _pose.pose.position.x = pt[0]
+            _pose.pose.position.y = pt[1]
+            _pose.pose.orientation.z = pt[2]
+            _pose.pose.orientation.w = pt[3]
+            _route_pose.append(deepcopy(_pose))
+        navigator.goThroughPoses(_route_pose)
     
     while not navigator.isTaskComplete():
         pass
