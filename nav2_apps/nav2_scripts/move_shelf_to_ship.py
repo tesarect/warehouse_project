@@ -1,5 +1,5 @@
 import time
-import math
+from math import pi as PI
 from copy import deepcopy
 
 from geometry_msgs.msg import PoseStamped
@@ -142,7 +142,7 @@ def bot_attach_shelf():
 
     return True
 
-def move_backward_from_shelf(distance=0.5, speed=0.2):
+def move_backward_from_shelf(distance=0.5, curvature=0.0, speed=0.2, rotate_deg=None):
     """Simple backward motion without turning"""
     cmd_vel_publisher = shelf_attacing_node.create_publisher(
         Twist, 
@@ -155,7 +155,7 @@ def move_backward_from_shelf(distance=0.5, speed=0.2):
     # Create velocity
     vel_msg = Twist()
     vel_msg.linear.x = -speed 
-    vel_msg.angular.z = 0.10
+    vel_msg.angular.z = curvature
     
     # Publish for several seconds to ensure the robot moves
     start_time = time.time()
@@ -169,14 +169,15 @@ def move_backward_from_shelf(distance=0.5, speed=0.2):
 
     print ('------------- curved backing up done')
 
-    vel_msg.angular.z = -0.7854
-    vel_msg.linear.x = 0.0
-    start_time = time.time()
-    while time.time() - start_time < 3:
-        cmd_vel_publisher.publish(vel_msg)
-        time.sleep(1.0)
-
-    print('---------- rotation comlete')
+    # In-Place rotation for tight spaces
+    if rotate_deg:
+        vel_msg.angular.z = rotate_deg
+        vel_msg.linear.x = 0.0
+        start_time = time.time()
+        while time.time() - start_time < 3:
+            cmd_vel_publisher.publish(vel_msg)
+            time.sleep(1.0)
+        print('---------- rotation comlete')
 
     
     # Send stop multiple times to ensure
@@ -256,7 +257,7 @@ def main():
         #     print('----Unable to attach the shelf, should figure out how to use retry or recovery')
         
 
-        reverse_status = move_backward_from_shelf(distance=1.750)
+        reverse_status = move_backward_from_shelf(distance=1.750, curvature= 0.10, rotate_deg=-0.7854)
 
         if not reverse_status:
             print('Unable to take a reverse')
