@@ -5,11 +5,11 @@ import rclpy
 from rclpy.node import Node
 
 
-class SimpleMover(Node):
+class ManualMover(Node):
     """A simple robot movement helper class for ROS2."""
 
     def __init__(self):
-        super().__init__('simple_mover')
+        super().__init__('manual_mover')
 
         # Create publisher for cmd_vel
         self.cmd_vel_pub = self.create_publisher(
@@ -37,7 +37,7 @@ class SimpleMover(Node):
         vel_msg.linear.x = 0.0
 
         self.get_logger().info(
-            f"Rotating {rotate_deg}° for {duration:.2f} seconds..."
+            f"Rotating {rotate_deg} degrees for {duration:.2f} seconds..."
         )
 
         start_time = time.time()
@@ -84,9 +84,13 @@ class SimpleMover(Node):
         curvature_deg: desired curvature in DEGREES per second (positive = left curve, negative = right curve)
         speed: linear velocity (m/s)
         """
+
+        # Convert curvature from degrees/s to radians/s
+        curvature_rad = math.radians(curvature_deg)
+
         vel_msg = Twist()
         vel_msg.linear.x = abs(speed)
-        vel_msg.angular.z = curvature_deg
+        vel_msg.angular.z = curvature_rad
 
         duration = distance / speed
 
@@ -115,11 +119,11 @@ class SimpleMover(Node):
 # Example usage
 def main(args=None):
     rclpy.init(args=args)
-    mover = SimpleMover()
+    mover = ManualMover()
 
     # Example commands
     mover.move_forward(distance=1.5, speed=0.50)
-    mover.move_backward(distance=0.7, speed=0.25)
+    mover.move_backward(distance=0.4, speed=0.25)
     mover.inplace_rotation(rotate_deg=45, rotate_speed=0.5)
     mover.inplace_rotation(rotate_deg=-30, rotate_speed=0.5)
 
