@@ -8,6 +8,7 @@ cd ~/ros2_ws && colcon build && source install/setup.bash
 ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml
 
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True > __pp_op 2>&1
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/scripts/move_shelf_to_ship.py
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship.py
@@ -25,3 +26,4 @@ the keep out is not being added to local costmap for me
 
 changing the raytracing in config file will seemlesly affect with or without shape transformation right ?
 
+> __pp_op 2>&1
