@@ -21,13 +21,9 @@ from manual_movement import ManualMover
 _initial_position = [0.0306187, 0.0211561, 0.00883951]
 
 # Obtained from `/goal_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
-# _loading_position = [5.7098795, -0.1307365, -0.6950259, 0.7189846]
 _loading_position = [5.7098795, -0.0307365, -0.6950259, 0.7189846]
-# _shipping_position = [2.5659244, 1.3705197, 0.7073400, 0.7068734]
 _shipping_position = [2.465, 1.500, 0.707, 0.706]
-# _throughPoint1_position = [2.6281423, 0.1889415, 0.7113135, 0.7028748]
-_throughPoint1_position = [2.5281423, 0.1889415, 0.7113135, 0.7028748]
-# _route_routine = [_throughPoint1_position, _shipping_position, _throughPoint1_position, _initial_position]
+_throughPoint1_position = [2.365, 0.188, 0.711, 0.702]
 
 _footprint_with_shelf = "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
@@ -291,50 +287,19 @@ def main():
 
     update_footprint_for_shelf(shelf=False)
 
-    maneuver.move_backward(distance=1.0, speed=0.3)
+    maneuver.move_backward(distance=1.4, speed=0.3)
 
     clear_costmaps()
 
     maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
 
-    goToLocation(position=_throughPoint1_position)
 
     goToLocation(position=_initial_position)
-
-    maneuver.inplace_rotation(rotate_deg=180, rotate_speed=0.5)
 
     while not navigator.isTaskComplete():
         pass
 
     exit(0)
 
-    # shelf_attacing_node.destroy_node()
-    # rclpy.shutdown()
-
-
 if __name__ == '__main__':
     main()
-
-
-        # # initialize 1st through point position
-        # thru1_pose = PoseStamped()
-        # thru1_pose.header.frame_id = 'map'
-        # thru1_pose.header.stamp = navigator.get_clock().now().to_msg()
-        # thru1_pose.pose.position.x = _throughPoint1_position[0]
-        # thru1_pose.pose.position.y = _throughPoint1_position[1]
-        # thru1_pose.pose.orientation.z = _throughPoint1_position[2]
-        # thru1_pose.pose.orientation.w = _throughPoint1_position[3]
-        
-
-        # print('Preparing to move to shipping location')
-        # # initialize shipping position
-        # ship_pose = PoseStamped()
-        # ship_pose.header.frame_id = 'map'
-        # ship_pose.header.stamp = navigator.get_clock().now().to_msg()
-        # ship_pose.pose.position.x = _shipping_position[0]
-        # ship_pose.pose.position.y = _shipping_position[1]
-        # ship_pose.pose.orientation.z = _shipping_position[2]
-        # ship_pose.pose.orientation.w = _shipping_position[3]
-
-        # # Navigate to shipping position
-        # navigator.goToPose(thru1_pose)
