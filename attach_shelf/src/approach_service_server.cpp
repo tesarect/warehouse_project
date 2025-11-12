@@ -41,6 +41,24 @@ public:
             std::bind(&ApproachServiceServer::handle_approach_shelf, this, _1,
                       _2));
 
+    auto topics = this->get_topic_names_and_types();
+    bool real_robot = false;
+
+    for (const auto& topic_and_types : topics) {
+        if (topic_and_types.first == "/cmd_vel") {
+            real_robot = true;
+            break;
+        }
+    }
+
+    // Simulation's Topic names
+    std::string cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
+    
+    // Real Robot's Topic names
+    if (real_robot) {
+        std::string cmd_vel_topic = "/cmd_vel";
+    }
+
     laser_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
         "/scan", 10,
         std::bind(&ApproachServiceServer::laser_callback, this, _1));
@@ -50,8 +68,10 @@ public:
         std::bind(&ApproachServiceServer::odom_callback, this,
                   std::placeholders::_1));
 
+    // cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
+    //     "/diffbot_base_controller/cmd_vel_unstamped", 10);
     cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/diffbot_base_controller/cmd_vel_unstamped", 10);
+        cmd_vel_topic, 10);
 
     // TF broadcaster
     cart_static_tf_broadcaster_ =

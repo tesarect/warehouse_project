@@ -18,16 +18,16 @@ from std_msgs.msg import String
 from manual_movement import ManualMover
 
 # Taken from amcl config
-_initial_position = [0.0306187, 0.0211561, 0.00883951]
+# _initial_position = [-0.0250, 0.0540, 0.000]
+_initial_position = [0.1342, 0.0050, 0.9952]
 
 # Obtained from `/amcl_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
-_loading_position = [5.7098795, -0.0307365, -0.6950259, 0.7189846]
-_shipping_position = [2.465, 1.500, 0.707, 0.706]
-_throughPoint1_position = [2.365, 0.188, 0.711, 0.702]
+_loading_position = [4.4490, -0.2950, -0.7280, 0.6855]
+_shipping_position = [1.9076, 1.1936, 0.7247, 0.6890]
+_throughPoint1_position = [2.0394, -0.0220, 0.7306, 0.6827]
 
-_footprint_with_shelf = "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
+_footprint_with_shelf = "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
-
 
 
 rclpy.init()

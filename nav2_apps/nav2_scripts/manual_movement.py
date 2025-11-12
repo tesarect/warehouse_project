@@ -11,10 +11,24 @@ class ManualMover(Node):
     def __init__(self):
         super().__init__('manual_mover')
 
+        self.cmd_vel_topic = '/diffbot_base_controller/cmd_vel_unstamped'
+        
+        # Get list of all topics
+        _topic_list = self.get_topic_names_and_types()
+
+        if '/cmd_vel' in [topic[0] for topic in _topic_list]:
+            self.cmd_vel_topic = '/cmd_vel'
+
+        # # Create publisher for cmd_vel
+        # self.cmd_vel_pub = self.create_publisher(
+        #     Twist,
+        #     '/diffbot_base_controller/cmd_vel_unstamped',
+        #     10
+        # )        
         # Create publisher for cmd_vel
         self.cmd_vel_pub = self.create_publisher(
             Twist,
-            '/diffbot_base_controller/cmd_vel_unstamped',
+            self.cmd_vel_topic,
             10
         )
 
