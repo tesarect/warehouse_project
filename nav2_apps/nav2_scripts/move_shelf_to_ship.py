@@ -23,10 +23,11 @@ _initial_position = [0.0306187, 0.0211561, 0.00883951]
 # Obtained from `/goal_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
 # _loading_position = [5.7098795, -0.1307365, -0.6950259, 0.7189846]
 _loading_position = [5.7098795, -0.0307365, -0.6950259, 0.7189846]
-_shipping_position = [2.5659244, 1.3705197, 0.7073400, 0.7068734]
+# _shipping_position = [2.5659244, 1.3705197, 0.7073400, 0.7068734]
+_shipping_position = [2.465, 1.500, 0.707, 0.706]
 # _throughPoint1_position = [2.6281423, 0.1889415, 0.7113135, 0.7028748]
 _throughPoint1_position = [2.5281423, 0.1889415, 0.7113135, 0.7028748]
-_route_routine = [_throughPoint1_position, _shipping_position, _throughPoint1_position, _initial_position]
+# _route_routine = [_throughPoint1_position, _shipping_position, _throughPoint1_position, _initial_position]
 
 _footprint_with_shelf = "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
@@ -87,7 +88,12 @@ def update_footprint_for_shelf(shelf):
     updated_footprint_future = param_client.call_async(request)
     rclpy.spin_until_future_complete(shelf_attacing_node, updated_footprint_future)
     time.sleep(0.5)
-    
+
+    if updated_footprint_future.result():
+        if shelf:
+            print('Footprint updated WITH shelf')
+        else:
+            print('Footprint updated WITHOUT shelf')
     # rcl_interfaces.srv.SetParameters_Response(results=[rcl_interfaces.msg.SetParametersResult(successful=True, reason='')])
     return updated_footprint_future.result()
 
@@ -123,7 +129,7 @@ def clear_costmaps():
     
     return True
 
-def bot_attach_shelf():
+def bot_approach_attach_shelf():
 
     # Wait for service to be available
     while not approach_client.wait_for_service(timeout_sec=1.0):
@@ -152,15 +158,20 @@ def bot_attach_shelf():
     return True
 
 def goToLocation(position: list, action: bool = None):
+    _pose_name = [name for name, value in globals().items() if value is position][0]
+    print(f' >> Approaching {_pose_name}')
 
     _pose = PoseStamped()
     _pose.header.frame_id = 'map'
     _pose.header.stamp = navigator.get_clock().now().to_msg()
     _pose.pose.position.x = position[0]
     _pose.pose.position.y = position[1]
-    _pose.pose.orientation.z = position[2]
-    _pose.pose.orientation.w = position[3]
-    print('Received request to reach x: {position[0]} | y: {position[1]}')
+    try:
+        _pose.pose.orientation.z = position[2]
+        _pose.pose.orientation.w = position[3]
+    except:
+        print(f'No orientation available for {_pose_name} ')
+
     navigator.goToPose(_pose)
 
     i = 0
@@ -174,7 +185,8 @@ def goToLocation(position: list, action: bool = None):
 
     result = navigator.getResult()
     if result == TaskResult.SUCCEEDED:
-        print('Reached destination [{postion[0]}, {postion[1]}]...')
+        # print('Reached destination [{postion[0]}, {postion[1]}]...')
+        print(f' << Reached {_pose_name}')
         if action:
             print('--- Received action to be executed')
             trigger_elevator()
@@ -190,6 +202,7 @@ def goToLocation(position: list, action: bool = None):
     while not navigator.isTaskComplete():
         pass
 
+    print(f' << Reached {_pose_name}')
     return True
 
 def trigger_elevator():
@@ -259,7 +272,7 @@ def main():
     elif result == TaskResult.SUCCEEDED:
         print('Reached loading position')
 
-        _shelf_attached = bot_attach_shelf()
+        _shelf_attached = bot_approach_attach_shelf()
 
     while not navigator.isTaskComplete():
         time.sleep(0.5)
@@ -276,52 +289,19 @@ def main():
 
     goToLocation(position=_shipping_position, action=True)
 
+    update_footprint_for_shelf(shelf=False)
+
+    maneuver.move_backward(distance=1.0, speed=0.3)
+
+    clear_costmaps()
+
+    maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
+
     goToLocation(position=_throughPoint1_position)
 
     goToLocation(position=_initial_position)
 
-    # while rclpy.ok():
-    #     _route_pose = []
-    #     _pose = PoseStamped()
-    #     _pose.header.frame_id = 'map'
-    #     _pose.header.stamp = navigator.get_clock().now().to_msg()
-    #     for pt in _route_routine:
-    #         _pose.pose.position.x = pt[0]
-    #         _pose.pose.position.y = pt[1]
-    #         _pose.pose.orientation.z = pt[2]
-    #         _pose.pose.orientation.w = pt[3]
-    #         _route_pose.append(deepcopy(_pose))
-
-    #     print('GoThrough poses done setting up ......')
-    #     navigator.goThroughPoses(_route_pose)
-
-    #     # Do something during your route (e.x. AI detection on camera images for anomalies)
-    #     # Print ETA for the demonstration
-    #     x = 0
-    #     while not navigator.isTaskComplete():
-    #         x = x + 1
-    #         feedback = navigator.getFeedback()
-    #         if feedback and x % 5 == 0:
-    #             print('Estimated time to complete current route: ' + '{0:.0f}'.format(
-    #                     Duration.from_msg(feedback.estimated_time_remaining).nanoseconds / 1e9)
-    #                     + ' seconds.')
-
-    #             # Some failure mode, must stop since the robot is clearly stuck
-    #             if Duration.from_msg(feedback.navigation_time) > Duration(seconds=180.0):
-    #                 print('Navigation has exceeded timeout of 180s, canceling the request.')
-    #                 navigator.cancelTask()
-
-    #     # # If at the end of the route, reverse the route to restart
-    #     # security_route.reverse()
-
-    #     result = navigator.getResult()
-    #     if result == TaskResult.SUCCEEDED:
-    #         print('GoThrough: Route complete! Restarting...')
-    #     elif result == TaskResult.CANCELED:
-    #         print('GoThrough: Security route was canceled, exiting.')
-    #         exit(1)
-    #     elif result == TaskResult.FAILED:
-    #         print('GoThrough: Security route failed! Restarting from the other side...')
+    maneuver.inplace_rotation(rotate_deg=180, rotate_speed=0.5)
 
     while not navigator.isTaskComplete():
         pass
