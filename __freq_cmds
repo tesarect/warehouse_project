@@ -18,6 +18,20 @@ ros2 run attach_shelf approach_service_server
 
 ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}44
 
+Real robot:
+==========
+check:
+1. topics list and compare 
+2. modify rviz for color variasion for odom thats asked formatter
+3. make note of all amcl pose 
+    ros2 topic echo /amcl_pose
+    ros2 teleop
+
+ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml
+
+ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False
+
+python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship_real.py
 ------------------------------------------------------------
 
 even after costmap is reduced the goal is met.
@@ -27,3 +41,52 @@ the keep out is not being added to local costmap for me
 changing the raytracing in config file will seemlesly affect with or without shape transformation right ?
 
 > __pp_op 2>&1
+
+
+initial: Done
+    position:
+      x: 0.1342502994063518
+      y: 0.004869332382660938
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: -0.09749907925329841
+      w: 0.995235615090597
+
+through point1:
+    position:
+      x: 2.039488934388341
+      y: -0.022215340482719757
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.7306256102451112
+      w: 0.68277830783788
+
+loading:    DONE
+    position:
+      x: 4.449066043450868
+      y: -0.2949352810285858
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: -0.7280384164411565
+      w: 0.6855363332354115
+
+shipping:   DONE
+    position:
+      x: 1.9076503689847355
+      y: 1.1936376369546646
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.7247207267146976
+      w: 0.6890427187556085
+
+cd ~/ros2_ws/src/cartographer_slam/config
+
+ros2 run nav2_map_server map_saver_cli -f warehouse_map_real_05

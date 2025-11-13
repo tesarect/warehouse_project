@@ -69,7 +69,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 1.0
       publish_frequency: 1.0
-      global_frame: map    # odom
+      global_frame: map
       robot_base_frame: robot_base_footprint
       use_sim_time: True
       rolling_window: true
@@ -81,8 +81,8 @@ local_costmap:
       filters: ["keepout_filter"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.5    #  3.0
-        inflation_radius: 0.15  # .30
+        cost_scaling_factor: 2.5
+        inflation_radius: 0.15
       keepout_filter:
         plugin: "nav2_costmap_2d::KeepoutFilter"
         enabled: True
@@ -106,7 +106,7 @@ local_costmap:
           raytrace_max_range: 3.0
           raytrace_min_range: 0.65
           obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
+          obstacle_min_range: 0.65
       static_layer:
         map_subscribe_transient_local: True
       always_send_full_costmap: True
