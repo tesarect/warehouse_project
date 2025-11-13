@@ -18,13 +18,12 @@ from std_msgs.msg import String
 from manual_movement import ManualMover
 
 # Taken from amcl config
-# _initial_position = [-0.0250, 0.0540, 0.000]
-_initial_position = [0.1342, 0.0050, 0.9952]
+_initial_position = [0.0564, -0.0047, -0.04001, 0.99919]
 
 # Obtained from `/amcl_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
-_loading_position = [4.4490, -0.2950, -0.7280, 0.6855]
-_shipping_position = [1.9076, 1.1936, 0.7247, 0.6890]
-_throughPoint1_position = [2.0394, -0.0220, 0.7306, 0.6827]
+_loading_position = [4.3198, -0.8067, -0.7052, 0.7089]
+_shipping_position = [2.0194, 1.1060, 0.6415, 0.76707]
+_throughPoint1_position = [2.08141, -0.07586, 0.72109, 0.6928]
 
 _footprint_with_shelf = "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
@@ -205,8 +204,9 @@ def trigger_elevator():
     print("Triggering elevator down command...")
     msg = String()
     msg.data = "down"
-    elevatorDown_pub.publish(msg)
-    time.sleep(1.0)  # give it a moment to publish
+    for _x in range(2):
+        elevatorDown_pub.publish(msg)
+        time.sleep(1.0)  # give it a moment to publish
     print("Elevator command sent")
 
 def main():
@@ -231,6 +231,10 @@ def main():
 
     # Wait for navigation to activate fully
     navigator.waitUntilNav2Active()
+
+    # amcl correction
+    print('-- Just ensuring proper Localization --')
+    maneuver.inplace_rotation(rotate_deg=360, rotate_speed=0.3)
 
     # initialize loading position
     load_pose = PoseStamped()

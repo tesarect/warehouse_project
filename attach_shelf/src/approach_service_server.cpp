@@ -44,19 +44,19 @@ public:
     auto topics = this->get_topic_names_and_types();
     bool real_robot = false;
 
-    for (const auto& topic_and_types : topics) {
-        if (topic_and_types.first == "/cmd_vel") {
-            real_robot = true;
-            break;
-        }
+    for (const auto &topic_and_types : topics) {
+      if (topic_and_types.first == "/cmd_vel") {
+        real_robot = true;
+        break;
+      }
     }
 
     // Simulation's Topic names
     std::string cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
-    
+
     // Real Robot's Topic names
     if (real_robot) {
-        std::string cmd_vel_topic = "/cmd_vel";
+      std::string cmd_vel_topic = "/cmd_vel";
     }
 
     laser_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
@@ -70,8 +70,8 @@ public:
 
     // cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
     //     "/diffbot_base_controller/cmd_vel_unstamped", 10);
-    cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
-        cmd_vel_topic, 10);
+    cmd_vel_publisher_ =
+        this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, 10);
 
     // TF broadcaster
     cart_static_tf_broadcaster_ =
@@ -402,7 +402,16 @@ private:
 
     auto elevator_msg = std_msgs::msg::String();
     elevator_msg.data = "";
-    elevator_publisher->publish(elevator_msg);
+    // elevator_publisher->publish(elevator_msg);
+
+    // Publish message multiple times with small delays
+    for (int i = 0; i < 3; i++) {
+      elevator_publisher->publish(elevator_msg);
+      RCLCPP_INFO(this->get_logger(), "Published elevator up message (%d/3)",
+                  i + 1);
+      rclcpp::sleep_for(
+          std::chrono::milliseconds(500)); // 500ms delay between messages
+    }
 
     RCLCPP_INFO(this->get_logger(), "Shelf lifted successfully");
 
