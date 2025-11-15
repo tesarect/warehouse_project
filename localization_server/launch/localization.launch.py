@@ -21,13 +21,14 @@ def launch_setup(context, *args, **kwargs):
     # rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning.rviz')
     rviz_config = os.path.join(get_package_share_directory('path_planner_server'), 'rviz', 'pathplanning_3rd_prsn.rviz')
     map_dir = os.path.join(get_package_share_directory('map_server'), 'config')
+    map_file_path = os.path.join(map_dir, map_file)
+    print(f"Map_file_path: {map_file_path}")
     
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
     amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
     filters_yaml = os.path.join(get_package_share_directory('path_planner_server'), 'config', 'filters.yaml')
     
-    map_file_path = os.path.join(map_dir, map_file)
-    print(f"Map_file_path: {map_file_path}")
+
     
     nodes = [
         Node(
@@ -35,6 +36,7 @@ def launch_setup(context, *args, **kwargs):
             executable='rviz2',
             output='screen',
             name='rviz_node',
+            emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time_value}],
             arguments=['-d', rviz_config]),
             
@@ -43,6 +45,7 @@ def launch_setup(context, *args, **kwargs):
             executable='map_server',
             name='map_server',
             output='screen',
+            emulate_tty=True,
             parameters=[
                 {'use_sim_time': use_sim_time_value},
                 {'yaml_filename': map_file_path}
@@ -54,7 +57,10 @@ def launch_setup(context, *args, **kwargs):
             name='filter_mask_server',
             output='screen',
             emulate_tty=True,
-            parameters=[filters_yaml]),
+            parameters=[
+                {'use_sim_time': use_sim_time_value},
+                {'yaml_filename': map_file_path}
+            ]),
 
         Node(
             package='nav2_map_server',
@@ -62,13 +68,17 @@ def launch_setup(context, *args, **kwargs):
             name='costmap_filter_info_server',
             output='screen',
             emulate_tty=True,
-            parameters=[filters_yaml]),
-
+            parameters=[
+                {'use_sim_time': use_sim_time_value},
+                {'yaml_filename': map_file_path}
+            ]),
+            
         Node(
             package='nav2_amcl',
             executable='amcl',
             name='amcl',
             output='screen',
+            emulate_tty=True,
             parameters=[
                 amcl_config_file,
                 {'use_sim_time': use_sim_time_value}
@@ -79,6 +89,7 @@ def launch_setup(context, *args, **kwargs):
             executable='lifecycle_manager',
             name='lifecycle_manager_localization',
             output='screen',
+            emulate_tty=True,
             parameters=[
                 {'use_sim_time': use_sim_time_value},
                 {'autostart': True},

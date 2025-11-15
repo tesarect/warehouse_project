@@ -1,0 +1,823 @@
+[INFO] [launch]: All log files can be found below /home/user/.ros/log/2025-11-14-05-48-25-612669-1_xterm-7507
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [approach_service_server-1]: process started with pid [7508]
+[INFO] [controller_server-2]: process started with pid [7510]
+[INFO] [planner_server-3]: process started with pid [7512]
+[INFO] [behavior_server-4]: process started with pid [7514]
+[INFO] [bt_navigator-5]: process started with pid [7516]
+[INFO] [lifecycle_manager-6]: process started with pid [7518]
+[controller_server-2] [INFO] [1763099305.782459390] [controller_server]: 
+[controller_server-2] 	controller_server lifecycle node launched. 
+[controller_server-2] 	Waiting on external lifecycle transitions to activate
+[controller_server-2] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-3] [INFO] [1763099305.781496162] [planner_server]: 
+[planner_server-3] 	planner_server lifecycle node launched. 
+[planner_server-3] 	Waiting on external lifecycle transitions to activate
+[planner_server-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[planner_server-3] [INFO] [1763099305.788453106] [planner_server]: Creating
+[planner_server-3] [INFO] [1763099305.793018004] [global_costmap.global_costmap]: 
+[planner_server-3] 	global_costmap lifecycle node launched. 
+[planner_server-3] 	Waiting on external lifecycle transitions to activate
+[planner_server-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[behavior_server-4] [INFO] [1763099305.793253599] [recoveries_server]: 
+[behavior_server-4] 	recoveries_server lifecycle node launched. 
+[behavior_server-4] 	Waiting on external lifecycle transitions to activate
+[behavior_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[approach_service_server-1] [INFO] [1763099305.798618432] [approach_service_server]: Approach Shelf service Started @ `/approach_shelf`
+[planner_server-3] [INFO] [1763099305.815183278] [global_costmap.global_costmap]: Creating Costmap
+[bt_navigator-5] [INFO] [1763099305.819602133] [bt_navigator]: 
+[bt_navigator-5] 	bt_navigator lifecycle node launched. 
+[bt_navigator-5] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-5] [INFO] [1763099305.819703043] [bt_navigator]: Creating
+[controller_server-2] [INFO] [1763099305.827826645] [controller_server]: Creating controller server
+[controller_server-2] [INFO] [1763099305.850254850] [local_costmap.local_costmap]: 
+[controller_server-2] 	local_costmap lifecycle node launched. 
+[controller_server-2] 	Waiting on external lifecycle transitions to activate
+[controller_server-2] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-2] [INFO] [1763099305.851661389] [local_costmap.local_costmap]: Creating Costmap
+[lifecycle_manager-6] [INFO] [1763099305.858853302] [lifecycle_manager_pathplanner]: Creating
+[lifecycle_manager-6] [INFO] [1763099305.861397880] [lifecycle_manager_pathplanner]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[lifecycle_manager-6] [INFO] [1763099305.888684086] [lifecycle_manager_pathplanner]: [34m[1mStarting managed nodes bringup...[0m[0m
+[lifecycle_manager-6] [INFO] [1763099305.888764193] [lifecycle_manager_pathplanner]: [34m[1mConfiguring planner_server[0m[0m
+[planner_server-3] [INFO] [1763099305.985831180] [planner_server]: Configuring
+[planner_server-3] [INFO] [1763099305.985886752] [global_costmap.global_costmap]: Configuring
+[planner_server-3] [INFO] [1763099305.992846455] [global_costmap.global_costmap]: Using plugin "static_layer"
+[planner_server-3] [INFO] [1763099305.998772039] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[planner_server-3] [INFO] [1763099305.999803194] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[planner_server-3] [INFO] [1763099305.999840354] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+[planner_server-3] [INFO] [1763099306.001976103] [global_costmap.global_costmap]: Subscribed to Topics: scan
+[planner_server-3] [INFO] [1763099306.011280914] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+[planner_server-3] [INFO] [1763099306.011314803] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[planner_server-3] [INFO] [1763099306.013996406] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[planner_server-3] [INFO] [1763099306.014030827] [global_costmap.global_costmap]: Using costmap filter "keepout_filter"
+[planner_server-3] [INFO] [1763099306.017964416] [global_costmap.global_costmap]: Initialized costmap filter "keepout_filter"
+[planner_server-3] [INFO] [1763099306.025779752] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 127 X 128 at 0.050000 m/pix
+[planner_server-3] [INFO] [1763099306.026554586] [planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner/NavfnPlanner
+[planner_server-3] [INFO] [1763099306.026604846] [planner_server]: Configuring plugin GridBased of type NavfnPlanner
+[planner_server-3] [INFO] [1763099306.027916915] [planner_server]: Planner Server has GridBased  planners available.
+[lifecycle_manager-6] [INFO] [1763099306.038261169] [lifecycle_manager_pathplanner]: [34m[1mConfiguring controller_server[0m[0m
+[controller_server-2] [INFO] [1763099306.038509230] [controller_server]: Configuring controller interface
+[controller_server-2] [INFO] [1763099306.038672197] [controller_server]: getting goal checker plugins..
+[controller_server-2] [INFO] [1763099306.038807322] [controller_server]: Controller frequency set to 5.0000Hz
+[controller_server-2] [INFO] [1763099306.038850416] [local_costmap.local_costmap]: Configuring
+[controller_server-2] [INFO] [1763099306.042123700] [local_costmap.local_costmap]: Using plugin "voxel_layer"
+[controller_server-2] [INFO] [1763099306.046276222] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-2] [INFO] [1763099306.053057787] [local_costmap.local_costmap]: Initialized plugin "voxel_layer"
+[controller_server-2] [INFO] [1763099306.053094934] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-2] [INFO] [1763099306.054898381] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-2] [INFO] [1763099306.054938957] [local_costmap.local_costmap]: Using costmap filter "keepout_filter"
+[controller_server-2] [INFO] [1763099306.061487359] [local_costmap.local_costmap]: Initialized costmap filter "keepout_filter"
+[controller_server-2] [INFO] [1763099306.071754067] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-2] [INFO] [1763099306.073619317] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-2] [INFO] [1763099306.074672490] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-2] [INFO] [1763099306.079207618] [controller_server]: Created controller : FollowPath of type dwb_core::DWBLocalPlanner
+[controller_server-2] [INFO] [1763099306.081334329] [controller_server]: Setting transform_tolerance to 0.200000
+[controller_server-2] [INFO] [1763099306.096265481] [controller_server]: Using critic "RotateToGoal" (dwb_critics::RotateToGoalCritic)
+[controller_server-2] [INFO] [1763099306.097235928] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.097437756] [controller_server]: Using critic "Oscillation" (dwb_critics::OscillationCritic)
+[controller_server-2] [INFO] [1763099306.098286006] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.098504120] [controller_server]: Using critic "BaseObstacle" (dwb_critics::BaseObstacleCritic)
+[controller_server-2] [INFO] [1763099306.098878657] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.099097527] [controller_server]: Using critic "GoalAlign" (dwb_critics::GoalAlignCritic)
+[controller_server-2] [INFO] [1763099306.100071655] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.100254286] [controller_server]: Using critic "PathAlign" (dwb_critics::PathAlignCritic)
+[controller_server-2] [INFO] [1763099306.100697200] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.100888667] [controller_server]: Using critic "PathDist" (dwb_critics::PathDistCritic)
+[controller_server-2] [INFO] [1763099306.101232888] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.101459438] [controller_server]: Using critic "GoalDist" (dwb_critics::GoalDistCritic)
+[controller_server-2] [INFO] [1763099306.101828851] [controller_server]: Critic plugin initialized
+[controller_server-2] [INFO] [1763099306.101902073] [controller_server]: Controller Server has FollowPath  controllers available.
+[lifecycle_manager-6] [INFO] [1763099306.111334170] [lifecycle_manager_pathplanner]: [34m[1mConfiguring recoveries_server[0m[0m
+[behavior_server-4] [INFO] [1763099306.111616024] [recoveries_server]: Configuring
+[behavior_server-4] [INFO] [1763099306.116940358] [recoveries_server]: Creating behavior plugin spin of type nav2_behaviors/Spin
+[behavior_server-4] [INFO] [1763099306.117918456] [recoveries_server]: Configuring spin
+[behavior_server-4] [INFO] [1763099306.123837059] [recoveries_server]: Creating behavior plugin backup of type nav2_behaviors/BackUp
+[behavior_server-4] [INFO] [1763099306.125011434] [recoveries_server]: Configuring backup
+[behavior_server-4] [INFO] [1763099306.129617807] [recoveries_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors/DriveOnHeading
+[behavior_server-4] [INFO] [1763099306.130454864] [recoveries_server]: Configuring drive_on_heading
+[behavior_server-4] [INFO] [1763099306.136051263] [recoveries_server]: Creating behavior plugin wait of type nav2_behaviors/Wait
+[behavior_server-4] [INFO] [1763099306.136913838] [recoveries_server]: Configuring wait
+[lifecycle_manager-6] [INFO] [1763099306.141012888] [lifecycle_manager_pathplanner]: [34m[1mConfiguring bt_navigator[0m[0m
+[bt_navigator-5] [INFO] [1763099306.141248427] [bt_navigator]: Configuring
+[lifecycle_manager-6] [INFO] [1763099306.212094773] [lifecycle_manager_pathplanner]: [34m[1mActivating planner_server[0m[0m
+[planner_server-3] [INFO] [1763099306.212305221] [planner_server]: Activating
+[planner_server-3] [INFO] [1763099306.212352417] [global_costmap.global_costmap]: Activating
+[planner_server-3] [INFO] [1763099306.212368545] [global_costmap.global_costmap]: Checking transform
+[planner_server-3] [INFO] [1763099306.212396781] [global_costmap.global_costmap]: Timed out waiting for transform from robot_base_footprint to map to become available, tf error: Could not find a connection between 'map' and 'robot_base_footprint' because they are not part of the same tree.Tf has two or more unconnected trees.
+[planner_server-3] [INFO] [1763099306.712486750] [global_costmap.global_costmap]: Timed out waiting for transform from robot_base_footprint to map to become available, tf error: Could not find a connection between 'map' and 'robot_base_footprint' because they are not part of the same tree.Tf has two or more unconnected trees.
+[planner_server-3] [INFO] [1763099307.212509929] [global_costmap.global_costmap]: start
+[planner_server-3] [INFO] [1763099307.213075841] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[planner_server-3] [INFO] [1763099307.215760239] [global_costmap.global_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[planner_server-3] [INFO] [1763099307.215805073] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[planner_server-3] [WARN] [1763099307.713379300] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [INFO] [1763099307.714813115] [planner_server]: Activating plugin GridBased of type NavfnPlanner
+[planner_server-3] [INFO] [1763099307.715344897] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[planner_server-3] [INFO] [1763099307.773540794] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.393 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.776566440] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.418 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.816224348] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.443 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[lifecycle_manager-6] [INFO] [1763099307.819710362] [lifecycle_manager_pathplanner]: Server planner_server connected with bond.
+[lifecycle_manager-6] [INFO] [1763099307.819758822] [lifecycle_manager_pathplanner]: [34m[1mActivating controller_server[0m[0m
+[controller_server-2] [INFO] [1763099307.820016787] [controller_server]: Activating
+[controller_server-2] [INFO] [1763099307.820064065] [local_costmap.local_costmap]: Activating
+[controller_server-2] [INFO] [1763099307.820081402] [local_costmap.local_costmap]: Checking transform
+[controller_server-2] [INFO] [1763099307.820161880] [local_costmap.local_costmap]: start
+[controller_server-2] [INFO] [1763099307.820546571] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[controller_server-2] [INFO] [1763099307.822465743] [local_costmap.local_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[controller_server-2] [INFO] [1763099307.822531426] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[planner_server-3] [INFO] [1763099307.867872157] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.468 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.907437392] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.493 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.911012543] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.518 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.951305018] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.543 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.957196595] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.568 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.995137285] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.593 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099307.998256186] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.618 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.044728007] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.643 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.047179479] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.668 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.082794205] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.693 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.099947439] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.718 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.137968540] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.743 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.180084841] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.768 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.183235512] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.793 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.223070760] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.818 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.225692927] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.843 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.266564208] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.868 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.366559457] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099307.993 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.369734884] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099308.019 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.411410181] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099308.069 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.452642221] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099308.094 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.497469312] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099308.144 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099308.545095491] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099308.171 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [WARN] [1763099308.820842803] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099308.821136646] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1763099308.924367339] [lifecycle_manager_pathplanner]: Server controller_server connected with bond.
+[lifecycle_manager-6] [INFO] [1763099308.924435165] [lifecycle_manager_pathplanner]: [34m[1mActivating recoveries_server[0m[0m
+[behavior_server-4] [INFO] [1763099308.924730289] [recoveries_server]: Activating
+[behavior_server-4] [INFO] [1763099308.924772196] [recoveries_server]: Activating spin
+[behavior_server-4] [INFO] [1763099308.924789654] [recoveries_server]: Activating backup
+[behavior_server-4] [INFO] [1763099308.924805657] [recoveries_server]: Activating drive_on_heading
+[behavior_server-4] [INFO] [1763099308.924820102] [recoveries_server]: Activating wait
+[behavior_server-4] [INFO] [1763099308.924836908] [recoveries_server]: Creating bond (recoveries_server) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1763099309.027852755] [lifecycle_manager_pathplanner]: Server recoveries_server connected with bond.
+[lifecycle_manager-6] [INFO] [1763099309.027919548] [lifecycle_manager_pathplanner]: [34m[1mActivating bt_navigator[0m[0m
+[bt_navigator-5] [INFO] [1763099309.028190699] [bt_navigator]: Activating
+[bt_navigator-5] [INFO] [1763099309.079561733] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[lifecycle_manager-6] [INFO] [1763099309.182884315] [lifecycle_manager_pathplanner]: Server bt_navigator connected with bond.
+[lifecycle_manager-6] [INFO] [1763099309.182943889] [lifecycle_manager_pathplanner]: [34m[1mManaged nodes are active[0m[0m
+[lifecycle_manager-6] [INFO] [1763099309.182966030] [lifecycle_manager_pathplanner]: [34m[1mCreating bond timer...[0m[0m
+[planner_server-3] [WARN] [1763099310.213346659] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099311.820588141] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099312.715355720] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099313.107848698] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.699 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.108716525] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.699 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.112756167] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.724 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.112868452] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.724 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.151719680] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.749 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.152521280] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.749 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.155425355] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.774 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.157140632] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.774 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.195577168] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.799 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.196367878] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.799 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.199505208] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.824 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.199524642] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.824 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.242766772] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.849 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.243739980] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.849 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.284002415] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.874 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.284322231] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.874 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.287436902] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.899 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.288229586] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.899 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.327275529] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.924 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.327474565] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.924 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.330493205] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.949 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.330757673] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.949 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.371048607] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.974 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.372365240] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.974 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.374193552] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.999 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.374992305] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.999 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.418460714] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.024 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.419012145] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.024 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.421647929] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.049 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.422076248] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.049 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.459314629] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.074 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.459662836] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.074 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.475303664] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.099 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.475398777] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.099 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.523452101] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.124 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.523625882] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.124 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.563575867] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.149 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.563812195] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.149 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.566769494] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.175 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.567653698] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.175 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.569296125] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.199 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.570157200] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.199 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.571976933] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.225 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.573466869] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.225 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.608022520] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.249 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.608131676] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.249 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.615745113] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.275 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.616001396] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.275 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.657067890] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.299 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.657828761] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.299 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.695489094] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.325 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.696548340] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.325 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.745575472] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.350 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.746505486] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.350 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.796483738] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.375 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.796540887] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.375 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.799614239] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.400 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.800474862] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.400 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [WARN] [1763099313.820595168] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099313.835399226] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.425 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.835671852] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.425 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.838752121] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.450 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.839325900] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.450 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.878499746] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.475 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.879565162] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.475 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.881785986] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.500 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.882642734] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.500 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.930659201] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.525 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.930717460] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.525 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.934011597] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.550 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.934145876] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.550 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.971218320] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.575 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.973644999] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.575 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099313.976098767] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.600 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099313.977769852] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.600 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.019242769] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.625 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.019295553] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.625 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.068718158] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.650 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.069511751] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.650 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.072089536] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.675 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.073489233] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.675 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.117478323] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.700 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.117530607] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.700 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.120702369] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.725 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.121421670] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.725 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.151462070] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.750 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.152266911] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.750 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.154098983] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.775 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.155545527] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.775 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.196220475] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.800 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.196419169] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.800 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.199390418] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.825 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.199484096] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.825 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.243508229] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.850 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.243567086] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.850 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.247347760] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.875 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.248316009] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.875 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.295210350] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.900 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.295214430] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.900 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.335539055] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.925 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.342777097] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.925 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.344457020] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.950 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.345237887] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.950 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.378522967] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.975 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.379342155] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.975 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.382800452] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.000 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.383093308] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.000 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.422574442] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.025 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.424129952] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.025 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.426465633] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.050 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.426576102] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.050 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.469568081] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.075 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.470431173] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.075 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.473574101] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.100 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.473599781] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.100 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.515815583] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.126 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.516638692] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.126 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.580368670] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.150 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.580526779] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.150 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.583485227] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.176 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.606770104] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.200 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.610226475] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.226 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.610240357] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.226 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.651495549] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.251 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.651599888] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.251 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.654788335] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.276 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.655629008] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.276 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.699571442] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.301 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.701196587] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.301 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.743280082] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.326 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.743280791] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.326 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.746526513] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.351 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.747275534] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.351 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.795209309] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.376 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.796143249] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.376 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.799366010] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.401 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.802704274] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.401 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.877033027] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.501 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.877907217] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.501 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.918946751] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.526 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.918960544] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.526 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.964138237] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.551 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.964154175] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.551 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.967493560] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.576 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.968173109] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.576 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.969938683] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.601 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.970963812] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.601 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099314.973171561] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.626 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099314.974051641] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.626 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.017570269] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.651 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.023434460] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.651 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.023513106] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.676 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.024711948] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.676 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.051480255] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.701 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.052315431] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.701 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.095467141] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.726 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.095513645] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.726 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.142277282] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.751 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.142326537] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.751 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.183426050] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.776 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.184262006] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.776 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.187400712] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.802 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.187849946] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.802 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099315.213065215] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099315.238602547] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.826 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.239825291] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.826 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.241792538] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.851 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.242833846] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.851 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.272624919] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.876 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.272716573] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.876 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.275218875] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.902 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.276762563] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.902 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.315165397] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.926 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.315939804] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.926 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.323698045] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.952 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.324918804] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.952 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.383433571] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.976 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.383522854] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.976 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.414242025] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.001 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.415811522] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.001 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.418624250] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.026 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.419047904] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.026 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.465727705] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.079 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.466370554] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.079 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.506457890] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.126 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.506477432] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.126 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.551784854] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.177 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.552498606] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.177 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.603229233] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.227 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.606912857] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.227 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.648733552] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.252 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.648756037] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.252 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099315.699198896] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.302 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099315.699898894] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099315.302 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [WARN] [1763099315.820742982] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099317.213829575] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099318.820589179] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099319.713021443] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099320.820637157] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099322.218492416] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099323.820669877] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099324.713275476] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099326.820617302] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099327.213029978] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099329.213212663] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099329.820557847] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099331.713359669] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099331.820579337] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099332.807697035] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099332.439 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099332.807739109] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099332.439 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099333.084643441] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099332.739 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099333.085567621] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099332.739 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099334.214197821] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099334.820691096] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099334.824425428] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099334.468 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099334.825345962] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099334.468 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099335.095574782] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099334.693 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099335.096780494] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099334.693 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099336.266816914] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.871 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099336.267683868] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.871 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099336.270084995] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.896 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099336.299139131] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.921 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099336.565454291] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099336.222 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099336.565542199] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099336.222 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099336.713343697] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099336.821872639] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[bt_navigator-5] [INFO] [1763099337.854523650] [bt_navigator]: Begin navigating from current location (0.08, -0.11) to (4.36, -0.78)
+[controller_server-2] [INFO] [1763099337.896117996] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-2] [WARN] [1763099337.896199871] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[controller_server-2] [INFO] [1763099339.096862585] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099339.213099346] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099339.820766074] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099340.096874161] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099340.257769509] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.856 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.258022539] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.856 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099340.292954470] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.881 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.294902710] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.881 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099340.296127305] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.906 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.297473908] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.906 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099340.556760254] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.157 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.556827345] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.157 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099340.560200348] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.182 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.560998245] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.182 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099340.874977286] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.533 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099340.876621672] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.533 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099341.096889039] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099341.145527502] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.783 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099341.146686545] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099340.783 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099341.213272880] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099342.297113471] [controller_server]: Passing new path to controller.
+[controller_server-2] [WARN] [1763099342.820820403] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099343.213472531] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099343.296847618] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099344.296874319] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099345.215199582] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099345.296876652] [controller_server]: Passing new path to controller.
+[controller_server-2] [WARN] [1763099345.820662743] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099346.496870986] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099347.496875656] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099347.713298637] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099347.820758443] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099348.496874041] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099349.696954334] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099349.713520691] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099350.696872886] [controller_server]: Passing new path to controller.
+[controller_server-2] [WARN] [1763099350.820592128] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099351.696865101] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099352.213146210] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099352.820674368] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099352.896873114] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099353.896900172] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099354.213393887] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099354.820701578] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099354.896866259] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099355.111588369] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.690 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099355.111895681] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.690 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099355.113879783] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.715 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099355.114513193] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.715 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099355.117862345] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.740 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099355.117981491] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.740 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099355.397291665] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099355.015 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099355.398044672] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099355.015 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099355.896860702] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099356.713441751] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099357.096873081] [controller_server]: Passing new path to controller.
+[controller_server-2] [WARN] [1763099357.820555268] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099358.096867545] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099359.096861707] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099359.213052777] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099360.296875564] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099360.309901702] [controller_server]: Reached the goal!
+[bt_navigator-5] [INFO] [1763099360.394718485] [bt_navigator]: Goal succeeded
+[approach_service_server-1] [INFO] [1763099360.397923890] [approach_service_server]: Approach shelf service called. attach_to_shelf: true
+[approach_service_server-1] [WARN] [1763099360.398001275] [approach_service_server]: Found 0 shelf legs, need exactly 2
+[approach_service_server-1] [WARN] [1763099360.398021613] [approach_service_server]: Could not detect 2 shelf legs
+[controller_server-2] [WARN] [1763099360.820560746] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099361.213079826] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099362.820640296] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099363.213124538] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099365.713040949] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099365.820564138] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099367.713232097] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099367.820775834] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099369.713693641] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099370.820767067] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099372.213121536] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[bt_navigator-5] [INFO] [1763099373.445801607] [bt_navigator]: Begin navigating from current location (4.02, 0.26) to (1.93, -0.18)
+[controller_server-2] [INFO] [1763099373.486636945] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-2] [WARN] [1763099373.820587195] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099374.213483042] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099374.687149849] [controller_server]: Passing new path to controller.
+[controller_server-2] [INFO] [1763099375.687144530] [controller_server]: Passing new path to controller.
+[controller_server-2] [WARN] [1763099375.820803694] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099376.687150048] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099376.713349604] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099377.887153288] [controller_server]: Passing new path to controller.
+[planner_server-3] [WARN] [1763099378.746523395] [planner_server]: GridBased: failed to create plan with tolerance 0.50.
+[planner_server-3] [WARN] [1763099378.746587820] [planner_server]: Planning algorithm GridBased failed to generate a valid path to (1.93, -0.18)
+[planner_server-3] [WARN] [1763099378.746609524] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[planner_server-3] [INFO] [1763099378.786120149] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[planner_server-3] [INFO] [1763099378.789742093] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[planner_server-3] [INFO] [1763099378.792405874] [global_costmap.global_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[planner_server-3] [INFO] [1763099378.792454982] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[controller_server-2] [WARN] [1763099378.820914728] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099378.887266943] [controller_server]: Passing new path to controller.
+[controller_server-2] [ERROR] [1763099378.895970958] [controller_server]: Invalid path, Path is empty.
+[controller_server-2] [WARN] [1763099378.896041855] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+[controller_server-2] [INFO] [1763099378.946205233] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[controller_server-2] [INFO] [1763099378.947526384] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[controller_server-2] [INFO] [1763099378.949393742] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-2] [ERROR] [1763099378.949486543] [controller_server]: Invalid path, Path is empty.
+[controller_server-2] [WARN] [1763099378.949532608] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+[controller_server-2] [INFO] [1763099378.950354040] [local_costmap.local_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[controller_server-2] [INFO] [1763099378.950389707] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[bt_navigator-5] [ERROR] [1763099379.007610020] [bt_navigator_navigate_to_pose_rclcpp_node]: Failed to get result for compute_path_to_pose in node halt!
+[controller_server-2] [INFO] [1763099379.007834429] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[controller_server-2] [INFO] [1763099379.010031597] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[planner_server-3] [INFO] [1763099379.012098570] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[planner_server-3] [INFO] [1763099379.013935582] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "/costmap_filter_info" topic for filter info...
+[bt_navigator-5] [WARN] [1763099379.015979090] [BehaviorTreeEngine]: Behavior Tree tick rate 50.00 was exceeded!
+[behavior_server-4] [INFO] [1763099379.016621964] [recoveries_server]: Running spin
+[controller_server-2] [INFO] [1763099379.020946615] [local_costmap.local_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[controller_server-2] [INFO] [1763099379.020988988] [local_costmap.local_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[planner_server-3] [INFO] [1763099379.024353593] [global_costmap.global_costmap]: KeepoutFilter: Received filter info from /costmap_filter_info topic.
+[planner_server-3] [INFO] [1763099379.024403979] [global_costmap.global_costmap]: KeepoutFilter: Subscribing to "filter_mask" topic for filter mask...
+[behavior_server-4] [ERROR] [1763099379.120820640] [transformPoseInTargetFrame]: No Transform available Error looking up target frame: "odom" passed to lookupTransform argument target_frame does not exist. 
+[behavior_server-4] 
+[behavior_server-4] [ERROR] [1763099379.120868235] [recoveries_server]: Current robot pose is not available.
+[behavior_server-4] [INFO] [1763099379.120899528] [recoveries_server]: Initial checks failed for spin
+[behavior_server-4] [WARN] [1763099379.120925711] [recoveries_server]: [spin] [ActionServer] Aborting handle.
+[bt_navigator-5] [ERROR] [1763099379.165959405] [bt_navigator]: Goal failed
+[bt_navigator-5] [WARN] [1763099379.166012565] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+[planner_server-3] [WARN] [1763099379.213561913] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099379.222635371] [planner_server]: Planner loop missed its desired rate of 10.0000 Hz. Current loop rate is 2.3218 Hz
+[planner_server-3] [WARN] [1763099381.713026570] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099381.820878726] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099383.713106073] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099384.820562321] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099385.713690272] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099386.820784129] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099388.213380176] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099389.820572163] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099390.712961583] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099391.820655515] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099392.713193958] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099394.820521218] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099395.213171022] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099396.820660381] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099397.713007869] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099398.820768014] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099400.212953680] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099401.820596551] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099402.213208120] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099403.820711640] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099404.714377584] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099406.820692928] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099407.212947741] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099409.212956511] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099409.820581848] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099411.713018706] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099411.820695804] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099413.821080416] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099414.216517965] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099416.713199916] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099416.820568258] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099418.820684370] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099419.213007965] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099420.820788605] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099421.213215762] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099423.213289097] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099423.820758492] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099425.712957172] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099425.820833349] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099427.713330490] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099428.820544294] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099430.213488744] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099430.820747366] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099432.713190160] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099433.820559700] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099435.213132777] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099435.820708035] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099437.713109420] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099438.820627559] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099440.213010136] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099440.820675768] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099442.213224076] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099442.820734056] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099444.713227481] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099445.820630912] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099447.213176674] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099448.820578880] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099449.713043942] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099450.820641891] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099452.213108878] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099452.820749450] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099454.213132888] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099454.824459536] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099456.713339876] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099457.821114153] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099459.212970901] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099460.820563930] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099461.713149898] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099462.820794504] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099464.212959074] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099465.820567223] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099466.213206179] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099467.820689878] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099468.715698462] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099470.820745941] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099471.212969542] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099473.213147939] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099473.820586765] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099475.712950840] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099475.820739380] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099477.713079365] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099477.820787087] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099479.820897383] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099480.212961405] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099482.213029229] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099482.820767406] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099484.713056695] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099485.820646859] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099487.213141697] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099487.821149861] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099489.712946126] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099490.820693437] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099491.712964538] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099492.820763873] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099494.213229422] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099494.821305951] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099496.713211016] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099497.820727211] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099499.212970853] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099499.820759999] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099501.712959921] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099502.821204637] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099503.712964662] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099505.820565717] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099506.213218250] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099507.822202547] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099508.715526633] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099510.821170260] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099511.212971870] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099513.213431403] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099513.820596314] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099515.712959666] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099516.820581495] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099517.713031536] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099518.820800815] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099519.713227962] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099521.821293786] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099522.212951013] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099524.212954917] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099524.820579168] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099526.212958932] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099526.820632989] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099528.212965311] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099529.604293315] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.229 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.605106297] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.229 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099529.612511637] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.254 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.612676984] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.254 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.622261376] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.279 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099529.623605623] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.279 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099529.663359466] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.304 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.663410454] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.304 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [WARN] [1763099529.820582300] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099529.890030213] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.507 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.890821074] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.507 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099529.930502447] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.555 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099529.930570384] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.555 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099530.148221703] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.755 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099530.148244748] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.755 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099530.213606411] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099531.820617628] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099532.714856152] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099533.820754762] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099535.212957238] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099535.820890022] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099537.213047072] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099538.820739015] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099539.712991876] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099541.713128293] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099541.820599417] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099543.820745113] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099544.213012480] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099546.213191848] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099546.820656084] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099548.713240392] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099548.820880358] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099550.821159609] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099551.213271699] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099553.713050710] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099553.820582913] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099555.713051279] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099555.820658636] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099558.213194660] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099558.820729494] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099560.713198552] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099561.820716078] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099563.213014456] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099564.820580038] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099565.213041093] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099566.820600060] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099567.713167752] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099568.820738684] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099570.213549655] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099570.821426262] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099572.713131667] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099573.820691114] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099575.212957593] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099576.820782282] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099577.212969041] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099579.213027950] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099579.820587734] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099581.713167432] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099581.820677707] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099583.713225129] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099583.820699656] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099585.820723141] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099586.217740411] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099587.820932405] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099588.713293915] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099590.820798581] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099591.213164309] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099592.823125160] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099593.713117548] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099595.820605477] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099596.212956918] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099597.821213749] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099598.212958908] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099600.213042368] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099600.820599684] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099602.213199718] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099602.820809491] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099604.713306826] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099605.820625958] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099607.213024455] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099607.822809956] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099609.712962158] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099610.820611077] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099612.212955841] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099612.820890433] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099614.213198700] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099614.821070036] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099616.714218683] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099617.820822499] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099619.212959577] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099620.820696341] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099621.213203589] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099622.821604880] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099623.712958470] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099625.713078059] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099625.820598145] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099627.821412165] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099628.213088403] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099630.213441951] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099630.820734171] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099632.713168834] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099633.820623753] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099635.213009699] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099635.252713671] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099634.904 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [WARN] [1763099636.820620065] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099637.213045301] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099638.820947449] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099639.712969924] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099641.820811079] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099642.213111001] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099643.821705466] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099644.713229190] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099646.820765525] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099647.212967354] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099649.713081223] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099649.820607383] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099651.820723286] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099652.212956787] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099653.820817723] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099654.212984471] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099655.200509529] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.862 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099655.201234470] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.862 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099655.247028438] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.887 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099655.247859796] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.887 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099655.466322383] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099655.113 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099655.466359847] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099655.113 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[controller_server-2] [INFO] [1763099655.513126686] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099655.138 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099655.514186724] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099655.138 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099656.715333915] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099656.820610248] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099658.820916145] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099659.212956299] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099661.712981584] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099661.820714749] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099663.820807386] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099664.213097759] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099666.712966436] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099666.820740853] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099668.713995738] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099669.820608669] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099671.212991333] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099671.820622132] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099673.712967801] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099673.820675521] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099675.713202680] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099675.821243491] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099678.213246519] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099678.820737903] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099680.713045319] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099681.820648542] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099683.213071898] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099684.820603366] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099685.213518167] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099686.820772176] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099687.712975422] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099689.712976535] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099689.820587753] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099691.820631848] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099692.212972866] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099694.213200334] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099694.820754301] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099696.713067462] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099697.820609438] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099699.213015578] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099699.820718407] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099701.712966835] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099702.820742919] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099704.212987323] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099705.820574328] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099706.213203832] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099707.820755064] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[planner_server-3] [WARN] [1763099708.713201176] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [WARN] [1763099709.820797465] [local_costmap.local_costmap]: KeepoutFilter: Filter mask was not received
+[controller_server-2] [INFO] [1763099710.312641596] [local_costmap.local_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099709.932 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [INFO] [1763099710.313489535] [global_costmap.global_costmap]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099709.932 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[planner_server-3] [WARN] [1763099711.212980030] [global_costmap.global_costmap]: KeepoutFilter: Filter mask was not received

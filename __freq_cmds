@@ -18,6 +18,8 @@ ros2 run attach_shelf approach_service_server
 
 ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}44
 
+ros2 run tf2_tools view_frames
+
 Real robot:
 ==========
 check:
@@ -27,11 +29,16 @@ check:
     ros2 topic echo /amcl_pose
     ros2 teleop
 
-ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml > __lo_op 2>&1
 
-ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False > __pp_op 2>&1
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship_real.py
+
+ros2 topic pub /elevator_up std_msgs/msg/String --once
+ros2 topic pub /elevator_down std_msgs/msg/String --once
 ------------------------------------------------------------
 
 even after costmap is reduced the goal is met.
@@ -45,48 +52,58 @@ changing the raytracing in config file will seemlesly affect with or without sha
 
 initial:    DONE
     position:
-      x: 0.05647574156027209
-      y: -0.004713157439269618
+      x: -0.025973593492282575
+      y: -0.046246606599482036
       z: 0.0
     orientation:
       x: 0.0
       y: 0.0
-      z: -0.040018412963920245
-      w: 0.9991989424653377
+      z: 0.04147286716157203
+      w: 0.9991396305268841
 
 through point1:
     position:
-      x: 2.081419796438363
-      y: -0.07586353140589504
+      x: 1.9300398265042489
+      y: -0.17741572146152879
       z: 0.0
     orientation:
       x: 0.0
       y: 0.0
-      z: 0.7210901352380215
-      w: 0.6928412638277341
+      z: 0.7243370431537813
+      w: 0.6894460442378628
 
-loading:    Done
+loading:    DONE
     position:
-      x: 4.319885631777635
-      y: -0.806796933727676
+      x: 4.356337187311272
+      y: -0.777410510885947
       z: 0.0
     orientation:
       x: 0.0
       y: 0.0
-      z: -0.7052161118468102
-      w: 0.7089924086981942
+      z: -0.717813808704359
+      w: 0.6962351154842321
 
 shipping:   DONE
     position:
-      x: 2.0194022659837096
-      y: 1.1060043399499928
+      x: 1.8402229625636803
+      y: 0.9419437861978953
       z: 0.0
     orientation:
       x: 0.0
       y: 0.0
-      z: 0.6415542370572717
-      w: 0.7670776759324066
+      z: 0.660758285937777
+      w: 0.7505987527065117
 
 cd ~/ros2_ws/src/cartographer_slam/config
 
 ros2 run nav2_map_server map_saver_cli -f warehouse_map_real_05
+
+--------------------------------------------------------------------
+
+[approach_service_server-1] [INFO] [1763193371.633031736] [approach_service_server]: Cart frame successfully broadcasted
+[approach_service_server-1] [INFO] [1763193371.633042750] [approach_service_server]: Starting final approach to shelf
+[approach_service_server-1] Warning: Invalid frame ID "cart_frame" passed to canTransform argument source_frame - frame does not exist
+[approach_service_server-1]          at line 93 in ./src/buffer_core.cpp
+[approach_service_server-1] [INFO] [1763193371.643173570] [approach_service_server]: `cart_frame` TF found: x=1.00, y=-0.03
+[approach_service_server-1] [INFO] [1763193371.643220248] [approach_service_server]: Distance to cart_frame: 1.00 m, Angle: -0.03 rad (-2.0 deg)
+[approach_service_server-1] [INFO] [1763193371.643231047] [approach_service_server]: Moving forward to cart_frame (1.00 m)...

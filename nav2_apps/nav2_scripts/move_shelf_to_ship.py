@@ -132,9 +132,11 @@ def bot_approach_attach_shelf():
         print('Approach service not available, waiting...')
 
     # Create request
+    # attach_shelf_request = GoToLoading.Request(attach_to_shelf = False)
     attach_shelf_request = GoToLoading.Request(attach_to_shelf = True)
 
     # Call service asynchronously
+    print('\`approach_shelf\` service calling inititated -----')
     attach_shelf_future = approach_client.call_async(attach_shelf_request)
 
     # Wait for response
@@ -272,27 +274,29 @@ def main():
 
     while not navigator.isTaskComplete():
         time.sleep(0.5)
-        print('--Navigator GoToLoading complete')
+        print('Navigator GoToLoading COMPLETED')
 
     
-    # if _shelf_attached:
+    if _shelf_attached:
 
-    maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
-    
-    maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
+        maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
+        
+        maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
 
-    goToLocation(position=_throughPoint1_position)
+        goToLocation(position=_throughPoint1_position)
 
-    goToLocation(position=_shipping_position, action=True)
+        goToLocation(position=_shipping_position, action=True)
 
-    update_footprint_for_shelf(shelf=False)
+        update_footprint_for_shelf(shelf=False)
 
-    maneuver.move_backward(distance=1.4, speed=0.3)
+        maneuver.move_backward(distance=1.4, speed=0.3)
 
-    clear_costmaps()
+        clear_costmaps()
 
-    maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
+        maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
 
+    else:
+        print('Attach shelf FAILURE. Returing to initial position')
 
     goToLocation(position=_initial_position)
 

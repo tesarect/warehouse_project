@@ -1,0 +1,374 @@
+[INFO] [launch]: All log files can be found below /home/user/.ros/log/2025-11-14-05-48-18-584225-1_xterm-7377
+[INFO] [launch]: Default logging verbosity is set to INFO
+Map file: warehouse_map_keepout_real.yaml
+Is simulation: False
+use_sim_time: False
+Map_file_path: /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.yaml
+[INFO] [rviz2-1]: process started with pid [7378]
+[INFO] [map_server-2]: process started with pid [7380]
+[INFO] [map_server-3]: process started with pid [7382]
+[INFO] [costmap_filter_info_server-4]: process started with pid [7384]
+[INFO] [amcl-5]: process started with pid [7386]
+[INFO] [lifecycle_manager-6]: process started with pid [7388]
+[INFO] [static_transform_publisher-7]: process started with pid [7390]
+[INFO] [initial_pose_pub-8]: process started with pid [7392]
+[lifecycle_manager-6] [0m[INFO] [1763099298.758676498] [lifecycle_manager_localization]: Creating[0m
+[static_transform_publisher-7] [INFO] [1763099298.758869982] [base_to_footprint_tf]: Spinning until stopped - publishing transform
+[static_transform_publisher-7] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-7] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-7] from 'robot_base_footprint' to 'robot_base_link'
+[lifecycle_manager-6] [0m[INFO] [1763099298.763413868] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m[0m
+[costmap_filter_info_server-4] [0m[INFO] [1763099298.766217431] [costmap_filter_info_server]: This is costmap filter info publisher[0m
+[amcl-5] [0m[INFO] [1763099298.769151822] [amcl]: 
+[amcl-5] 	amcl lifecycle node launched. 
+[amcl-5] 	Waiting on external lifecycle transitions to activate
+[amcl-5] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.[0m
+[amcl-5] [0m[INFO] [1763099298.770733991] [amcl]: Creating[0m
+[costmap_filter_info_server-4] [0m[INFO] [1763099298.778968966] [costmap_filter_info_server]: 
+[costmap_filter_info_server-4] 	costmap_filter_info_server lifecycle node launched. 
+[costmap_filter_info_server-4] 	Waiting on external lifecycle transitions to activate
+[costmap_filter_info_server-4] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.[0m
+[map_server-3] [0m[INFO] [1763099298.779672486] [filter_mask_server]: 
+[map_server-3] 	filter_mask_server lifecycle node launched. 
+[map_server-3] 	Waiting on external lifecycle transitions to activate
+[map_server-3] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.[0m
+[map_server-3] [0m[INFO] [1763099298.779793821] [filter_mask_server]: Creating[0m
+[rviz2-1] QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-user'
+[map_server-2] [0m[INFO] [1763099298.784762846] [map_server]: 
+[map_server-2] 	map_server lifecycle node launched. 
+[map_server-2] 	Waiting on external lifecycle transitions to activate
+[map_server-2] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.[0m
+[map_server-2] [0m[INFO] [1763099298.784859597] [map_server]: Creating[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.801130892] [lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.801257407] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m[0m
+[map_server-2] [0m[INFO] [1763099298.803254779] [map_server]: Configuring[0m
+[map_server-2] [INFO] [map_io]: Loading yaml file: /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.yaml
+[map_server-2] [DEBUG] [map_io]: resolution: 0.05
+[map_server-2] [DEBUG] [map_io]: origin[0]: -0.956
+[map_server-2] [DEBUG] [map_io]: origin[1]: -4.22
+[map_server-2] [DEBUG] [map_io]: origin[2]: 0
+[map_server-2] [DEBUG] [map_io]: free_thresh: 0.25
+[map_server-2] [DEBUG] [map_io]: occupied_thresh: 0.65
+[map_server-2] [DEBUG] [map_io]: mode: trinary
+[map_server-2] [DEBUG] [map_io]: negate: 0
+[map_server-2] [INFO] [map_io]: Loading image_file: /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.pgm
+[map_server-2] [DEBUG] [map_io]: Read map /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.pgm: 127 X 128 map @ 0.05 m/cell
+[lifecycle_manager-6] [0m[INFO] [1763099298.811008262] [lifecycle_manager_localization]: [34m[1mConfiguring amcl[0m[0m[0m
+[amcl-5] [0m[INFO] [1763099298.811445586] [amcl]: Configuring[0m
+[amcl-5] [0m[INFO] [1763099298.811550136] [amcl]: initTransforms[0m
+[amcl-5] [0m[INFO] [1763099298.840662471] [amcl]: initPubSub[0m
+[amcl-5] [0m[INFO] [1763099298.843055310] [amcl]: Subscribed to map topic.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.845086861] [lifecycle_manager_localization]: [34m[1mConfiguring filter_mask_server[0m[0m[0m
+[map_server-3] [0m[INFO] [1763099298.845313498] [filter_mask_server]: Configuring[0m
+[map_server-3] [INFO] [map_io]: Loading yaml file: /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.yaml
+[map_server-3] [DEBUG] [map_io]: resolution: 0.05
+[map_server-3] [DEBUG] [map_io]: origin[0]: -0.956
+[map_server-3] [DEBUG] [map_io]: origin[1]: -4.22
+[map_server-3] [DEBUG] [map_io]: origin[2]: 0
+[map_server-3] [DEBUG] [map_io]: free_thresh: 0.25
+[map_server-3] [DEBUG] [map_io]: occupied_thresh: 0.65
+[map_server-3] [DEBUG] [map_io]: mode: trinary
+[map_server-3] [DEBUG] [map_io]: negate: 0
+[map_server-3] [INFO] [map_io]: Loading image_file: /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.pgm
+[map_server-3] [DEBUG] [map_io]: Read map /home/user/ros2_ws/install/map_server/share/map_server/config/warehouse_map_keepout_real.pgm: 127 X 128 map @ 0.05 m/cell
+[lifecycle_manager-6] [0m[INFO] [1763099298.851923874] [lifecycle_manager_localization]: [34m[1mConfiguring costmap_filter_info_server[0m[0m[0m
+[costmap_filter_info_server-4] [0m[INFO] [1763099298.852132861] [costmap_filter_info_server]: Configuring[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.854058278] [lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m[0m
+[map_server-2] [0m[INFO] [1763099298.854365282] [map_server]: Activating[0m
+[map_server-2] [0m[INFO] [1763099298.854499157] [map_server]: Creating bond (map_server) to lifecycle manager.[0m
+[amcl-5] [0m[INFO] [1763099298.854682939] [amcl]: Received a 127 X 128 map @ 0.050 m/pix[0m
+[rviz2-1] [0m[INFO] [1763099298.910488360] [rviz2]: Stereo is NOT SUPPORTED[0m
+[rviz2-1] [0m[INFO] [1763099298.910566529] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)[0m
+[rviz2-1] [0m[INFO] [1763099298.928324205] [rviz2]: Stereo is NOT SUPPORTED[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.957694626] [lifecycle_manager_localization]: Server map_server connected with bond.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099298.957754085] [lifecycle_manager_localization]: [34m[1mActivating amcl[0m[0m[0m
+[amcl-5] [0m[INFO] [1763099298.957990065] [amcl]: Activating[0m
+[amcl-5] [0m[INFO] [1763099298.958051648] [amcl]: initialPoseReceived[0m
+[amcl-5] [0m[INFO] [1763099298.958174852] [amcl]: Setting pose (1763099298.958174): -0.025 0.054 -0.001[0m
+[amcl-5] [0m[INFO] [1763099298.985149174] [amcl]: Creating bond (amcl) to lifecycle manager.[0m
+[amcl-5] [33m[WARN] [1763099299.039712009] [amcl]: New subscription discovered on topic '/particle_cloud', requesting incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY[0m
+[initial_pose_pub-8] [INFO] [1763099299.082770691] [initial_pose_pub_node]: Initializer node started
+[lifecycle_manager-6] [0m[INFO] [1763099299.087396268] [lifecycle_manager_localization]: Server amcl connected with bond.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.087452835] [lifecycle_manager_localization]: [34m[1mActivating filter_mask_server[0m[0m[0m
+[map_server-3] [0m[INFO] [1763099299.087666846] [filter_mask_server]: Activating[0m
+[map_server-3] [0m[INFO] [1763099299.088300575] [filter_mask_server]: Creating bond (filter_mask_server) to lifecycle manager.[0m
+[amcl-5] [0m[INFO] [1763099299.088355407] [amcl]: Received a 127 X 128 map @ 0.050 m/pix[0m
+[rviz2-1] [0m[INFO] [1763099299.125746538] [rviz2]: Trying to create a map of size 127 x 128 using 1 swatches[0m
+[rviz2-1] [31m[ERROR] [1763099299.130402982] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+[rviz2-1] active samplers with a different type refer to the same texture image unit[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.190369583] [lifecycle_manager_localization]: Server filter_mask_server connected with bond.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.190447511] [lifecycle_manager_localization]: [34m[1mActivating costmap_filter_info_server[0m[0m[0m
+[costmap_filter_info_server-4] [0m[INFO] [1763099299.190682563] [costmap_filter_info_server]: Activating[0m
+[costmap_filter_info_server-4] [0m[INFO] [1763099299.190803378] [costmap_filter_info_server]: Creating bond (costmap_filter_info_server) to lifecycle manager.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.294341693] [lifecycle_manager_localization]: Server costmap_filter_info_server connected with bond.[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.294402787] [lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m[0m
+[lifecycle_manager-6] [0m[INFO] [1763099299.294431065] [lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m[0m
+[rviz2-1] [0m[INFO] [1763099299.769469971] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.333 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.801080846] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.358 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099299.806398282] [amcl]: createLaserObject[0m
+[rviz2-1] [0m[INFO] [1763099299.833036152] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.384 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.865343817] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.409 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.897269232] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.434 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.929570788] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.458 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.961699333] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.484 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099299.993235298] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.509 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.025041948] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.534 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.057203592] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.558 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.089863470] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.584 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.121141002] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.609 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.153814220] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.634 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.185594778] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.709 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.217303652] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.734 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.249371164] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.759 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.281407685] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.785 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.313180777] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.809 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.345270825] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.834 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.377318514] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.859 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.409730408] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.884 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.441066208] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.934 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.473883172] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.959 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.505664865] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.984 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.537861872] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.035 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.569487600] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.059 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.601377310] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.087 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.633210754] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.109 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.665681069] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.135 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.697613817] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.159 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.729703992] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.209 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.762049444] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.235 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.793486233] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.259 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.825622759] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.309 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.857817390] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.360 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.889717225] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.385 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.921625952] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.410 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.953758770] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.436 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099300.985326639] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.460 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.017739460] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.485 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.049408374] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.535 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.081831039] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.585 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.113601433] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.610 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.145085768] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.635 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.177461858] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.661 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.209117246] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.685 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.241068146] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.710 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.273334869] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.760 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.305236955] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.785 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.338106364] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.810 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.369868542] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.860 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.401535855] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.886 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.433698678] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.910 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.465735719] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.935 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.497443418] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099300.987 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.529700253] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.011 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.561279319] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.036 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.593384500] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.086 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.625914951] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.110 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.657455907] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.136 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.689640364] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.211 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.721632113] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.261 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.753143736] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.286 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.785458829] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.311 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.817068807] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.336 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.849896181] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.361 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.881523726] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.386 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.913944185] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.411 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.945982399] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.436 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099301.977336115] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.463 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.009118619] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.486 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.041830259] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.536 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.074099380] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.561 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.106017388] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.586 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.137161139] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.611 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.169483235] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.661 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.201071842] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.687 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.233445930] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.711 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.265995750] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.736 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.297963907] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.786 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.329825774] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.812 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.361662803] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.836 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.394063459] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.861 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.425967776] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.886 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.457322714] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.936 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.489897474] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099301.986 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.521663517] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.012 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.553165986] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.037 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.586042303] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.062 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.618009645] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.087 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.649678308] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.112 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.681928016] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.162 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.713426882] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.212 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.745624291] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.237 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.777858354] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.262 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.810023404] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.287 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.841614075] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.312 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.874079538] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.337 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099302.905434729] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.387 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099302.923158850] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.484 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099302.923231756] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.509 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099302.923264322] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099299.534 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[rviz2-1] [33m[WARN] [1763099302.946343678] [rviz2]: Negative eigenvalue found for position. Is the covariance matrix correct (positive semidefinite)?[0m
+[amcl-5] [0m[INFO] [1763099303.195656573] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.838 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.197084788] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.864 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.242763608] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.888 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.243949247] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.913 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.281661886] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.938 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.283073895] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.963 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.325034207] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.988 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.369017537] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.013 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.370943850] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.038 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.414050686] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.063 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.414994710] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.088 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.458296705] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.113 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.459838315] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.138 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.501763356] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.163 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.545996879] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.188 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.548084181] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.213 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.596761474] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.238 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.599053919] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.263 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.634092499] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.288 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.635829035] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.313 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.677907466] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.338 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.721894399] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.363 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.724035060] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.388 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.775570595] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.413 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.778060663] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.438 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.816848688] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.463 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.819005488] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.488 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.856165788] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.513 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.862726965] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.539 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.905957964] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.565 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.966143683] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.589 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.967955769] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.613 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099303.994267405] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.639 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099304.775766860] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.664 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.778229193] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.688 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.817029696] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.714 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.819170617] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.739 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.856335694] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.764 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.862923233] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.789 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.906146702] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.814 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.966556411] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.839 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[amcl-5] [0m[INFO] [1763099304.968164009] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099303.864 for reason 'the timestamp on the message is earlier than all the data in the transform cache'[0m
+[rviz2-1] [0m[INFO] [1763099307.754374562] [rviz2]: Trying to create a map of size 127 x 128 using 1 swatches[0m
+[rviz2-1] [0m[INFO] [1763099308.848148832] [rviz2]: Trying to create a map of size 60 x 40 using 1 swatches[0m
+[amcl-5] [0m[INFO] [1763099310.774014066] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099310.471 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099311.832308682] [amcl]: initialPoseReceived[0m
+[amcl-5] [33m[WARN] [1763099311.832408398] [amcl]: Failed to transform initial pose in time (Lookup would require extrapolation into the future.  Requested time 1763099311.832359 but the latest data is at time 1763099311.797309, when looking up transform from frame [robot_base_footprint] to frame [robot_odom])[0m
+[amcl-5] [0m[INFO] [1763099311.832439645] [amcl]: Setting pose (1763099311.832439): -0.026 -0.046 0.041[0m
+[rviz2-1] [0m[INFO] [1763099313.181330937] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.437 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.213323900] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.462 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.245548970] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099302.487 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.277330046] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.749 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.309965330] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.799 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.341215566] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.824 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.373041568] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.849 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.405739958] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.899 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.437779527] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.924 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.469930654] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.949 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.501651892] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099312.999 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.533854556] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.024 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.565057616] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.049 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.597163861] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.124 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.629640630] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.175 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.661709867] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.199 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.693257627] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.225 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.725825359] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.249 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.757669957] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.275 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.789316559] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.299 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.821429600] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.325 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.853387354] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.350 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.885767561] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.375 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.917985833] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.400 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.949240392] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.425 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099313.981338888] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.450 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.013649435] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.500 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.045869256] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.525 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.077657631] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.550 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.109515530] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.575 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.141308937] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.625 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.173271400] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.675 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.206282708] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.700 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.237816946] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.725 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.269365137] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.775 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.301805812] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.800 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.334048297] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.825 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.365773370] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.850 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.397362640] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.875 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.429324359] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.900 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.461633013] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099313.950 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.493800385] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.000 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.525647488] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.025 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.558541311] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.050 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.589144283] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.075 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.621784901] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.100 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.653739366] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.126 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.686177277] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.176 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.717819528] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.200 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.749332854] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.226 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.781575846] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.251 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.813678977] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.276 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.845495930] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.301 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.877215884] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.326 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.909330571] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.351 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.941364991] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.376 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099314.973363351] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.401 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.005482094] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.526 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.038241180] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.551 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.069405376] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.576 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.102084857] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.601 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.134086662] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.626 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.165899299] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.651 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.198026185] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.676 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.230407239] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.701 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.262010158] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.726 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.293540662] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.776 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.325421137] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.802 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [33m[WARN] [1763099315.334848872] [rviz2]: Negative eigenvalue found for position. Is the covariance matrix correct (positive semidefinite)?[0m
+[rviz2-1] [33m[WARN] [1763099315.334887336] [rviz2]: orientation shape_scale contains NaN: Vector3(-nan, 1, 0.001)[0m
+[rviz2-1] [0m[INFO] [1763099315.358184372] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.851 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.390023659] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.876 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.421444601] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.902 for reason 'discarding message because the queue is full'[0m
+[rviz2-1] [0m[INFO] [1763099315.453883589] [rviz_node]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099314.926 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.560879296] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099316.905 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.564859878] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099316.930 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.568228118] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099316.955 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.607970698] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.282 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.610804831] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.306 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.645566961] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.331 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.648980778] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.356 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.693985114] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.382 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.742865296] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.406 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.781155904] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.432 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.785134428] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.456 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.825465640] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.482 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.833810962] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.506 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.873927118] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.532 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.918280068] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.557 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099317.922325592] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099317.582 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099334.612978923] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099334.317 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099336.080376400] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.770 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099336.220772080] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.921 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099336.257697422] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.946 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099336.263454137] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099335.971 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099340.254749874] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.906 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099340.258536263] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.931 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099340.298311783] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099339.957 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099355.032813102] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.740 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099355.096299921] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.765 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099355.117873555] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099354.790 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099358.809625454] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099358.522 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099370.201519771] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099369.894 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099490.683423153] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099490.375 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099511.222216403] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099510.879 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099511.232076820] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099510.904 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099529.669290417] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.254 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099529.845577369] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.507 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099529.894822818] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.530 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099529.898230652] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099529.555 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099562.849533217] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099562.521 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099616.155065187] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099615.849 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099646.111328317] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099645.760 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099655.164010811] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.862 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099655.211378361] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.887 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099655.260389159] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099654.912 for reason 'discarding message because the queue is full'[0m
+[amcl-5] [0m[INFO] [1763099659.199456773] [amcl]: Message Filter dropping message: frame 'robot_front_laser_link' at time 1763099658.899 for reason 'discarding message because the queue is full'[0m

@@ -80,6 +80,7 @@ public:
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
     cartframe_broadcasted_ = false;
+    legs_found = false;
     current_yaw_ = 0.0;
     front_distance_ = std::numeric_limits<double>::infinity();
 
@@ -101,7 +102,9 @@ private:
 
   // Parameters
   const float intensities_threshold_ = 7000.0f;
+  // float intensities_threshold_ = 0.0f;
   bool cartframe_broadcasted_;
+  bool legs_found;
   double current_yaw_;
   double front_distance_;
   sensor_msgs::msg::LaserScan::SharedPtr latest_scan_;
@@ -131,8 +134,12 @@ private:
       std::shared_ptr<attach_shelf::srv::GoToLoading::Response> response) {
 
     RCLCPP_INFO(this->get_logger(),
-                "Approach shelf service called. attach_to_shelf: %s",
-                request->attach_to_shelf ? "true" : "false");
+                "Approach shelf (attach_to_shel): %s",
+                request->attach_to_shelf ? "REQUESTED" : "NOT REQUESTED");
+
+    if (!request->attach_to_shelf) {
+      return;
+    }
 
     // Check if we have laser scan data
     if (!latest_scan_) {
@@ -143,7 +150,10 @@ private:
 
     // Static TF broadcast of cart_frame
     if (!cartframe_broadcasted_) {
-      bool legs_found = detect_and_broadcast_cart_frame();
+
+      RCLCPP_INFO(this->get_logger(),
+                  "Detecting Legs being requested as no legs found yet");
+      legs_found = detect_and_broadcast_cart_frame();
 
       if (!legs_found) {
         RCLCPP_WARN(this->get_logger(), "Could not detect 2 shelf legs");
@@ -294,7 +304,7 @@ private:
   }
 
   bool perform_final_approach() {
-    RCLCPP_INFO(this->get_logger(), "Starting final approach to shelf");
+    RCLCPP_INFO(this->get_logger(), "Starting to approach shelf");
 
     std::string robot_frame = "robot_base_link";
     std::string target_frame = "cart_frame";
@@ -412,6 +422,8 @@ private:
       rclcpp::sleep_for(
           std::chrono::milliseconds(500)); // 500ms delay between messages
     }
+    rclcpp::sleep_for(
+        std::chrono::milliseconds(5500)); // Let publisher initialize
 
     RCLCPP_INFO(this->get_logger(), "Shelf lifted successfully");
 

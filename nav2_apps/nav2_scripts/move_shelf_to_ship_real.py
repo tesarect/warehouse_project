@@ -18,12 +18,12 @@ from std_msgs.msg import String
 from manual_movement import ManualMover
 
 # Taken from amcl config
-_initial_position = [0.0564, -0.0047, -0.04001, 0.99919]
+_initial_position = [-0.02597, -0.0462, 0.041472, 0.99913]
 
 # Obtained from `/amcl_pose` [x,y,z,w] (x & y are pose, z & w are orientation)
-_loading_position = [4.3198, -0.8067, -0.7052, 0.7089]
-_shipping_position = [2.0194, 1.1060, 0.6415, 0.76707]
-_throughPoint1_position = [2.08141, -0.07586, 0.72109, 0.6928]
+_loading_position = [4.3563, -0.7774, -0.71781, 0.69623]
+_shipping_position = [1.84022, 0.94194, 0.66075, 0.750598]
+_throughPoint1_position = [1.93003, -0.17741, 0.724337, 0.68944]
 
 _footprint_with_shelf = "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
 _footprint_without_shelf = "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
@@ -131,9 +131,11 @@ def bot_approach_attach_shelf():
         print('Approach service not available, waiting...')
 
     # Create request
-    attach_shelf_request = GoToLoading.Request(attach_to_shelf = True)
+    # attach_shelf_request = GoToLoading.Request(attach_to_shelf = True)
+    attach_shelf_request = GoToLoading.Request(attach_to_shelf = False)
 
     # Call service asynchronously
+    print('\`approach_shelf\` service calling inititated -----')
     attach_shelf_future = approach_client.call_async(attach_shelf_request)
 
     # Wait for response
@@ -207,6 +209,7 @@ def trigger_elevator():
     for _x in range(2):
         elevatorDown_pub.publish(msg)
         time.sleep(1.0)  # give it a moment to publish
+    time.sleep(2)
     print("Elevator command sent")
 
 def main():
@@ -276,27 +279,29 @@ def main():
 
     while not navigator.isTaskComplete():
         time.sleep(0.5)
-        print('--Navigator GoToLoading complete')
+        print('Navigator GoToLoading COMPLETED')
 
     
-    # if _shelf_attached:
+    if _shelf_attached:
 
-    maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
-    
-    maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
+        maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
+        
+        maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
 
-    goToLocation(position=_throughPoint1_position)
+        goToLocation(position=_throughPoint1_position)
 
-    goToLocation(position=_shipping_position, action=True)
+        goToLocation(position=_shipping_position, action=True)
 
-    update_footprint_for_shelf(shelf=False)
+        update_footprint_for_shelf(shelf=False)
 
-    maneuver.move_backward(distance=1.4, speed=0.3)
+        maneuver.move_backward(distance=1.4, speed=0.3)
 
-    clear_costmaps()
+        clear_costmaps()
 
-    maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
+        maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
 
+    else:
+        print('Attach shelf FAILURE. Returing to initial position')
 
     goToLocation(position=_initial_position)
 
