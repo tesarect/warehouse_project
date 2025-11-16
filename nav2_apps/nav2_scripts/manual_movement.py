@@ -11,13 +11,17 @@ class ManualMover(Node):
     def __init__(self):
         super().__init__('manual_mover')
 
-        self.cmd_vel_topic = '/diffbot_base_controller/cmd_vel_unstamped'
+        self.cmd_vel_topic = None
         
         # Get list of all topics
-        _topic_list = self.get_topic_names_and_types()
+        # self._topic_list = self.get_topic_names_and_types()
+        # print(f'--- topic list : {self._topic_list}')
 
-        if '/cmd_vel' in [topic[0] for topic in _topic_list]:
-            self.cmd_vel_topic = '/cmd_vel'
+        # if '/cmd_vel' in [topic[0] for topic in self._topic_list]:
+        #     self.cmd_vel_topic = '/cmd_vel'
+        self.scan_topics()
+
+        print(f'-----{self.cmd_vel_topic}')
 
         # # Create publisher for cmd_vel
         # self.cmd_vel_pub = self.create_publisher(
@@ -31,6 +35,21 @@ class ManualMover(Node):
             self.cmd_vel_topic,
             10
         )
+
+    def scan_topics(self):
+        _try = 1
+        while not self.cmd_vel_topic:
+            self._topic_list = self.get_topic_names_and_types()
+            if len(self._topic_list) > 3:
+                if '/cmd_vel' in [topic[0] for topic in self._topic_list]:
+                    self.cmd_vel_topic = '/cmd_vel'
+                    # print(f' ----try {_try}')
+                else:
+                    self.cmd_vel_topic = '/diffbot_base_controller/cmd_vel_unstamped'
+                    # print(f' ----try {_try}')
+                break
+            _try += 1
+
 
     def inplace_rotation(self, rotate_deg: float, rotate_speed: float = 0.5):
         """
@@ -136,10 +155,10 @@ def main(args=None):
     mover = ManualMover()
 
     # Example commands
-    mover.move_forward(distance=1.5, speed=0.50)
-    mover.move_backward(distance=0.4, speed=0.25)
-    mover.inplace_rotation(rotate_deg=45, rotate_speed=0.5)
-    mover.inplace_rotation(rotate_deg=-30, rotate_speed=0.5)
+    # mover.move_forward(distance=1.5, speed=0.50)
+    # mover.move_backward(distance=0.4, speed=0.25)
+    # mover.inplace_rotation(rotate_deg=45, rotate_speed=0.5)
+    # mover.inplace_rotation(rotate_deg=-30, rotate_speed=0.5)
 
     mover.destroy_node()
     rclpy.shutdown()

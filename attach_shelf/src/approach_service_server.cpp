@@ -26,6 +26,8 @@
 #include <type_traits>
 #include <vector>
 
+// DYNAMIC INTENSITY THRESHOLD
+
 using std::placeholders::_1;
 using std::placeholders::_2;
 
@@ -101,8 +103,8 @@ private:
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
 
   // Parameters
-  const float intensities_threshold_ = 7000.0f;
-  // float intensities_threshold_ = 0.0f;
+  //   const float intensities_threshold_ = 5700.0f;
+  float intensities_threshold_ = 0.0f;
   bool cartframe_broadcasted_;
   bool legs_found;
   double current_yaw_;
@@ -133,8 +135,7 @@ private:
       const std::shared_ptr<attach_shelf::srv::GoToLoading::Request> request,
       std::shared_ptr<attach_shelf::srv::GoToLoading::Response> response) {
 
-    RCLCPP_INFO(this->get_logger(),
-                "Approach shelf (attach_to_shel): %s",
+    RCLCPP_INFO(this->get_logger(), "Approach shelf (attach_to_shelf): %s",
                 request->attach_to_shelf ? "REQUESTED" : "NOT REQUESTED");
 
     if (!request->attach_to_shelf) {
@@ -183,6 +184,19 @@ private:
       RCLCPP_WARN(this->get_logger(), "No intensity data available");
       return false;
     }
+
+    float max_intensity =
+        *std::max_element(intensity_data.begin(), intensity_data.end());
+    intensities_threshold_ = max_intensity * 0.75f;
+    // considering 3 - 4th of the intensity as threshold
+    // intensities_threshold_ =
+    //     (*std::max_element(intensity_data.begin(), intensity_data.end())) *
+    //     0.75f;
+
+    RCLCPP_INFO(this->get_logger(), "max intensity found to be : %f",
+                max_intensity);
+    RCLCPP_INFO(this->get_logger(), "Intensity Threshold to be : %f",
+                intensities_threshold_);
 
     // Find shelf legs using intensities
     struct ShelfLeg {

@@ -132,28 +132,40 @@ def bot_approach_attach_shelf():
         print('Approach service not available, waiting...')
 
     # Create request
-    # attach_shelf_request = GoToLoading.Request(attach_to_shelf = False)
     attach_shelf_request = GoToLoading.Request(attach_to_shelf = True)
 
     # Call service asynchronously
-    print('\`approach_shelf\` service calling inititated -----')
+    print('`/approach_shelf` service calling inititated...')
     attach_shelf_future = approach_client.call_async(attach_shelf_request)
 
     # Wait for response
     rclpy.spin_until_future_complete(shelf_attacing_node, attach_shelf_future)
 
     # Check result
-    if not attach_shelf_future.result().complete:
-        print('Move towards shelf INCOMPLETE')
-        return 0
+    # if not attach_shelf_future.result().complete:
+    #     print('Move towards shelf INCOMPLETE')
+    #     return 0
+    if attach_shelf_future.done():
+        if attach_shelf_future.result() is not None:
+            resp = attach_shelf_future.result()
 
-    print('Move underneath shelf and attached shelf sucessfully')
-    
-    update_footprint_for_shelf(shelf=True)
+            if resp.complete:
+                print('Move underneath shelf and attached SUCCESSFUL')
+                update_footprint_for_shelf(shelf=True)
+                clear_costmaps()
+                
+                return True
+            else:
+                print('Move underneath shelf and attached FAILURE')
 
-    # clear_costmaps()
+                return False
+    else:
+        print('approach_shelf service call FAILURE')
+        if attach_shelf_future.exception():
+            print(f'Exception: {attach_shelf_future.exception()}')
+        
+        return False
 
-    return True
 
 def goToLocation(position: list, action: bool = None):
     _pose_name = [name for name, value in globals().items() if value is position][0]
@@ -183,10 +195,9 @@ def goToLocation(position: list, action: bool = None):
 
     result = navigator.getResult()
     if result == TaskResult.SUCCEEDED:
-        # print('Reached destination [{postion[0]}, {postion[1]}]...')
         print(f' << Reached {_pose_name}')
         if action:
-            print('--- Received action to be executed')
+            print('Received action to be executed after goal reached')
             trigger_elevator()
 
     elif result == TaskResult.CANCELED:
@@ -234,6 +245,14 @@ def main():
     # Wait for navigation to activate fully
     navigator.waitUntilNav2Active()
 
+    # # amcl correction
+    # print('-- Just ensuring proper Localization --')
+    # maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.2)
+    # # time.sleep(0.5)
+    # time.sleep(0.5)
+    # maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.2)
+    # # time.sleep(0.5)
+
     # initialize loading position
     load_pose = PoseStamped()
     load_pose.header.frame_id = 'map'
@@ -280,8 +299,10 @@ def main():
     if _shelf_attached:
 
         maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
+        time.sleep(0.5)
         
         maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
+        time.sleep(0.5)
 
         goToLocation(position=_throughPoint1_position)
 
@@ -290,10 +311,12 @@ def main():
         update_footprint_for_shelf(shelf=False)
 
         maneuver.move_backward(distance=1.4, speed=0.3)
+        time.sleep(0.5)
 
         clear_costmaps()
 
         maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
+        time.sleep(0.5)
 
     else:
         print('Attach shelf FAILURE. Returing to initial position')

@@ -135,24 +135,47 @@ def bot_approach_attach_shelf():
     attach_shelf_request = GoToLoading.Request(attach_to_shelf = False)
 
     # Call service asynchronously
-    print('\`approach_shelf\` service calling inititated -----')
+    print('`/approach_shelf` service calling inititated...')
     attach_shelf_future = approach_client.call_async(attach_shelf_request)
 
     # Wait for response
     rclpy.spin_until_future_complete(shelf_attacing_node, attach_shelf_future)
 
     # Check result
-    if not attach_shelf_future.result().complete:
-        print('Move towards shelf INCOMPLETE')
-        return 0
+    # if not attach_shelf_future.result().complete:
+    #     print('Move towards shelf INCOMPLETE')
+    #     return 0
 
-    print('Move underneath shelf and attached shelf sucessfully')
+    # print('Move underneath shelf and attached shelf SUCCESSFUL')
     
-    update_footprint_for_shelf(shelf=True)
+    # update_footprint_for_shelf(shelf=True)
 
     # clear_costmaps()
 
-    return True
+    # return True
+    if attach_shelf_future.done():
+        if attach_shelf_future.result() is not None:
+            resp = attach_shelf_future.result()
+
+            if resp.complete:
+                print('Move underneath shelf and attached SUCCESSFUL')
+
+                update_footprint_for_shelf(shelf=True)
+                clear_costmaps()
+                
+                return True
+            else:
+                print('Move underneath shelf and attached FAILURE')
+                
+                return False
+
+    else:
+        print('approach_shelf service call FAILURE')
+        if attach_shelf_future.exception():
+            print(f'Exception: {attach_shelf_future.exception()}')
+        
+        return False
+
 
 def goToLocation(position: list, action: bool = None):
     _pose_name = [name for name, value in globals().items() if value is position][0]
@@ -182,10 +205,9 @@ def goToLocation(position: list, action: bool = None):
 
     result = navigator.getResult()
     if result == TaskResult.SUCCEEDED:
-        # print('Reached destination [{postion[0]}, {postion[1]}]...')
         print(f' << Reached {_pose_name}')
         if action:
-            print('--- Received action to be executed')
+            print('Received action to be executed after goal reached')
             trigger_elevator()
 
     elif result == TaskResult.CANCELED:
@@ -209,7 +231,7 @@ def trigger_elevator():
     for _x in range(2):
         elevatorDown_pub.publish(msg)
         time.sleep(1.0)  # give it a moment to publish
-    time.sleep(2)
+    time.sleep(6)
     print("Elevator command sent")
 
 def main():
@@ -236,8 +258,13 @@ def main():
     navigator.waitUntilNav2Active()
 
     # amcl correction
-    print('-- Just ensuring proper Localization --')
-    maneuver.inplace_rotation(rotate_deg=360, rotate_speed=0.3)
+    # print('-- Just ensuring proper Localization --')
+    # maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.2)
+    # time.sleep(0.5)
+    # maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.4)
+    # time.sleep(0.5)
+    # maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.2)
+    # time.sleep(0.5)
 
     # initialize loading position
     load_pose = PoseStamped()
@@ -249,6 +276,7 @@ def main():
     load_pose.pose.orientation.w = _loading_position[3]
 
     # Navigate to loading position
+    print('Received initial goal position and started moving')
     navigator.goToPose(load_pose)
 
     i = 0
@@ -285,8 +313,10 @@ def main():
     if _shelf_attached:
 
         maneuver.move_backward(distance=1.40, curvature_deg=6.0, speed=0.3)
+        time.sleep(0.5)
         
         maneuver.inplace_rotation(rotate_deg=-180, rotate_speed=0.5)
+        time.sleep(0.5)
 
         goToLocation(position=_throughPoint1_position)
 
@@ -295,10 +325,12 @@ def main():
         update_footprint_for_shelf(shelf=False)
 
         maneuver.move_backward(distance=1.4, speed=0.3)
+        time.sleep(0.5)
 
         clear_costmaps()
 
         maneuver.inplace_rotation(rotate_deg=90, rotate_speed=0.5)
+        time.sleep(0.5)
 
     else:
         print('Attach shelf FAILURE. Returing to initial position')
