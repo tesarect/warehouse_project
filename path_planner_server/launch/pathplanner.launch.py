@@ -7,8 +7,11 @@ from launch_ros.actions import Node
 
 def launch_setup(context, *args, **kwargs):
     
-    
-    use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() in ['true', '1', 'yes']
+    use_sim_time = LaunchConfiguration('use_sim_time').perform(context)
+    if use_sim_time.lower() == 'true':
+        use_sim_time = True
+    else:
+        use_sim_time = False
 
     pkg_path = get_package_share_directory('path_planner_server')
 
@@ -20,7 +23,8 @@ def launch_setup(context, *args, **kwargs):
     bt_navigator_yaml = os.path.join(pkg_path, 'config', f'bt_navigator_{config_suffix}.yaml')
     planner_yaml = os.path.join(pkg_path, 'config', f'planner_{config_suffix}.yaml')
     recovery_yaml = os.path.join(pkg_path, 'config', f'recoveries_{config_suffix}.yaml')
-
+    filters_yaml = os.path.join(get_package_share_directory('path_planner_server'), 'config', 'filters.yaml')
+    
     controller_remappings = []
     if use_sim_time:
         controller_remappings = [('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')]
@@ -32,8 +36,23 @@ def launch_setup(context, *args, **kwargs):
         name='approach_service_server',
         output='screen',
         parameters=[robot_config]
-        # prefix='bash -c \'sleep 10; $0 $@\''
         )
+
+    filter_mask_server_node = Node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='filter_mask_server',
+        output='screen',
+        emulate_tty=True,
+        parameters=[filters_yaml, {'use_sim_time': use_sim_time}])
+
+    costmap_filter_info_server_node = Node(
+        package='nav2_map_server',
+        executable='costmap_filter_info_server',
+        name='costmap_filter_info_server',
+        output='screen',
+        emulate_tty=True,
+        parameters=[filters_yaml, {'use_sim_time': use_sim_time}])
 
     controller_node = Node(
         package='nav2_controller',
@@ -53,9 +72,10 @@ def launch_setup(context, *args, **kwargs):
     behavior_node = Node(
         package='nav2_behaviors',
         executable='behavior_server',
-        name='recoveries_server',
+        name='behavior_server',
         parameters=[recovery_yaml],
-        output='screen')
+        output='screen',
+        remappings=controller_remappings)
 
     navigator_node = Node(
         package='nav2_bt_navigator',
@@ -72,15 +92,20 @@ def launch_setup(context, *args, **kwargs):
         parameters=[{'autostart': True},
                     {'node_names': ['planner_server',
                                     'controller_server',
-                                    'recoveries_server',
-                                    'bt_navigator']}])
+                                    'behavior_server',
+                                    'bt_navigator',
+                                    'filter_mask_server',
+                                    'costmap_filter_info_server',
+                                    ]}])
 
     nodes = [
         approach_service_server_node,
-        controller_node,
         planner_node,
+        controller_node,
         behavior_node,
         navigator_node,
+        filter_mask_server_node,
+        costmap_filter_info_server_node,
         lifecycle_node,
     ]
 

@@ -219,6 +219,9 @@ class ShelfApproachManager(Node):
         _pose.header.stamp = self.navigator.get_clock().now().to_msg()
         _pose.pose.position.x = position[0]
         _pose.pose.position.y = position[1]
+        _pose.pose.position.z = 0.0
+        _pose.pose.orientation.x = 0.0
+        _pose.pose.orientation.y = 0.0
         _pose.pose.orientation.z = position[2]
         _pose.pose.orientation.w = position[3]
         
@@ -289,7 +292,7 @@ class ShelfApproachManager(Node):
 
             self.maneuver.inplace_rotation(
                     rotate_deg=self._shipping_rotate_deg, 
-                    rotate_speed=self.shipping_rotate_speed)
+                    rotate_speed=self._shipping_rotate_speed)
             time.sleep(0.5)
 
         else:
