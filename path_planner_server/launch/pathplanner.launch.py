@@ -6,13 +6,16 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 
 def launch_setup(context, *args, **kwargs):
-
-
+    
+    
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() in ['true', '1', 'yes']
 
     pkg_path = get_package_share_directory('path_planner_server')
 
     config_suffix = 'sim' if use_sim_time else 'real'
+    robot_config_dir = os.path.join(get_package_share_directory('robot_config'), 'config')
+    robot_config = os.path.join(robot_config_dir, f'{config_suffix}.yaml')
+
     controller_yaml = os.path.join(pkg_path, 'config', f'controller_{config_suffix}.yaml')
     bt_navigator_yaml = os.path.join(pkg_path, 'config', f'bt_navigator_{config_suffix}.yaml')
     planner_yaml = os.path.join(pkg_path, 'config', f'planner_{config_suffix}.yaml')
@@ -28,6 +31,7 @@ def launch_setup(context, *args, **kwargs):
         executable='approach_service_server',
         name='approach_service_server',
         output='screen',
+        parameters=[robot_config]
         # prefix='bash -c \'sleep 10; $0 $@\''
         )
 

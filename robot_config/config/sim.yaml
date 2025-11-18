@@ -1,0 +1,27 @@
+/**:
+  ros__parameters:
+    odom_frame: "odom"
+    base_frame: "robot_base_link"
+    cmd_vel_topic: "/diffbot_base_controller/cmd_vel_unstamped"
+
+    initial_position: [0.0306187, 0.0211561, 0.004419, 0.999990]
+    loading_position: [5.7098795, -0.0307365, -0.6950259, 0.7189846]
+    shipping_position: [2.465, 1.500, 0.707, 0.706]
+    throughPoint1_position: [2.365, 0.188, 0.711, 0.702]
+
+    footprint_with_shelf: "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
+    footprint_without_shelf: "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
+
+    loaded_backward_distance: 1.40
+    loaded_curvature_deg: 6.0
+    loaded_backward_speed: 0.3
+
+    loaded_rotate_deg: -180
+    loaded_rotate_speed: 0.5
+
+    shipping_backward_distance: 1.40
+    shipping_backward_speed: 0.3
+
+    shipping_rotate_deg: -180
+    shipping_rotate_speed: 0.5
+

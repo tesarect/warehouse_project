@@ -27,7 +27,7 @@ def launch_setup(context, *args, **kwargs):
     loc_config_dir = os.path.join(get_package_share_directory('localization_server'), 'config')
     amcl_config_file = os.path.join(loc_config_dir, f'amcl_config_{"sim" if is_sim else "real"}.yaml')
     filters_yaml = os.path.join(get_package_share_directory('path_planner_server'), 'config', 'filters.yaml')
-    
+    # TODO [HIGH]: need to check if filter_yaml is needed 
 
     
     nodes = [
@@ -59,6 +59,7 @@ def launch_setup(context, *args, **kwargs):
             emulate_tty=True,
             parameters=[
                 {'use_sim_time': use_sim_time_value},
+                # {'yaml_filename': filters_yaml}
                 {'yaml_filename': map_file_path}
             ]),
 
@@ -70,6 +71,7 @@ def launch_setup(context, *args, **kwargs):
             emulate_tty=True,
             parameters=[
                 {'use_sim_time': use_sim_time_value},
+                # {'yaml_filename': filters_yaml}
                 {'yaml_filename': map_file_path}
             ]),
             

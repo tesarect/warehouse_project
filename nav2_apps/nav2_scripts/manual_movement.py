@@ -8,10 +8,10 @@ from rclpy.node import Node
 class ManualMover(Node):
     """A simple robot movement helper class for ROS2."""
 
-    def __init__(self):
+    def __init__(self, cmd_vel_topic):
         super().__init__('manual_mover')
 
-        self.cmd_vel_topic = None
+        self.cmd_vel_topic = cmd_vel_topic
         
         # Get list of all topics
         # self._topic_list = self.get_topic_names_and_types()
@@ -19,8 +19,9 @@ class ManualMover(Node):
 
         # if '/cmd_vel' in [topic[0] for topic in self._topic_list]:
         #     self.cmd_vel_topic = '/cmd_vel'
-        self.scan_topics()
+        # self.scan_topics()
 
+        # Load respective command velocity throug self/Node.get_parameter(x).vale
         print(f'-----{self.cmd_vel_topic}')
 
         # # Create publisher for cmd_vel
@@ -40,7 +41,7 @@ class ManualMover(Node):
         _try = 1
         while not self.cmd_vel_topic:
             self._topic_list = self.get_topic_names_and_types()
-            if len(self._topic_list) > 3:
+            if len(self._topic_list) > 7:
                 if '/cmd_vel' in [topic[0] for topic in self._topic_list]:
                     self.cmd_vel_topic = '/cmd_vel'
                     # print(f' ----try {_try}')

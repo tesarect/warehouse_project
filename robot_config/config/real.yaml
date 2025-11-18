@@ -1,0 +1,27 @@
+robot_config:
+  ros__parameters:
+    odom_frame: "robot_odom"
+    # base_frame: "base_link"
+    base_frame: "robot_base_link"
+    cmd_vel_topic: "/cmd_vel"
+
+    initial_position: [-0.02597, -0.0462, 0.041472, 0.99913]
+    loading_position: [4.3817, -0.42230, -0.72907, 0.684437]
+    shipping_position: [1.84022, 0.94194, 0.66075, 0.750598]
+    throughPoint1_position: [1.93003, -0.17741, 0.724337, 0.68944]
+
+    footprint_with_shelf: "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
+    footprint_without_shelf: "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
+
+    loaded_backward_distance: 1.40
+    loaded_curvature_deg: 6.0
+    loaded_backward_speed: 0.3
+
+    loaded_rotate_deg: -180
+    loaded_rotate_speed: 0.5
+
+    shipping_backward_distance: 1.40
+    shipping_backward_speed: 0.3
+
+    shipping_rotate_deg: -180
+    shipping_rotate_speed: 0.5

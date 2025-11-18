@@ -24,5 +24,8 @@ setup(
         'console_scripts': [
            'move_shelf_to_ship = nav2_apps.nav2_scripts.move_shelf_to_ship:main',
         ],
+        # 'console_scripts': [
+        #    'move_shelf_to_ship = nav2_apps.nav2_scripts.moveShelf_sim:main',
+        # ],
     },
 )

@@ -3,6 +3,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "memory"
 #include "nav_msgs/msg/odometry.hpp"
+#include "rclcpp/logging.hpp"
 #include "rclcpp/publisher.hpp"
 #include "rclcpp/service.hpp"
 #include "rclcpp/subscription.hpp"
@@ -37,29 +38,70 @@ class ApproachServiceServer : public rclcpp::Node {
 public:
   ApproachServiceServer() : Node("approach_service_server") {
 
+    // tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
+    // tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+    // cart_static_tf_broadcaster_ =
+    //     std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+
+    // if (!acquiring_topic_and_frame()) {
+    //   throw std::runtime_error("Failed to initialize TF frames/topics\nPlease
+    //   "
+    //                            "make changes if not handled");
+    // }
+
+    // Read parameters from `robot_config` pkg
+    this->declare_parameter<std::string>("odom_frame", "");
+    this->declare_parameter<std::string>("base_frame", "");
+    this->declare_parameter<std::string>("cmd_vel_topic", "");
+
+    this->get_parameter("odom_frame", odom_frame_);
+    this->get_parameter("base_frame", base_frame_);
+    this->get_parameter("cmd_vel_topic", cmd_vel_topic_);
+
+    RCLCPP_INFO(this->get_logger(),
+                "Parameters "
+                "loaded:\n\todom_frame=%s\n\tbase_frame=%s\n\tcmd_vel_topic=%s",
+                odom_frame_.c_str(), base_frame_.c_str(),
+                cmd_vel_topic_.c_str());
+
     approach_shelf_service_ =
         this->create_service<attach_shelf::srv::GoToLoading>(
             "/approach_shelf",
             std::bind(&ApproachServiceServer::handle_approach_shelf, this, _1,
                       _2));
 
-    auto topics = this->get_topic_names_and_types();
-    bool real_robot = false;
+    // auto topics = this->get_topic_names_and_types();
+    // std::stringstream ss;
+    // ss << "Topics visible for attach shelf package:\n";
 
-    for (const auto &topic_and_types : topics) {
-      if (topic_and_types.first == "/cmd_vel") {
-        real_robot = true;
-        break;
-      }
-    }
+    // for (const auto &entry : topics) {
+    //   const auto &topic_name = entry.first;
+    //   const auto &types = entry.second;
 
-    // Simulation's Topic names
-    std::string cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
+    //   ss << "  " << topic_name << ": ";
+    //   for (const auto &type_name : types) {
+    //     ss << type_name << " ";
+    //   }
+    //   ss << "\n";
+    // }
+    // RCLCPP_INFO_STREAM(this->get_logger(), ss.str());
 
-    // Real Robot's Topic names
-    if (real_robot) {
-      std::string cmd_vel_topic = "/cmd_vel";
-    }
+    // bool real_robot = false;
+
+    // for (const auto &topic_and_types : topics) {
+    //   if (topic_and_types.first == "/cmd_vel") {
+    //     real_robot = true;
+    //     break;
+    //   }
+    // }
+
+    // // Simulation's Topic names
+    // std::string cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
+
+    // // Real Robot's Topic names
+    // if (real_robot) {
+    //   std::string cmd_vel_topic = "/cmd_vel";
+    // }
 
     laser_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
         "/scan", 10,
@@ -73,7 +115,7 @@ public:
     // cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
     //     "/diffbot_base_controller/cmd_vel_unstamped", 10);
     cmd_vel_publisher_ =
-        this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic, 10);
+        this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic_, 10);
 
     // TF broadcaster
     cart_static_tf_broadcaster_ =
@@ -109,7 +151,121 @@ private:
   bool legs_found;
   double current_yaw_;
   double front_distance_;
+  std::string odom_frame_;
+  std::string base_frame_;
+  std::string cmd_vel_topic_;
   sensor_msgs::msg::LaserScan::SharedPtr latest_scan_;
+
+  //   bool acquiring_topic_and_frame() {
+  //     // Choose odom frame
+  //     odom_frame_ = utils::pick_first_available_frame(
+  //         {"robot_odom", "odom"}, tf_buffer_, this->get_logger());
+
+  //     if (odom_frame_.empty())
+  //       return false;
+
+  //     // Choose base frame
+  //     base_frame_ = utils::pick_first_available_frame(
+  //         {"robot_base_link", "base_link"}, tf_buffer_, this->get_logger());
+
+  //     if (base_frame_.empty())
+  //       return false;
+
+  //     // Choose cmd_vel topic
+  //     cmd_vel_topic_ = utils::pick_first_available_topic(
+  //         {"/cmd_vel", "/robot/cmd_vel",
+  //          "/diffbot_base_controller/cmd_vel_unstamped"},
+  //         this, this->get_logger());
+
+  //     if (cmd_vel_topic_.empty())
+  //       return false;
+
+  //     return true;
+  //     //   // Choose odom frame
+  //     // odom_frame_ = utils::pick_first_available_frame(
+  //     //     {"robot_odom", "odom"},
+  //     //     tf_buffer_,
+  //     //     this->get_logger()
+  //     // );
+
+  //     // if (odom_frame_.empty()) return false;
+
+  //     // // Choose base frame
+  //     // base_frame_ = utils::pick_first_available_frame(
+  //     //     {"robot_base_link", "base_link"},
+  //     //     tf_buffer_,
+  //     //     this->get_logger()
+  //     // );
+
+  //     // if (base_frame_.empty()) return false;
+
+  //     // // Choose cmd_vel topic
+  //     // cmd_vel_topic_ = utils::pick_first_available_topic(
+  //     //     {"/cmd_vel", "/robot/cmd_vel",
+  //     "/diffbot_base_controller/cmd_vel"},
+  //     //     shared_from_this(),
+  //     //     this->get_logger()
+  //     // );
+
+  //     // if (cmd_vel_topic_.empty()) return false;
+
+  //     // return true;
+  //     // ---------------------------------------------------
+
+  //     // // Odom fram acquisition
+  //     // std::vector<std::string> frames;
+  //     // tf_buffer_->_getFrameStrings(frames);
+  //     // for (const auto &f : frames) {
+  //     //   RCLCPP_INFO(this->get_logger(), "TF Frame: %s", f.c_str());
+  //     // }
+
+  //     // // Prefer robot_odom if present, else fallback to odom
+  //     // if (std::find(frames.begin(), frames.end(), "robot_odom") !=
+  //     // frames.end()) {
+  //     //   odom_frame = "robot_odom";
+  //     // } else if (std::find(frames.begin(), frames.end(), "odom") !=
+  //     //            frames.end()) {
+  //     //   odom_frame = "odom";
+  //     // } else {
+  //     //   RCLCPP_ERROR(this->get_logger(),
+  //     //                "Neither 'robot_odom' nor 'odom' exist!");
+  //     //   return false;
+  //     // }
+
+  //     // RCLCPP_INFO(this->get_logger(), "Selected odom frame: %s",
+  //     //             odom_frame.c_str());
+
+  //     // // Right command for cmd_vel
+  //     // auto topics = this->get_topic_names_and_types();
+  //     // std::stringstream ss;
+  //     // ss << "Topics visible for attach shelf package:\n";
+
+  //     // for (const auto &entry : topics) {
+  //     //   const auto &topic_name = entry.first;
+  //     //   const auto &types = entry.second;
+
+  //     //   ss << "  " << topic_name << ": ";
+  //     //   for (const auto &type_name : types) {
+  //     //     ss << type_name << " ";
+  //     //   }
+  //     //   ss << "\n";
+  //     // }
+  //     // RCLCPP_INFO_STREAM(this->get_logger(), ss.str());
+  //     // for (const auto &topic_and_types : topics) {
+  //     //   if (topic_and_types.first == "/cmd_vel") {
+  //     //     cmd_vel_topic = "/cmd_vel";
+  //     //     break;
+  //     //   } else {
+  //     //     cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
+  //     //   }
+  //     // }
+
+  //     // RCLCPP_INFO(this->get_logger(), "Identified cmd_vel topic as : %s",
+  //     //             cmd_vel_topic.c_str());
+
+  //     // RCLCPP_INFO(this->get_logger(), "Identified odom frame as    : %s",
+  //     //             odom_frame.c_str());
+  //   }
 
   void laser_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
     // Store latest scan
@@ -287,7 +443,11 @@ private:
     // Transform to global frame ("odom")
     geometry_msgs::msg::PointStamped point_in_odom;
     try {
-      point_in_odom = tf_buffer_->transform(point_in_laser, "odom",
+      //   point_in_odom = tf_buffer_->transform(point_in_laser, "odom",
+      //                                         tf2::durationFromSec(1.0));
+      //   point_in_odom = tf_buffer_->transform(point_in_laser, "robot_odom",
+      //                                         tf2::durationFromSec(1.0));
+      point_in_odom = tf_buffer_->transform(point_in_laser, odom_frame_,
                                             tf2::durationFromSec(1.0));
     } catch (tf2::TransformException &ex) {
       RCLCPP_ERROR(this->get_logger(), "Transform failed: %s", ex.what());
@@ -297,7 +457,9 @@ private:
     // Broadcast static TF from "odom" to "cart_frame"
     geometry_msgs::msg::TransformStamped tf_msg;
     tf_msg.header.stamp = this->get_clock()->now();
-    tf_msg.header.frame_id = "odom";
+    // tf_msg.header.frame_id = "odom";
+    // tf_msg.header.frame_id = "robot_odom";
+    tf_msg.header.frame_id = odom_frame_;
     tf_msg.child_frame_id = "cart_frame";
     tf_msg.transform.translation.x = point_in_odom.point.x;
     tf_msg.transform.translation.y = point_in_odom.point.y;
@@ -320,7 +482,8 @@ private:
   bool perform_final_approach() {
     RCLCPP_INFO(this->get_logger(), "Starting to approach shelf");
 
-    std::string robot_frame = "robot_base_link";
+    // std::string robot_frame = "robot_base_link";
+    std::string robot_frame = base_frame_;
     std::string target_frame = "cart_frame";
 
     geometry_msgs::msg::TransformStamped transform_stamped;
@@ -386,33 +549,37 @@ private:
     RCLCPP_INFO(this->get_logger(), "Moving forward to cart_frame (%.2f m)...",
                 distance_to_target);
 
-    twist_msg.linear.x = 0.3;
-    twist_msg.angular.z = 0.0;
+    // twist_msg.linear.x = 0.3;
+    // twist_msg.angular.z = 0.0;
 
-    // Move for calculated time to reach cart_frame
-    double move_time = distance_to_target / 0.2;
-    auto start_time = this->now();
+    // // Move for calculated time to reach cart_frame
+    // double move_time = distance_to_target / 0.2;
+    // auto start_time = this->now();
 
-    while ((this->now() - start_time).seconds() < move_time) {
-      cmd_vel_publisher_->publish(twist_msg);
-    }
+    // while ((this->now() - start_time).seconds() < move_time) {
+    //   cmd_vel_publisher_->publish(twist_msg);
+    // }
+    move_forward(distance_to_target, 0.3);
 
     RCLCPP_INFO(this->get_logger(), "Reached cart_frame position");
+
+    std::chrono::milliseconds(2000);
 
     // Move forward additional 30cm to go under shelf
     RCLCPP_INFO(this->get_logger(), "Moving 30cm forward to go under shelf...");
 
-    twist_msg.linear.x = 0.3;
-    start_time = this->now();
+    // twist_msg.linear.x = 0.3;
+    // start_time = this->now();
 
-    while ((this->now() - start_time).seconds() < 1.5) {
-      // 0.2 m/s * 1.5s = 0.3m
-      cmd_vel_publisher_->publish(twist_msg);
-    }
+    // while ((this->now() - start_time).seconds() < 1.5) {
+    //   // 0.2 m/s * 1.5s = 0.3m
+    //   cmd_vel_publisher_->publish(twist_msg);
+    // }
 
-    // Final stop
-    twist_msg.linear.x = 0.0;
-    cmd_vel_publisher_->publish(twist_msg);
+    // // Final stop
+    // twist_msg.linear.x = 0.0;
+    // cmd_vel_publisher_->publish(twist_msg);
+    move_forward(0.3, 0.2);
 
     RCLCPP_INFO(this->get_logger(), "Robot positioned under shelf");
 
@@ -442,6 +609,44 @@ private:
     RCLCPP_INFO(this->get_logger(), "Shelf lifted successfully");
 
     return true;
+  }
+
+  void move_forward(double distance, double speed) {
+    if (speed <= 0.0) {
+      RCLCPP_ERROR(this->get_logger(), "Speed must be positive!");
+      return;
+    }
+    distance += 0.18;
+    // Time calculation
+    double duration = distance / speed;
+    auto start = this->now();
+
+    // 50 Hz loop
+    rclcpp::Rate rate(50);
+
+    geometry_msgs::msg::Twist cmd;
+    cmd.linear.x = speed;
+
+    RCLCPP_INFO(this->get_logger(),
+                "Moving forward: distance=%.2f m speed=%.2f m/s (%.2f seconds)",
+                distance, speed, duration);
+
+    while (rclcpp::ok()) {
+      rclcpp::Time now = this->now();
+      double elapsed = (now - start).seconds();
+
+      if (elapsed >= duration) {
+        RCLCPP_INFO(this->get_logger(), "Distance reached. Stopping.");
+        break;
+      }
+
+      cmd_vel_publisher_->publish(cmd);
+      rate.sleep();
+    }
+
+    // stop the robot
+    geometry_msgs::msg::Twist stop_msg;
+    cmd_vel_publisher_->publish(stop_msg);
   }
 };
 

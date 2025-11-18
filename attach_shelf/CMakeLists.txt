@@ -17,6 +17,8 @@ find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
+# find_package(ament_cmake REQUIRED)
+find_package(robot_config REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -33,6 +35,17 @@ endif()
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/GoToLoading.srv"
 )
+
+# Utils Library (for frame & topic helpers)
+# include_directories(include)
+add_library(utils src/utils.cpp)
+target_include_directories(
+	utils 
+	PUBLIC 
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+ament_target_dependencies(utils rclcpp tf2_ros)
+
 
 add_executable(pre_approach src/pre_approach.cpp)
 ament_target_dependencies(pre_approach rclcpp sensor_msgs geometry_msgs nav_msgs tf2 tf2_ros tf2_geometry_msgs )
@@ -65,6 +78,19 @@ rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typ
 target_link_libraries(pre_approach_v2 "${cpp_typesupport_target}")
 target_link_libraries(approach_service_server "${cpp_typesupport_target}")
 
+
+# Link utils library
+target_link_libraries(pre_approach utils)				# utils not implemented yet
+target_link_libraries(pre_approach_v2 utils)			# utils not implemented yet
+target_link_libraries(approach_service_server utils)	# utils implemented
+
+# Install utils library
+install(TARGETS utils
+  EXPORT export_${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}  # only if needed for Windows
+)
 
 install(TARGETS
    pre_approach

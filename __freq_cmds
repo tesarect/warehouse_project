@@ -12,6 +12,8 @@ source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplann
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/scripts/move_shelf_to_ship.py
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship.py
+python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/moveShelf_sim.py
+
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/manual_movement.py
 python3 -i ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/manual_movement.py
 
