@@ -5,7 +5,7 @@ ros2 launch the_construct_office_gazebo warehouse_rb1.launch.xml
 
 cd ~/ros2_ws && colcon build && source install/setup.bash
 
-ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml
+ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml > __lo_op 2>&1
 
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True > __pp_op 2>&1
@@ -22,6 +22,9 @@ ros2 run attach_shelf approach_service_server
 ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}44
 
 ros2 run tf2_tools view_frames
+
+ros2 run <package_name> <executable_name> --ros-args -p speed:=20 -p mode:=manual
+
 
 Real robot:
 ==========

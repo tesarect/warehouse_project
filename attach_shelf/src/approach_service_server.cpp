@@ -7,6 +7,7 @@
 #include "rclcpp/publisher.hpp"
 #include "rclcpp/service.hpp"
 #include "rclcpp/subscription.hpp"
+#include "rclcpp/utilities.hpp"
 #include "sensor_msgs/msg/detail/laser_scan__struct.hpp"
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/transform_listener.h"
@@ -18,6 +19,7 @@
 #include <ios>
 #include <iterator>
 #include <memory>
+#include <rclcpp/executors.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <sstream>
@@ -27,7 +29,7 @@
 #include <type_traits>
 #include <vector>
 
-// DYNAMIC INTENSITY THRESHOLD
+// DYNAMIC INTENSITY THRESHOLD - currently working on this
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -38,25 +40,29 @@ class ApproachServiceServer : public rclcpp::Node {
 public:
   ApproachServiceServer() : Node("approach_service_server") {
 
-    // tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
-    // tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
-    // cart_static_tf_broadcaster_ =
-    //     std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
-
-    // if (!acquiring_topic_and_frame()) {
-    //   throw std::runtime_error("Failed to initialize TF frames/topics\nPlease
-    //   "
-    //                            "make changes if not handled");
-    // }
-
-    // Read parameters from `robot_config` pkg
-    this->declare_parameter<std::string>("odom_frame", "");
-    this->declare_parameter<std::string>("base_frame", "");
-    this->declare_parameter<std::string>("cmd_vel_topic", "");
+    this->declare_parameter<std::string>("odom_frame");
+    this->declare_parameter<std::string>("base_frame");
+    this->declare_parameter<std::string>("cmd_vel_topic");
+    this->declare_parameter<float>("align_ahead_dist");
+    this->declare_parameter<float>("align_cart_center_dist");
+    this->declare_parameter<double>("position_tolerance");
+    this->declare_parameter<double>("angle_tolerance");
+    this->declare_parameter<double>("angular_speed");
+    this->declare_parameter<double>("linear_speed");
+    this->declare_parameter<double>("shelf_center_distance");
+    this->declare_parameter<double>("shelf_center_speed");
 
     this->get_parameter("odom_frame", odom_frame_);
     this->get_parameter("base_frame", base_frame_);
     this->get_parameter("cmd_vel_topic", cmd_vel_topic_);
+    this->get_parameter("align_ahead_dist", align_ahead_dist_);
+    this->get_parameter("align_cart_center_dist", align_cart_center_dist_);
+    this->get_parameter("position_tolerance", position_tolerance_);
+    this->get_parameter("angle_tolerance", angle_tolerance_);
+    this->get_parameter("angular_speed", angular_speed_);
+    this->get_parameter("linear_speed", linear_speed_);
+    this->get_parameter("shelf_center_distance", shelf_center_distance_);
+    this->get_parameter("shelf_center_speed", shelf_center_speed_);
 
     RCLCPP_INFO(this->get_logger(),
                 "Parameters "
@@ -70,39 +76,6 @@ public:
             std::bind(&ApproachServiceServer::handle_approach_shelf, this, _1,
                       _2));
 
-    // auto topics = this->get_topic_names_and_types();
-    // std::stringstream ss;
-    // ss << "Topics visible for attach shelf package:\n";
-
-    // for (const auto &entry : topics) {
-    //   const auto &topic_name = entry.first;
-    //   const auto &types = entry.second;
-
-    //   ss << "  " << topic_name << ": ";
-    //   for (const auto &type_name : types) {
-    //     ss << type_name << " ";
-    //   }
-    //   ss << "\n";
-    // }
-    // RCLCPP_INFO_STREAM(this->get_logger(), ss.str());
-
-    // bool real_robot = false;
-
-    // for (const auto &topic_and_types : topics) {
-    //   if (topic_and_types.first == "/cmd_vel") {
-    //     real_robot = true;
-    //     break;
-    //   }
-    // }
-
-    // // Simulation's Topic names
-    // std::string cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
-
-    // // Real Robot's Topic names
-    // if (real_robot) {
-    //   std::string cmd_vel_topic = "/cmd_vel";
-    // }
-
     laser_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
         "/scan", 10,
         std::bind(&ApproachServiceServer::laser_callback, this, _1));
@@ -112,19 +85,23 @@ public:
         std::bind(&ApproachServiceServer::odom_callback, this,
                   std::placeholders::_1));
 
-    // cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
-    //     "/diffbot_base_controller/cmd_vel_unstamped", 10);
     cmd_vel_publisher_ =
         this->create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic_, 10);
 
     // TF broadcaster
-    cart_static_tf_broadcaster_ =
+    cart_ahead_static_tf_broadcaster_ =
         std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+    cart_entry_static_tf_broadcaster_ =
+        std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+    cart_center_static_tf_broadcaster_ =
+        std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
     tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
     cartframe_broadcasted_ = false;
-    legs_found = false;
+    alignframe_broadcasted_ = false;
+    legs_found_ = false;
     current_yaw_ = 0.0;
     front_distance_ = std::numeric_limits<double>::infinity();
 
@@ -140,132 +117,42 @@ private:
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
   std::shared_ptr<tf2_ros::StaticTransformBroadcaster>
-      cart_static_tf_broadcaster_;
+      cart_ahead_static_tf_broadcaster_;
+  std::shared_ptr<tf2_ros::StaticTransformBroadcaster>
+      cart_entry_static_tf_broadcaster_;
+  std::shared_ptr<tf2_ros::StaticTransformBroadcaster>
+      cart_center_static_tf_broadcaster_;
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
 
   // Parameters
-  //   const float intensities_threshold_ = 5700.0f;
   float intensities_threshold_ = 0.0f;
+  float align_ahead_dist_;
+  float align_cart_center_dist_;
+  bool alignframe_broadcasted_;
   bool cartframe_broadcasted_;
-  bool legs_found;
-  double current_yaw_;
+  bool legs_found_;
+  bool shelf_attached_;
+  bool odom_received_ = false;
+  double current_x_ = 0.0;
+  double current_y_ = 0.0;
+  double current_yaw_ = 0.0;
   double front_distance_;
+  float align_angle_threshold_ = 0.5;
+  double align_angular_speed_;
+  double position_tolerance_;
+  double angular_speed_;
+  double angle_tolerance_;
+  double linear_speed_;
+  double shelf_center_speed_;
+  double shelf_center_distance_;
   std::string odom_frame_;
   std::string base_frame_;
   std::string cmd_vel_topic_;
+  const std::string cart_ahead_frame_ = "alignment_correction_frame";
+  const std::string cart_entry_frame_ = "cart_entry_frame";
+  const std::string cart_center_frame_ = "cart_frame";
   sensor_msgs::msg::LaserScan::SharedPtr latest_scan_;
-
-  //   bool acquiring_topic_and_frame() {
-  //     // Choose odom frame
-  //     odom_frame_ = utils::pick_first_available_frame(
-  //         {"robot_odom", "odom"}, tf_buffer_, this->get_logger());
-
-  //     if (odom_frame_.empty())
-  //       return false;
-
-  //     // Choose base frame
-  //     base_frame_ = utils::pick_first_available_frame(
-  //         {"robot_base_link", "base_link"}, tf_buffer_, this->get_logger());
-
-  //     if (base_frame_.empty())
-  //       return false;
-
-  //     // Choose cmd_vel topic
-  //     cmd_vel_topic_ = utils::pick_first_available_topic(
-  //         {"/cmd_vel", "/robot/cmd_vel",
-  //          "/diffbot_base_controller/cmd_vel_unstamped"},
-  //         this, this->get_logger());
-
-  //     if (cmd_vel_topic_.empty())
-  //       return false;
-
-  //     return true;
-  //     //   // Choose odom frame
-  //     // odom_frame_ = utils::pick_first_available_frame(
-  //     //     {"robot_odom", "odom"},
-  //     //     tf_buffer_,
-  //     //     this->get_logger()
-  //     // );
-
-  //     // if (odom_frame_.empty()) return false;
-
-  //     // // Choose base frame
-  //     // base_frame_ = utils::pick_first_available_frame(
-  //     //     {"robot_base_link", "base_link"},
-  //     //     tf_buffer_,
-  //     //     this->get_logger()
-  //     // );
-
-  //     // if (base_frame_.empty()) return false;
-
-  //     // // Choose cmd_vel topic
-  //     // cmd_vel_topic_ = utils::pick_first_available_topic(
-  //     //     {"/cmd_vel", "/robot/cmd_vel",
-  //     "/diffbot_base_controller/cmd_vel"},
-  //     //     shared_from_this(),
-  //     //     this->get_logger()
-  //     // );
-
-  //     // if (cmd_vel_topic_.empty()) return false;
-
-  //     // return true;
-  //     // ---------------------------------------------------
-
-  //     // // Odom fram acquisition
-  //     // std::vector<std::string> frames;
-  //     // tf_buffer_->_getFrameStrings(frames);
-  //     // for (const auto &f : frames) {
-  //     //   RCLCPP_INFO(this->get_logger(), "TF Frame: %s", f.c_str());
-  //     // }
-
-  //     // // Prefer robot_odom if present, else fallback to odom
-  //     // if (std::find(frames.begin(), frames.end(), "robot_odom") !=
-  //     // frames.end()) {
-  //     //   odom_frame = "robot_odom";
-  //     // } else if (std::find(frames.begin(), frames.end(), "odom") !=
-  //     //            frames.end()) {
-  //     //   odom_frame = "odom";
-  //     // } else {
-  //     //   RCLCPP_ERROR(this->get_logger(),
-  //     //                "Neither 'robot_odom' nor 'odom' exist!");
-  //     //   return false;
-  //     // }
-
-  //     // RCLCPP_INFO(this->get_logger(), "Selected odom frame: %s",
-  //     //             odom_frame.c_str());
-
-  //     // // Right command for cmd_vel
-  //     // auto topics = this->get_topic_names_and_types();
-  //     // std::stringstream ss;
-  //     // ss << "Topics visible for attach shelf package:\n";
-
-  //     // for (const auto &entry : topics) {
-  //     //   const auto &topic_name = entry.first;
-  //     //   const auto &types = entry.second;
-
-  //     //   ss << "  " << topic_name << ": ";
-  //     //   for (const auto &type_name : types) {
-  //     //     ss << type_name << " ";
-  //     //   }
-  //     //   ss << "\n";
-  //     // }
-  //     // RCLCPP_INFO_STREAM(this->get_logger(), ss.str());
-  //     // for (const auto &topic_and_types : topics) {
-  //     //   if (topic_and_types.first == "/cmd_vel") {
-  //     //     cmd_vel_topic = "/cmd_vel";
-  //     //     break;
-  //     //   } else {
-  //     //     cmd_vel_topic = "/diffbot_base_controller/cmd_vel_unstamped";
-  //     //   }
-  //     // }
-
-  //     // RCLCPP_INFO(this->get_logger(), "Identified cmd_vel topic as : %s",
-  //     //             cmd_vel_topic.c_str());
-
-  //     // RCLCPP_INFO(this->get_logger(), "Identified odom frame as    : %s",
-  //     //             odom_frame.c_str());
-  //   }
 
   void laser_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
     // Store latest scan
@@ -277,7 +164,11 @@ private:
   }
 
   void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg) {
-    // Convert quaternion to yaw angle
+
+    current_x_ = msg->pose.pose.position.x;
+    current_y_ = msg->pose.pose.position.y;
+
+    // Extract yaw from quaternion
     tf2::Quaternion q(
         msg->pose.pose.orientation.x, msg->pose.pose.orientation.y,
         msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
@@ -285,6 +176,7 @@ private:
     tf2::Matrix3x3 m(q);
     double roll, pitch;
     m.getRPY(roll, pitch, current_yaw_);
+    odom_received_ = true;
   }
 
   void handle_approach_shelf(
@@ -306,20 +198,26 @@ private:
     }
 
     // Static TF broadcast of cart_frame
-    if (!cartframe_broadcasted_) {
+    if (!cartframe_broadcasted_ && !alignframe_broadcasted_) {
 
       RCLCPP_INFO(this->get_logger(),
                   "Detecting Legs being requested as no legs found yet");
-      legs_found = detect_and_broadcast_cart_frame();
+      legs_found_ = detect_and_broadcast_cart_frame();
 
-      if (!legs_found) {
+      if (!legs_found_) {
         RCLCPP_WARN(this->get_logger(), "Could not detect 2 shelf legs");
         response->complete = false;
         return;
       }
 
+      alignframe_broadcasted_ = true;
+      RCLCPP_INFO(this->get_logger(), "Align frame successfully broadcasted");
+
       cartframe_broadcasted_ = true;
       RCLCPP_INFO(this->get_logger(), "Cart frame successfully broadcasted");
+    } else {
+      RCLCPP_ERROR(this->get_logger(), "Align frame NOT broadcasted");
+      RCLCPP_ERROR(this->get_logger(), "Cart frame NOT broadcasted");
     }
 
     // If attach_to_shelf is true, perform final approach
@@ -328,7 +226,7 @@ private:
       response->complete = success;
     } else {
       // Just detection and TF broadcast, no movement
-      response->complete = true;
+      response->complete = true; // ? doubtful Need to test this scenario
     }
   }
 
@@ -344,10 +242,6 @@ private:
     float max_intensity =
         *std::max_element(intensity_data.begin(), intensity_data.end());
     intensities_threshold_ = max_intensity * 0.75f;
-    // considering 3 - 4th of the intensity as threshold
-    // intensities_threshold_ =
-    //     (*std::max_element(intensity_data.begin(), intensity_data.end())) *
-    //     0.75f;
 
     RCLCPP_INFO(this->get_logger(), "max intensity found to be : %f",
                 max_intensity);
@@ -430,185 +324,456 @@ private:
     float x2 = range_right * std::cos(angle_right);
     float y2 = range_right * std::sin(angle_right);
 
-    float mid_x = (x1 + x2) / 2.0f;
-    float mid_y = (y1 + y2) / 2.0f;
+    float center_entry_x = (x1 + x2) / 2.0f;
+    float center_entry_y = (y1 + y2) / 2.0f;
 
-    // Create the cart midpoint in laser frame
-    geometry_msgs::msg::PointStamped point_in_laser;
-    point_in_laser.header.frame_id = latest_scan_->header.frame_id;
-    point_in_laser.point.x = mid_x;
-    point_in_laser.point.y = mid_y;
-    point_in_laser.point.z = 0.0;
+    // Line that is perpendicular to legs passing through cart frame for
+    // alignment Direction vector (leg to leg) and length
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    float length = std::sqrt(dx * dx + dy * dy);
 
-    // Transform to global frame ("odom")
-    geometry_msgs::msg::PointStamped point_in_odom;
+    // Perpendicular unit vector
+    float perp_x = -dy / length;
+    float perp_y = dx / length;
+
+    // Alignment correction frame coordinates
+    float ahead_offset = align_ahead_dist_;
+    float ahead_x = center_entry_x + ahead_offset * perp_x;
+    float ahead_y = center_entry_y + ahead_offset * perp_y;
+
+    // Cart center frame coordinates
+    float beyond_offset = align_cart_center_dist_;
+    float cart_center_x = center_entry_x - beyond_offset * perp_x;
+    float cart_center_y = center_entry_y - beyond_offset * perp_y;
+
+    // Create the alignment frame before cart frame
+    geometry_msgs::msg::PointStamped cart_ahead_point;
+    cart_ahead_point.header.frame_id = latest_scan_->header.frame_id;
+    cart_ahead_point.point.x = ahead_x;
+    cart_ahead_point.point.y = ahead_y;
+    cart_ahead_point.point.z = 0.0;
+
+    // Transform to global frame (map)
+    geometry_msgs::msg::PointStamped cart_ahead_tf_odom;
     try {
-      //   point_in_odom = tf_buffer_->transform(point_in_laser, "odom",
-      //                                         tf2::durationFromSec(1.0));
-      //   point_in_odom = tf_buffer_->transform(point_in_laser, "robot_odom",
-      //                                         tf2::durationFromSec(1.0));
-      point_in_odom = tf_buffer_->transform(point_in_laser, odom_frame_,
-                                            tf2::durationFromSec(1.0));
+      cart_ahead_tf_odom = tf_buffer_->transform(cart_ahead_point, odom_frame_,
+                                                 tf2::durationFromSec(1.0));
+    } catch (tf2::TransformException &ex) {
+      RCLCPP_ERROR(this->get_logger(), "Transform failed: %s", ex.what());
+      return false;
+    }
+
+    // Broadcast static TF from "odom" to "alignment_correction_frame"
+    geometry_msgs::msg::TransformStamped cart_ahead_tf;
+    cart_ahead_tf.header.stamp = this->get_clock()->now();
+    cart_ahead_tf.header.frame_id = odom_frame_;
+    cart_ahead_tf.child_frame_id = cart_ahead_frame_;
+    cart_ahead_tf.transform.translation.x = cart_ahead_tf_odom.point.x;
+    cart_ahead_tf.transform.translation.y = cart_ahead_tf_odom.point.y;
+    cart_ahead_tf.transform.translation.z = 0.0;
+
+    // Orientation: perpendicular direction (for proper heading)
+    float align_yaw = std::atan2(ahead_y, ahead_x);
+
+    // Rotate 90° left
+    // align_yaw = align_yaw + M_PI_2; // pi/2
+    align_yaw = align_yaw - M_PI_2; // pi/2
+    cart_ahead_tf.transform.rotation = tf2::toMsg(tf2::Quaternion(
+        0, 0, std::sin(align_yaw / 2), std::cos(align_yaw / 2)));
+
+    cart_ahead_static_tf_broadcaster_->sendTransform(cart_ahead_tf);
+
+    RCLCPP_INFO(this->get_logger(),
+                "Broadcasted static -%s- at (%.2f, %.2f) in Global frame",
+                cart_ahead_frame_.c_str(), cart_ahead_tf_odom.point.x,
+                cart_ahead_tf_odom.point.y);
+
+    // Create the cart center frame
+    geometry_msgs::msg::PointStamped cart_center_point;
+    cart_center_point.header.frame_id = latest_scan_->header.frame_id;
+    cart_center_point.point.x = cart_center_x;
+    cart_center_point.point.y = cart_center_y;
+    cart_center_point.point.z = 0.0;
+
+    // Transform cart frame to global frame ("odom")
+    geometry_msgs::msg::PointStamped cart_center_tf_odom;
+    try {
+      cart_center_tf_odom = tf_buffer_->transform(
+          cart_center_point, odom_frame_, tf2::durationFromSec(1.0));
     } catch (tf2::TransformException &ex) {
       RCLCPP_ERROR(this->get_logger(), "Transform failed: %s", ex.what());
       return false;
     }
 
     // Broadcast static TF from "odom" to "cart_frame"
-    geometry_msgs::msg::TransformStamped tf_msg;
-    tf_msg.header.stamp = this->get_clock()->now();
-    // tf_msg.header.frame_id = "odom";
-    // tf_msg.header.frame_id = "robot_odom";
-    tf_msg.header.frame_id = odom_frame_;
-    tf_msg.child_frame_id = "cart_frame";
-    tf_msg.transform.translation.x = point_in_odom.point.x;
-    tf_msg.transform.translation.y = point_in_odom.point.y;
-    tf_msg.transform.translation.z = 0.0;
-    tf_msg.transform.rotation.w = 1.0;
-    tf_msg.transform.rotation.x = 0.0;
-    tf_msg.transform.rotation.y = 0.0;
-    tf_msg.transform.rotation.z = 0.0;
+    geometry_msgs::msg::TransformStamped cart_center_tf;
+    cart_center_tf.header.stamp = this->get_clock()->now();
+    cart_center_tf.header.frame_id = odom_frame_;
+    // cart_center_tf.child_frame_id = "cart_center_frame";
+    cart_center_tf.child_frame_id = cart_center_frame_;
+    cart_center_tf.transform.translation.x = cart_center_tf_odom.point.x;
+    cart_center_tf.transform.translation.y = cart_center_tf_odom.point.y;
+    cart_center_tf.transform.translation.z = 0.0;
 
-    cart_static_tf_broadcaster_->sendTransform(tf_msg);
+    // Orientation: perpendicular direction (for proper heading)
+    float cart_center_yaw = std::atan2(center_entry_y, center_entry_x);
+
+    // Rotate 90° right
+    // cart_yaw = cart_yaw + M_PI_2; // pi/2
+    cart_center_yaw = cart_center_yaw - M_PI_2; // pi/2
+    cart_center_tf.transform.rotation = tf2::toMsg(tf2::Quaternion(
+        0, 0, std::sin(cart_center_yaw / 2), std::cos(cart_center_yaw / 2)));
+
+    cart_center_static_tf_broadcaster_->sendTransform(cart_center_tf);
 
     RCLCPP_INFO(this->get_logger(),
-                "Broadcasted cart_frame at (%.2f, %.2f) in odom frame (was "
-                "(%.2f, %.2f) in laser frame)",
-                point_in_odom.point.x, point_in_odom.point.y, mid_x, mid_y);
+                "Broadcasted static -%s- at (%.2f, %.2f) in odom frame",
+                cart_entry_frame_.c_str(), cart_center_tf_odom.point.x,
+                cart_center_tf_odom.point.y);
+
+    // Create the cart_entry_frame
+    geometry_msgs::msg::PointStamped cart_entry_point;
+    cart_entry_point.header.frame_id = latest_scan_->header.frame_id;
+    cart_entry_point.point.x = center_entry_x;
+    cart_entry_point.point.y = center_entry_y;
+    cart_entry_point.point.z = 0.0;
+
+    // Transform cart frame to global frame ("odom")
+    geometry_msgs::msg::PointStamped cart_entry_tf_odom;
+    try {
+      cart_entry_tf_odom = tf_buffer_->transform(cart_entry_point, odom_frame_,
+                                                 tf2::durationFromSec(1.0));
+    } catch (tf2::TransformException &ex) {
+      RCLCPP_ERROR(this->get_logger(), "Transform failed: %s", ex.what());
+      return false;
+    }
+
+    // Broadcast static TF from "odom" to "cart_entry_frame"
+    geometry_msgs::msg::TransformStamped cart_entry_tf;
+    cart_entry_tf.header.stamp = this->get_clock()->now();
+    cart_entry_tf.header.frame_id = odom_frame_;
+    cart_entry_tf.child_frame_id = cart_entry_frame_;
+    cart_entry_tf.transform.translation.x = cart_entry_tf_odom.point.x;
+    cart_entry_tf.transform.translation.y = cart_entry_tf_odom.point.y;
+    cart_entry_tf.transform.translation.z = 0.0;
+
+    // Orientation: perpendicular direction (for proper heading)
+    float cart_yaw = std::atan2(center_entry_y, center_entry_x);
+
+    // Rotate 90° right
+    // cart_yaw = cart_yaw + M_PI_2; // pi/2
+    cart_yaw = cart_yaw - M_PI_2; // pi/2
+    cart_entry_tf.transform.rotation = tf2::toMsg(
+        tf2::Quaternion(0, 0, std::sin(cart_yaw / 2), std::cos(cart_yaw / 2)));
+
+    cart_ahead_static_tf_broadcaster_->sendTransform(cart_entry_tf);
+
+    RCLCPP_INFO(this->get_logger(),
+                "Broadcasted static -%s- at (%.2f, %.2f) in Global frame",
+                cart_entry_frame_.c_str(), cart_entry_tf_odom.point.x,
+                cart_entry_tf_odom.point.y);
 
     return true;
   }
 
   bool perform_final_approach() {
-    RCLCPP_INFO(this->get_logger(), "Starting to approach shelf");
 
-    // std::string robot_frame = "robot_base_link";
     std::string robot_frame = base_frame_;
-    std::string target_frame = "cart_frame";
 
-    geometry_msgs::msg::TransformStamped transform_stamped;
+    // move it to debug
+    RCLCPP_INFO(get_logger(), "Starting Final Approach (Direct Control)");
 
-    try {
-      // Wait up to 3 seconds for the transform
-      if (!tf_buffer_->canTransform(robot_frame, target_frame,
-                                    tf2::TimePointZero,
-                                    std::chrono::seconds(3))) {
-        RCLCPP_ERROR(this->get_logger(),
-                     "Transform from %s to %s not available",
-                     robot_frame.c_str(), target_frame.c_str());
-        return false;
-      }
+    // STEP 1: Navigate to align position
+    RCLCPP_INFO(get_logger(), "Step 1/3: Moving to align position...");
 
-      // Get the transform
-      transform_stamped = tf_buffer_->lookupTransform(robot_frame, target_frame,
-                                                      tf2::TimePointZero);
-
-      RCLCPP_INFO(this->get_logger(), "`cart_frame` TF found: x=%.2f, y=%.2f",
-                  transform_stamped.transform.translation.x,
-                  transform_stamped.transform.translation.y);
-
-    } catch (tf2::TransformException &ex) {
-      RCLCPP_ERROR(this->get_logger(), "TF2 exception: %s", ex.what());
+    if (!move_to_tf_frame(cart_ahead_frame_)) {
+      RCLCPP_ERROR(get_logger(), "Failed to reach align position");
+      stop_robot();
       return false;
     }
 
-    // Navigate to cart_frame using the transform
-    double target_x = transform_stamped.transform.translation.x;
-    double target_y = transform_stamped.transform.translation.y;
+    RCLCPP_INFO(get_logger(), "Step 1 Complete: Reached align position!");
 
-    // Calculate distance and angle to target
-    double distance_to_target =
-        std::sqrt(target_x * target_x + target_y * target_y);
-    double angle_to_target = std::atan2(target_y, target_x);
-
-    RCLCPP_INFO(this->get_logger(),
-                "Distance to cart_frame: %.2f m, Angle: %.2f rad (%.1f deg)",
-                distance_to_target, angle_to_target,
-                angle_to_target * 180.0 / M_PI);
-
-    auto twist_msg = geometry_msgs::msg::Twist();
-
-    // Rotate to face the target (if needed)
-    if (std::abs(angle_to_target) > 0.05) { // > ~3 degrees
-      RCLCPP_INFO(this->get_logger(), "Rotating to face cart_frame...");
-
-      twist_msg.linear.x = 0.0;
-      twist_msg.angular.z = (angle_to_target > 0) ? 0.3 : -0.3;
-
-      // Rotate for calculated time
-      double rotation_time = std::abs(angle_to_target) / 0.3;
-      auto start_time = this->now();
-
-      while ((this->now() - start_time).seconds() < rotation_time) {
-        cmd_vel_publisher_->publish(twist_msg);
-        rclcpp::sleep_for(std::chrono::milliseconds(50));
-      }
-    }
-
-    // Move forward to cart_frame position
-    RCLCPP_INFO(this->get_logger(), "Moving forward to cart_frame (%.2f m)...",
-                distance_to_target);
-
-    // twist_msg.linear.x = 0.3;
-    // twist_msg.angular.z = 0.0;
-
-    // // Move for calculated time to reach cart_frame
-    // double move_time = distance_to_target / 0.2;
-    // auto start_time = this->now();
-
-    // while ((this->now() - start_time).seconds() < move_time) {
-    //   cmd_vel_publisher_->publish(twist_msg);
-    // }
-    move_forward(distance_to_target, 0.3);
-
-    RCLCPP_INFO(this->get_logger(), "Reached cart_frame position");
-
-    std::chrono::milliseconds(2000);
-
-    // Move forward additional 30cm to go under shelf
-    RCLCPP_INFO(this->get_logger(), "Moving 30cm forward to go under shelf...");
-
-    // twist_msg.linear.x = 0.3;
-    // start_time = this->now();
-
-    // while ((this->now() - start_time).seconds() < 1.5) {
-    //   // 0.2 m/s * 1.5s = 0.3m
-    //   cmd_vel_publisher_->publish(twist_msg);
-    // }
-
-    // // Final stop
-    // twist_msg.linear.x = 0.0;
-    // cmd_vel_publisher_->publish(twist_msg);
-    move_forward(0.3, 0.2);
-
-    RCLCPP_INFO(this->get_logger(), "Robot positioned under shelf");
-
-    // Lift the shelf
+    // Small pause between waypoints
+    // stop_robot();
     rclcpp::sleep_for(std::chrono::milliseconds(500));
 
-    auto elevator_publisher =
-        this->create_publisher<std_msgs::msg::String>("/elevator_up", 10);
-    rclcpp::sleep_for(
-        std::chrono::milliseconds(1000)); // Let publisher initialize
+    // STEP 2: Navigate to cart position
+    RCLCPP_INFO(get_logger(), "Step 2/3: Moving to cart position...");
 
-    auto elevator_msg = std_msgs::msg::String();
-    elevator_msg.data = "";
-    // elevator_publisher->publish(elevator_msg);
-
-    // Publish message multiple times with small delays
-    for (int i = 0; i < 3; i++) {
-      elevator_publisher->publish(elevator_msg);
-      RCLCPP_INFO(this->get_logger(), "Published elevator up message (%d/3)",
-                  i + 1);
-      rclcpp::sleep_for(
-          std::chrono::milliseconds(500)); // 500ms delay between messages
+    if (!move_to_tf_frame(cart_entry_frame_)) {
+      RCLCPP_ERROR(get_logger(), "Failed to reach cart position");
+      stop_robot();
+      return false;
     }
-    rclcpp::sleep_for(
-        std::chrono::milliseconds(5500)); // Let publisher initialize
 
-    RCLCPP_INFO(this->get_logger(), "Shelf lifted successfully");
+    RCLCPP_INFO(get_logger(), "Step 2 Complete: Reached cart position!");
+    // stop_robot();
+
+    RCLCPP_INFO(get_logger(), "Step 3/3: Moving to cart center position...");
+    // move_forward(shelf_center_distance_, shelf_center_speed_);
+    if (!move_to_tf_frame(cart_center_frame_)) {
+      RCLCPP_ERROR(get_logger(), "Failed to reach cart position");
+      stop_robot();
+      return false;
+    }
+
+    RCLCPP_INFO(get_logger(), "Step 3 Complete: Reached cart position!");
+    // stop_robot();
+
+    shelf_attached_ = attach_shelf();
+
+    RCLCPP_INFO(get_logger(), "Final Approach Complete");
 
     return true;
+  }
+
+  bool move_to_tf_frame(const std::string &frame_name) {
+
+    // Get goal pose from TF
+    double goal_x, goal_y, goal_yaw;
+    if (!get_pose_from_tf(frame_name, goal_x, goal_y, goal_yaw)) {
+      RCLCPP_INFO(get_logger(), "Failed to get goal pose from TF");
+      return false;
+    }
+
+    RCLCPP_INFO(get_logger(),
+                "Target: (%.2f, %.2f, %.2f°) | Current: (%.2f, %.2f, %.2f°)",
+                goal_x, goal_y, goal_yaw * 180.0 / M_PI, current_x_, current_y_,
+                current_yaw_ * 180.0 / M_PI);
+
+    // Phase 1: Rotate to face the goal
+    if (!rotate_to_face_goal(goal_x, goal_y)) {
+      return false;
+    }
+
+    // Phase 2: Drive forward to goal position
+    if (!drive_to_position(goal_x, goal_y)) {
+      return false;
+    }
+
+    // Phase 3: Rotate to final orientation
+    if (!rotate_to_angle(goal_yaw)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool get_robot_pose_from_tf(double &x, double &y, double &yaw) {
+    try {
+      auto transform = tf_buffer_->lookupTransform(odom_frame_, base_frame_,
+                                                   tf2::TimePointZero);
+
+      x = transform.transform.translation.x;
+      y = transform.transform.translation.y;
+
+      tf2::Quaternion q(
+          transform.transform.rotation.x, transform.transform.rotation.y,
+          transform.transform.rotation.z, transform.transform.rotation.w);
+
+      double roll, pitch;
+      tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+
+      return true;
+    } catch (const tf2::TransformException &ex) {
+      return false;
+    }
+  }
+
+  bool get_pose_from_tf(const std::string &target_frame, double &x, double &y,
+                        double &yaw) {
+    try {
+      auto transform = tf_buffer_->lookupTransform(
+          odom_frame_, target_frame, tf2::TimePointZero,
+          std::chrono::milliseconds(500));
+
+      x = transform.transform.translation.x;
+      y = transform.transform.translation.y;
+
+      tf2::Quaternion q(
+          transform.transform.rotation.x, transform.transform.rotation.y,
+          transform.transform.rotation.z, transform.transform.rotation.w);
+
+      tf2::Matrix3x3 m(q);
+      double roll, pitch;
+      m.getRPY(roll, pitch, yaw);
+
+      // Debug logging
+      RCLCPP_INFO(
+          get_logger(), "TF Lookup: %s → %s: pos=(%.2f, %.2f), yaw=%.2f°",
+          odom_frame_.c_str(), target_frame.c_str(), x, y, yaw * 180.0 / M_PI);
+
+      return true;
+
+    } catch (const tf2::TransformException &ex) {
+      RCLCPP_ERROR(get_logger(), "Failed to get TF for '%s': %s",
+                   target_frame.c_str(), ex.what());
+      return false;
+    }
+  }
+
+  bool rotate_to_face_goal(double goal_x, double goal_y) {
+    RCLCPP_INFO(get_logger(), "Phase 1: Rotating to face goal...");
+
+    rclcpp::Rate rate(20); // 20 Hz control loop
+    int timeout_count = 0;
+    // const int max_timeout = 100; // 5 seconds at 20Hz
+    const int max_timeout = 200; // 10 seconds at 20Hz
+
+    while (rclcpp::ok()) {
+
+      double robot_x, robot_y, robot_yaw;
+      if (!get_robot_pose_from_tf(robot_x, robot_y, robot_yaw)) {
+        RCLCPP_WARN(get_logger(), "Failed to get robot pose from TF");
+        rate.sleep();
+        continue;
+      }
+
+      // Calculate desired angle to goal
+      double dx = goal_x - robot_x;
+      double dy = goal_y - robot_y;
+      double desired_yaw = atan2(dy, dx);
+
+      // Calculate angle error
+      double angle_error = normalize_angle(desired_yaw - robot_yaw);
+
+      RCLCPP_INFO_THROTTLE(
+          get_logger(), *get_clock(), 500,
+          "angle_error: (%.2f) | Current Yaw: (%.2f) → Goal Yaw: (%.2f)",
+          angle_error, robot_yaw, desired_yaw);
+
+      // Check if we're facing the goal
+      if (fabs(angle_error) < angle_tolerance_) {
+        stop_robot();
+        RCLCPP_INFO(get_logger(), "Facing Target frame");
+        return true;
+      }
+
+      // Send rotation command
+      geometry_msgs::msg::Twist cmd;
+      cmd.angular.z = copysign(angular_speed_, angle_error);
+      cmd_vel_publisher_->publish(cmd);
+
+      // Safety timeout
+      if (++timeout_count > max_timeout) {
+        RCLCPP_WARN(get_logger(), "Rotation timeout");
+        stop_robot();
+        return false;
+      }
+
+      rate.sleep();
+    }
+
+    return false;
+  }
+
+  bool drive_to_position(double goal_x, double goal_y) {
+    RCLCPP_INFO(get_logger(), "Phase 2: Driving to position...");
+
+    rclcpp::Rate rate(20); // 20 Hz control loop
+    int timeout_count = 0;
+    const int max_timeout = 200; // 10 seconds at 20Hz
+
+    while (rclcpp::ok()) {
+      // Get current robot position from TF
+      double robot_x, robot_y, robot_yaw;
+      if (!get_robot_pose_from_tf(robot_x, robot_y, robot_yaw)) {
+        RCLCPP_WARN(get_logger(), "Failed to get robot pose from TF");
+        rate.sleep();
+        continue;
+      }
+
+      // Calculate distance to goal
+      double dx = goal_x - robot_x;
+      double dy = goal_y - robot_y;
+      double distance = sqrt(dx * dx + dy * dy);
+
+      RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500,
+                           "Dist: %.2fm | Pos: (%.2f,%.2f) → Goal: (%.2f,%.2f)",
+                           distance, robot_x, robot_y, goal_x, goal_y);
+
+      // Check if we've reached the position
+      if (distance < position_tolerance_) {
+        stop_robot();
+        RCLCPP_INFO(get_logger(), "Reached position");
+        return true;
+      }
+
+      // Calculate heading error (to maintain direction)
+      double desired_yaw = atan2(dy, dx);
+      double angle_error = normalize_angle(desired_yaw - robot_yaw);
+
+      // Send drive command with heading correction
+      geometry_msgs::msg::Twist cmd;
+      cmd.linear.x = linear_speed_;
+      cmd.angular.z = 2.0 * angle_error; // Proportional heading correction
+
+      // Limit angular velocity
+      cmd.angular.z =
+          std::max(-angular_speed_, std::min(angular_speed_, cmd.angular.z));
+
+      cmd_vel_publisher_->publish(cmd);
+
+      // Safety timeout
+      if (++timeout_count > max_timeout) {
+        RCLCPP_WARN(get_logger(), "Drive timeout");
+        stop_robot();
+        return false;
+      }
+
+      rate.sleep();
+    }
+
+    return false;
+  }
+
+  bool rotate_to_angle(double goal_yaw) {
+    RCLCPP_INFO(get_logger(), "Phase 3: Rotating to final orientation...");
+
+    rclcpp::Rate rate(20); // 20 Hz control loop
+    int timeout_count = 0;
+    const int max_timeout = 100; // 5 seconds at 20Hz
+
+    while (rclcpp::ok()) {
+      double robot_x, robot_y, robot_yaw;
+      if (!get_robot_pose_from_tf(robot_x, robot_y, robot_yaw)) {
+        RCLCPP_WARN(get_logger(), "Failed to get robot pose from TF");
+        rate.sleep();
+        continue;
+      }
+
+      // Calculate angle error
+      double angle_error = normalize_angle(goal_yaw - robot_yaw);
+
+      RCLCPP_INFO_THROTTLE(
+          get_logger(), *get_clock(), 500,
+          "angle_error: (%.2f) | Current Yaw: (%.2f) → Goal Yaw: (%.2f)",
+          angle_error, robot_yaw, goal_yaw);
+      // Check if we're at the correct angle
+      if (fabs(angle_error) < angle_tolerance_) {
+        stop_robot();
+        RCLCPP_INFO(get_logger(), "Target frames orientation achieved");
+        return true;
+      }
+
+      // Send rotation command
+      geometry_msgs::msg::Twist cmd;
+      cmd.angular.z = copysign(angular_speed_, angle_error);
+      cmd_vel_publisher_->publish(cmd);
+
+      // Safety timeout
+      if (++timeout_count > max_timeout) {
+        RCLCPP_WARN(get_logger(), "Final rotation timeout");
+        stop_robot();
+        return false;
+      }
+
+      rate.sleep();
+    }
+
+    return false;
   }
 
   void move_forward(double distance, double speed) {
@@ -616,7 +781,7 @@ private:
       RCLCPP_ERROR(this->get_logger(), "Speed must be positive!");
       return;
     }
-    distance += 0.18;
+
     // Time calculation
     double duration = distance / speed;
     auto start = this->now();
@@ -648,6 +813,50 @@ private:
     geometry_msgs::msg::Twist stop_msg;
     cmd_vel_publisher_->publish(stop_msg);
   }
+
+  void stop_robot() {
+    geometry_msgs::msg::Twist cmd;
+    cmd.linear.x = 0.0;
+    cmd.angular.z = 0.0;
+    cmd_vel_publisher_->publish(cmd);
+  }
+
+  double normalize_angle(double angle) {
+    // Normalize angle to [-pi, pi]
+    while (angle > M_PI)
+      angle -= 2.0 * M_PI;
+    while (angle < -M_PI)
+      angle += 2.0 * M_PI;
+    return angle;
+  }
+
+  bool attach_shelf() {
+    // Lift the shelf
+    rclcpp::sleep_for(std::chrono::milliseconds(500));
+
+    auto elevator_publisher =
+        this->create_publisher<std_msgs::msg::String>("/elevator_up", 10);
+    rclcpp::sleep_for(
+        std::chrono::milliseconds(1000)); // Let publisher initialize
+
+    auto elevator_msg = std_msgs::msg::String();
+    elevator_msg.data = "";
+
+    // Publish message multiple times with small delays
+    for (int i = 0; i < 3; i++) {
+      elevator_publisher->publish(elevator_msg);
+      RCLCPP_INFO(this->get_logger(), "Published elevator up message (%d/3)",
+                  i + 1);
+      rclcpp::sleep_for(
+          std::chrono::milliseconds(500)); // 500ms delay between messages
+    }
+    rclcpp::sleep_for(
+        std::chrono::milliseconds(5500)); // Let publisher initialize
+
+    RCLCPP_INFO(this->get_logger(), "Shelf lifted successfully");
+
+    return true;
+  }
 };
 
 int main(int argc, char *argv[]) {
@@ -656,3 +865,19 @@ int main(int argc, char *argv[]) {
   rclcpp::shutdown();
   return 0;
 }
+
+// int main(int argc, char *argv[]) {
+//   rclcpp::init(argc, argv);
+
+//   auto node = std::make_shared<ApproachServiceServer>();
+
+//   rclcpp::executors::MultiThreadedExecutor
+//   executor(rclcpp::ExecutorOptions(),
+//                                                     4); // 2 threads
+
+//   executor.add_node(node);
+//   executor.spin();
+
+//   rclcpp::shutdown();
+//   return 0;
+// }
