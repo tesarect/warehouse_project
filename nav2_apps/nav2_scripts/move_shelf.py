@@ -232,6 +232,7 @@ class ShelfApproachManager(Node):
 
         self.navigator.setInitialPose(self.initial_pose)
         self.navigator.waitUntilNav2Active()
+        print('Initial position initialized')
 
     def common_routine(self):
 

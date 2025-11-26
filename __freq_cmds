@@ -5,7 +5,7 @@ ros2 launch the_construct_office_gazebo warehouse_rb1.launch.xml
 
 cd ~/ros2_ws && colcon build && source install/setup.bash
 
-ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml > __lo_op 2>&1
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml > __lo_op 2>&1
 
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True > __pp_op 2>&1

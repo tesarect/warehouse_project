@@ -33,7 +33,8 @@ def generate_launch_description():
     recoveries_yaml_real = os.path.join(pkg_path, 'config', 'recoveries_real.yaml')
     bt_navigator_yaml_real = os.path.join(pkg_path, 'config', 'bt_navigator_real.yaml')
 
-    filters_yaml = os.path.join(pkg_path, 'config', 'filters.yaml')
+    filters_yaml_sim = os.path.join(pkg_path, 'config', 'filters_sim.yaml')
+    filters_yaml_real = os.path.join(pkg_path, 'config', 'filters_real.yaml')
     
     # Path to the RViz configuration file
     rviz_config_file = os.path.join(pkg_path, 'rviz', 'pathplanning.rviz')
@@ -99,7 +100,7 @@ def generate_launch_description():
         name='filter_mask_server',
         output='screen',
         emulate_tty=True,
-        parameters=[filters_yaml],
+        parameters=[filters_yaml_sim],
         condition=IfCondition(use_sim_time))
 
     filter_mask_server_node_real = Node(
@@ -108,7 +109,7 @@ def generate_launch_description():
         name='filter_mask_server',
         output='screen',
         emulate_tty=True,
-        parameters=[filters_yaml],
+        parameters=[filters_yaml_real],
         condition=UnlessCondition(use_sim_time))
 
     costmap_filter_info_server_node_sim = Node(
@@ -117,7 +118,7 @@ def generate_launch_description():
         name='costmap_filter_info_server',
         output='screen',
         emulate_tty=True,
-        parameters=[filters_yaml],
+        parameters=[filters_yaml_sim],
         condition=IfCondition(use_sim_time))
 
     costmap_filter_info_server_node_real = Node(
@@ -126,7 +127,7 @@ def generate_launch_description():
         name='costmap_filter_info_server',
         output='screen',
         emulate_tty=True,
-        parameters=[filters_yaml],
+        parameters=[filters_yaml_real],
         condition=UnlessCondition(use_sim_time))
 
     # Define lifecycle manager node to manage the lifecycle of all nodes

@@ -2,8 +2,8 @@
   ros__parameters:
     # odom_frame: "robot_odom"
     odom_frame: "map"
-    # base_frame: "base_link"
-    base_frame: "robot_base_link"
+    base_frame: "base_link"
+    # base_frame: "robot_base_link"
     cmd_vel_topic: "/cmd_vel"
 
     initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
