@@ -2,23 +2,22 @@ import os  # For file and directory path operations
 from ament_index_python.packages import get_package_share_directory  # Get share directory of a package
 from launch import LaunchDescription  # To create a launch description
 from launch_ros.actions import Node  # Define ROS 2 nodes
-from launch.actions import DeclareLaunchArgument  # Declare launch arguments
+from launch.actions import DeclareLaunchArgument, OpaqueFunction  # Declare launch arguments
 from launch.substitutions import LaunchConfiguration  # For launch configurations
 from launch.conditions import IfCondition, UnlessCondition  # Conditional node launching
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     
-    # Launch configuration for using simulation time
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    # Get the actual value of use_sim_time and convert to boolean
+    use_sim_time_str = LaunchConfiguration('use_sim_time').perform(context)
+    use_sim_time = use_sim_time_str.lower() == 'true'
 
-    # Declare argument to specify if simulation time should be used
-    declare_use_sim_time_cmd = DeclareLaunchArgument('use_sim_time',
-                                                     default_value='True',
-                                                     description='Use simulation clock if True')
+    print(f'Path Planner Launch:')
+    print(f'\t- use_sim_time: {use_sim_time}')
 
     pkg_path = get_package_share_directory('path_planner_server')
-
     robot_config_dir = os.path.join(get_package_share_directory('robot_config'), 'config')
+    
     robot_config_sim = os.path.join(robot_config_dir, 'sim.yaml')
     robot_config_real = os.path.join(robot_config_dir, 'real.yaml')
 
@@ -27,73 +26,136 @@ def generate_launch_description():
     controller_yaml_sim = os.path.join(pkg_path, 'config', 'controller_sim.yaml')
     recoveries_yaml_sim = os.path.join(pkg_path, 'config', 'recoveries_sim.yaml')
     bt_navigator_yaml_sim = os.path.join(pkg_path, 'config', 'bt_navigator_sim.yaml')
+    filters_yaml_sim = os.path.join(pkg_path, 'config', 'filters_sim.yaml')
 
     planner_yaml_real = os.path.join(pkg_path, 'config', 'planner_real.yaml')
     controller_yaml_real = os.path.join(pkg_path, 'config', 'controller_real.yaml')
     recoveries_yaml_real = os.path.join(pkg_path, 'config', 'recoveries_real.yaml')
     bt_navigator_yaml_real = os.path.join(pkg_path, 'config', 'bt_navigator_real.yaml')
-
-    filters_yaml_sim = os.path.join(pkg_path, 'config', 'filters_sim.yaml')
     filters_yaml_real = os.path.join(pkg_path, 'config', 'filters_real.yaml')
     
     # Path to the RViz configuration file
     rviz_config_file = os.path.join(pkg_path, 'rviz', 'pathplanning.rviz')
 
+    # Get run flags as strings
+    run_rviz_str = LaunchConfiguration('run_rviz').perform(context).lower()
+    run_pathplanner_str = LaunchConfiguration('run_pathplanner').perform(context).lower()
+    run_controller_str = LaunchConfiguration('run_controller').perform(context).lower()
+    run_recoveries_str = LaunchConfiguration('run_recoveries').perform(context).lower()
+    run_bt_nav_str = LaunchConfiguration('run_bt_nav').perform(context).lower()
+    run_filter_mask_str = LaunchConfiguration('run_filter_mask').perform(context).lower()
+    run_costmap_filter_str = LaunchConfiguration('run_costmap_filter').perform(context).lower()
+    run_approach_service_str = LaunchConfiguration('run_approach_service').perform(context).lower()
+
     # Define RViz node
-    rviz_node = Node(package='rviz2', executable='rviz2',
-                     name='rviz_node', output='screen',
-                     parameters=[{'use_sim_time': use_sim_time}],
-                     arguments=['-d', rviz_config_file])
+    rviz_node = Node(
+        package='rviz2', 
+        executable='rviz2',
+        name='rviz_node', 
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}],
+        arguments=['-d', rviz_config_file], 
+        condition=IfCondition(run_rviz_str)
+    )
     
     # Define static transform publisher node
-    static_tf_pub = Node(package='tf2_ros', executable='static_transform_publisher',
-                         name='static_transform_publisher', output='screen',
-                         arguments=['0', '0', '0', '0', '0', '0', 'robot_base_link', 'base_link'])
+    static_tf_pub = Node(
+        package='tf2_ros', 
+        executable='static_transform_publisher',
+        name='static_transform_publisher', 
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', 'robot_base_link', 'base_link']
+    )
 
     # Define path planner server node (simulation and real-time versions)
-    planner_server_node_sim = Node(package='nav2_planner', executable='planner_server',
-                                   name='planner_server', output='screen',
-                                   parameters=[planner_yaml_sim],
-                                   condition=IfCondition(use_sim_time))
-    planner_server_node_real = Node(package='nav2_planner', executable='planner_server',
-                                    name='planner_server', output='screen',
-                                    parameters=[planner_yaml_real],
-                                    condition=UnlessCondition(use_sim_time))
+    planner_server_node_sim = Node(
+        package='nav2_planner', 
+        executable='planner_server',
+        name='planner_server', 
+        output='screen',
+        parameters=[planner_yaml_sim],
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_pathplanner_str == 'true' else None
+    )
+    
+    planner_server_node_real = Node(
+        package='nav2_planner', 
+        executable='planner_server',
+        name='planner_server', 
+        output='screen',
+        parameters=[planner_yaml_real],
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_pathplanner_str == 'true' else None
+    )
     
     # Define path controller server node (simulation and real-time versions)
-    controller_server_node_sim = Node(package='nav2_controller', executable='controller_server',
-                                      name='controller_server', output='screen',
-                                      parameters=[controller_yaml_sim],
-                                      remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
-                                      condition=IfCondition(use_sim_time))
-    controller_server_node_real = Node(package='nav2_controller', executable='controller_server',
-                                       name='controller_server', output='screen',
-                                       parameters=[controller_yaml_real],
-                                       remappings=[('/cmd_vel', '/cmd_vel')],
-                                       condition=UnlessCondition(use_sim_time))
+    controller_server_node_sim = Node(
+        package='nav2_controller', 
+        executable='controller_server',
+        name='controller_server', 
+        output='screen',
+        parameters=[controller_yaml_sim],
+        remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_controller_str == 'true' else None
+    )
+    
+    controller_server_node_real = Node(
+        package='nav2_controller', 
+        executable='controller_server',
+        name='controller_server', 
+        output='screen',
+        parameters=[controller_yaml_real],
+        remappings=[('/cmd_vel', '/cmd_vel')],
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_controller_str == 'true' else None
+    )
 
     # Define recovery behaviors server node (simulation and real-time versions)
-    recoveries_server_node_sim = Node(package='nav2_behaviors', executable='behavior_server',
-                                      name='behavior_server', output='screen',
-                                      parameters=[recoveries_yaml_sim],
-                                      remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
-                                      condition=IfCondition(use_sim_time))
-    recoveries_server_node_real = Node(package='nav2_behaviors', executable='behavior_server',
-                                       name='behavior_server', output='screen',
-                                       parameters=[recoveries_yaml_real],
-                                       remappings=[('/cmd_vel', '/cmd_vel')],
-                                       condition=UnlessCondition(use_sim_time))
+    recoveries_server_node_sim = Node(
+        package='nav2_behaviors', 
+        executable='behavior_server',
+        name='behavior_server', 
+        output='screen',
+        parameters=[recoveries_yaml_sim],
+        remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_recoveries_str == 'true' else None
+    )
     
-    # Define behavior tree navigator node (simulation and real-time versions)
-    bt_navigator_node_sim = Node(package='nav2_bt_navigator', executable='bt_navigator',
-                                 name='bt_navigator', output='screen',
-                                 parameters=[bt_navigator_yaml_sim],
-                                 condition=IfCondition(use_sim_time))
-    bt_navigator_node_real = Node(package='nav2_bt_navigator', executable='bt_navigator',
-                                  name='bt_navigator', output='screen',
-                                  parameters=[bt_navigator_yaml_real],
-                                  condition=UnlessCondition(use_sim_time))
+    recoveries_server_node_real = Node(
+        package='nav2_behaviors', 
+        executable='behavior_server',
+        name='behavior_server', 
+        output='screen',
+        parameters=[recoveries_yaml_real],
+        remappings=[('/cmd_vel', '/cmd_vel')],
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_recoveries_str == 'true' else None
+    )
 
+    # Define behavior tree navigator node (simulation and real-time versions)
+    bt_navigator_node_sim = Node(
+        package='nav2_bt_navigator', 
+        executable='bt_navigator',
+        name='bt_navigator', 
+        output='screen',
+        parameters=[bt_navigator_yaml_sim],
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_bt_nav_str == 'true' else None
+    )
+    
+    bt_navigator_node_real = Node(
+        package='nav2_bt_navigator', 
+        executable='bt_navigator',
+        name='bt_navigator', 
+        output='screen',
+        parameters=[bt_navigator_yaml_real],
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_bt_nav_str == 'true' else None
+    )
+
+    # Filter mask server nodes
     filter_mask_server_node_sim = Node(
         package='nav2_map_server',
         executable='map_server',
@@ -101,7 +163,9 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_sim],
-        condition=IfCondition(use_sim_time))
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_filter_mask_str == 'true' else None
+    )
 
     filter_mask_server_node_real = Node(
         package='nav2_map_server',
@@ -110,8 +174,11 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_real],
-        condition=UnlessCondition(use_sim_time))
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_filter_mask_str == 'true' else None
+    )
 
+    # Costmap filter info server nodes
     costmap_filter_info_server_node_sim = Node(
         package='nav2_map_server',
         executable='costmap_filter_info_server',
@@ -119,7 +186,9 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_sim],
-        condition=IfCondition(use_sim_time))
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_costmap_filter_str == 'true' else None
+    )
 
     costmap_filter_info_server_node_real = Node(
         package='nav2_map_server',
@@ -128,31 +197,81 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_real],
-        condition=UnlessCondition(use_sim_time))
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_costmap_filter_str == 'true' else None
+    )
+
+
+    # Prepare lifecycle manager node names
+    node_names = ['planner_server']
+    if run_controller_str == 'true':
+        node_names.append('controller_server')
+    if run_recoveries_str == 'true':
+        node_names.append('behavior_server')
+    if run_bt_nav_str == 'true':
+        node_names.append('bt_navigator')
+    if run_filter_mask_str == 'true':
+        node_names.append('filter_mask_server')
+    if run_costmap_filter_str == 'true':
+        node_names.append('costmap_filter_info_server')
 
     # Define lifecycle manager node to manage the lifecycle of all nodes
-    lifecycle_manager_node = Node(package='nav2_lifecycle_manager', executable='lifecycle_manager',
-                                  name='lifecycle_manager_pathplanner', output='screen',
-                                  parameters=[{'use_sim_time': use_sim_time},
-                                              {'autostart': True},
-                                              {'node_names': ['planner_server',
-                                                              'controller_server',
-                                                              'behavior_server',
-                                                              'bt_navigator',
-                                                              'filter_mask_server',
-                                                              'costmap_filter_info_server']}])
+    lifecycle_manager_node = Node(
+        package='nav2_lifecycle_manager', 
+        executable='lifecycle_manager',
+        name='lifecycle_manager_pathplanner', 
+        output='screen',
+        parameters=[{
+            'use_sim_time': use_sim_time,
+            'autostart': True,
+            'node_names': node_names
+        }]
+    )    
+    # # Define lifecycle manager node to manage the lifecycle of all nodes
+    # lifecycle_manager_node = Node(
+    #     package='nav2_lifecycle_manager', 
+    #     executable='lifecycle_manager',
+    #     name='lifecycle_manager_pathplanner', 
+    #     output='screen',
+    #     parameters=[{
+    #         'use_sim_time': use_sim_time,
+    #         'autostart': True,
+    #         'node_names': [
+    #             'planner_server',
+    #             'controller_server',
+    #             'behavior_server',
+    #             'bt_navigator',
+    #             'filter_mask_server',
+    #             'costmap_filter_info_server'
+    #         ]
+    #     }]
+    # )
     
-    approach_service_server_node_sim = Node(package='attach_shelf', executable='approach_service_server',
-                                            name='approach_service_server', output='screen',
-                                            parameters=[robot_config_sim], condition=IfCondition(use_sim_time))
+    # Approach service server nodes
+    approach_service_server_node_sim = Node(
+        package='attach_shelf', 
+        executable='approach_service_server',
+        name='approach_service_server', 
+        output='screen',
+        parameters=[robot_config_sim], 
+        # condition=IfCondition(str(use_sim_time).lower())
+        condition=IfCondition(str(use_sim_time).lower()) if run_approach_service_str == 'true' else None
+    )
 
-    approach_service_server_node_real = Node(package='attach_shelf', executable='approach_service_server',
-                                             name='approach_service_server', output='screen',
-                                             parameters=[robot_config_real], condition=UnlessCondition(use_sim_time))
+    approach_service_server_node_real = Node(
+        package='attach_shelf', 
+        executable='approach_service_server',
+        name='approach_service_server', 
+        output='screen',
+        parameters=[robot_config_real], 
+        # condition=UnlessCondition(str(use_sim_time).lower())
+        condition=UnlessCondition(str(use_sim_time).lower()) if run_approach_service_str == 'true' else None
+    )
+
+
     
-    # Return the LaunchDescription with all nodes and configurations
-    return LaunchDescription([
-        declare_use_sim_time_cmd,
+    # Return all nodes
+    return [
         rviz_node,
         static_tf_pub,
         planner_server_node_sim,
@@ -170,4 +289,57 @@ def generate_launch_description():
         lifecycle_manager_node,
         approach_service_server_node_sim,
         approach_service_server_node_real,
+    ]
+
+def generate_launch_description():
+
+    use_sim_time_cmd = DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='True',
+            description='Use simulation (Gazebo) clock if true'
+        )
+    
+    declare_rviz_cmd = DeclareLaunchArgument(
+        'run_rviz', default_value='True',
+        description='Launch RViz for localization')
+    
+    declare_pathplanner_cmd = DeclareLaunchArgument(
+        'run_pathplanner', default_value='True',
+        description='Launch path planner')
+    
+    declare_controller_cmd = DeclareLaunchArgument(
+        'run_controller', default_value='True',
+        description='Launch controller server')
+    
+    declare_recoveries_cmd = DeclareLaunchArgument(
+        'run_recoveries', default_value='True',
+        description='Launch recoveries server')
+    
+    declare_bt_navigator_cmd = DeclareLaunchArgument(
+        'run_bt_nav', default_value='True',
+        description='Launch bt_navigator')
+    
+    declare_filter_mask_cmd = DeclareLaunchArgument(
+        'run_filter_mask', default_value='True',
+        description='Launch filter mask')
+    
+    declare_costmap_filter_cmd = DeclareLaunchArgument(
+        'run_costmap_filter', default_value='True',
+        description='Launch costmap filter')
+        
+    declare_approach_service_cmd = DeclareLaunchArgument(
+        'run_approach_service', default_value='True',
+        description='Launch approach service')
+
+    return LaunchDescription([
+        use_sim_time_cmd,
+        declare_rviz_cmd,
+        declare_pathplanner_cmd,
+        declare_controller_cmd,
+        declare_recoveries_cmd,
+        declare_bt_navigator_cmd,
+        declare_filter_mask_cmd,
+        declare_costmap_filter_cmd,
+        declare_approach_service_cmd,
+        OpaqueFunction(function=launch_setup)
     ])

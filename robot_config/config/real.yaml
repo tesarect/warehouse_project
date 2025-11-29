@@ -1,29 +1,38 @@
 /**:
   ros__parameters:
+    ## common params
     # odom_frame: "robot_odom"
     odom_frame: "map"
     base_frame: "base_link"
     # base_frame: "robot_base_link"
     cmd_vel_topic: "/cmd_vel"
 
-    initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
-    loading_position: [4.3817, -0.421, -0.722, 0.684]
-    shipping_position: [1.840, 0.940, 0.660, 0.750]
-    throughPoint1_position: [1.930, -0.177, 0.724, 0.689]
+    ## -attach_shelf pkg
+    debug: true
+    debug_restrict_move: true
+    debug_restrict_attach_shelf: true
+
+    intensity_thres_fact: 0.86  # 0.75, 0.86, 0.92
 
     # Cart frame alignment
-    align_ahead_dist: 0.30
+    align_ahead_dist: 0.50
+    align_cart_center_dist: 0.35
     position_tolerance: 0.05
     angle_tolerance: 0.20
     angular_speed: 0.3
     linear_speed: 0.2
+
+    # -nav2_apps pkg
+    initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
+    loading_position: [4.3817, -0.421, -0.722, 0.684]
+    shipping_position: [1.840, 0.940, 0.660, 0.750]
+    throughPoint1_position: [1.930, -0.177, 0.724, 0.689]
 
     footprint_with_shelf: "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
     footprint_without_shelf: "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
 
     ## Manual Manuering movement parameters
     # Positioning underneath shelf
-    align_cart_center_dist: 0.48
     shelf_center_distance: 0.55
     shelf_center_speed: 0.1
 
