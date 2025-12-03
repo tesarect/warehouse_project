@@ -19,6 +19,7 @@
     # Cart frame alignment
     cart_ref_off: false
     flip_cart_frames: true
+
     # align_ahead_dist: 0.50
     align_ahead_dist: 0.35
     # align_cart_center_dist: 0.35
@@ -37,7 +38,9 @@
     # -nav2_apps pkg
     initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
     loading_position: [4.3817, -0.421, -0.722, 0.684]
-    shipping_position: [1.840, 0.940, 0.660, 0.750]
+    # shipping_position: [1.840, 0.940, 0.660, 0.750]
+    shipping_position: [1.840, 0.960, 0.660, 0.750]
+    # shipping_position: [1.940, 0.900, 0.700, 0.750]
     throughPoint1_position: [1.930, -0.177, 0.724, 0.689]
 
     footprint_with_shelf: "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
@@ -52,10 +55,11 @@
     loaded_curvature_deg: 6.0
     loaded_backward_speed: 0.3
 
-    loaded_rotate_deg: -165
+    loaded_rotate_deg: -150
     loaded_rotate_speed: 0.5
 
-    shipping_backward_distance: 2.10
+    # shipping_backward_distance: 2.15
+    shipping_backward_distance: 2.30
     shipping_backward_speed: 0.3
 
     shipping_rotate_deg: 90

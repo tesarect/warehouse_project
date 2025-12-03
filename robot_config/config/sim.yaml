@@ -1,10 +1,8 @@
 /**:
   ros__parameters:
     ## common params
-    # use_sim_time: true
     global_frame: "map"
     odom_frame: "odom"
-    # odom_frame: "map"
     # base_frame: "robot_base_link"
     base_frame: "base_link"
     cmd_vel_topic: "/diffbot_base_controller/cmd_vel_unstamped"
