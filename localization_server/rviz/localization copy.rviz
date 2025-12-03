@@ -4,9 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /TF1/Frames1
         - /TF1/Tree1
-        - /LaserScan1
         - /ParticleCloud1/Topic1
         - /Odometry1/Shape1
         - /Odometry1/Covariance1
@@ -161,14 +159,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
-          Value: true
-        cart_align_frame:
-          Value: true
-        cart_center_frame:
-          Value: true
-        cart_entry_frame:
-          Value: true
         map:
           Value: true
         odom:
@@ -179,51 +169,17 @@ Visualization Manager:
           Value: false
         robot_base_link:
           Value: true
-        robot_cart_laser:
-          Value: false
-        robot_cart_laser_noisy:
-          Value: false
-        robot_cart_laser_noisy_0:
-          Value: false
-        robot_docking_station_laser:
-          Value: false
-        robot_docking_station_laser_noisy:
-          Value: false
-        robot_docking_station_laser_noisy_0:
-          Value: false
-        robot_elevator_base_link:
-          Value: false
-        robot_elevator_platform_link:
-          Value: false
+        robot_evelator_base_link:
+          Value: true
         robot_front_cover_link:
           Value: false
         robot_front_laser_base_link:
           Value: false
-        robot_front_laser_link:
-          Value: false
-        robot_front_rgbd_camera_depth_frame:
-          Value: false
-        robot_front_rgbd_camera_depth_optical_frame:
-          Value: false
-        robot_front_rgbd_camera_link:
-          Value: false
-        robot_front_rgbd_camera_rgb_base_link:
-          Value: false
-        robot_front_rgbd_camera_rgb_optical_frame:
-          Value: false
-        robot_imu_link:
-          Value: false
-        robot_left_wheel_link:
-          Value: false
-        robot_odom:
-          Value: true
         robot_omni_backwheel_link:
           Value: false
         robot_omni_front_leftwheel_link:
           Value: false
         robot_omni_front_rightwheel_link:
-          Value: false
-        robot_right_wheel_link:
           Value: false
         robot_top_cover_link:
           Value: false
@@ -234,30 +190,6 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          cart_align_frame:
-            {}
-          cart_center_frame:
-            {}
-          cart_entry_frame:
-            {}
-          robot_odom:
-            robot_base_footprint:
-              robot_base_link:
-                robot_evelator_base_link:
-                  {}
-                robot_front_cover_link:
-                  robot_base_docking_contact_link:
-                    {}
-                robot_front_laser_base_link:
-                  {}
-                robot_omni_backwheel_link:
-                  {}
-                robot_omni_front_leftwheel_link:
-                  {}
-                robot_omni_front_rightwheel_link:
-                  {}
-              robot_top_cover_link:
-                {}
           odom:
             robot_base_footprint:
               robot_base_link:
@@ -276,27 +208,26 @@ Visualization Manager:
                   {}
               robot_top_cover_link:
                 {}
-
       Update Interval: 0
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.1000136211514473
-        Min Value: 0.09996756911277771
+        Max Value: 0.2348439246416092
+        Min Value: 0.234793022274971
         Value: true
       Axis: Z
       Channel Name: intensity
       Class: rviz_default_plugins/LaserScan
       Color: 255; 255; 255
-      Color Transformer: Intensity
+      Color Transformer: AxisColor
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 4710
+      Max Intensity: 8000
       Min Color: 0; 0; 0
-      Min Intensity: 305
+      Min Intensity: 0
       Name: LaserScan
       Position Transformer: XYZ
       Selectable: true
