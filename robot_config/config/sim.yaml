@@ -1,45 +1,59 @@
 /**:
   ros__parameters:
-    # odom_frame: "odom"
-    odom_frame: "map"
+    ## common params
+    global_frame: "map"
+    odom_frame: "odom"
     # base_frame: "robot_base_link"
     base_frame: "base_link"
     cmd_vel_topic: "/diffbot_base_controller/cmd_vel_unstamped"
 
+    ## -attach_shelf pkg 
+    debug: false
+    debug_restrict_move: false
+    debug_restrict_attach_shelf: false
+
+    # laser
+    front_side_band: 5.0 # degrees
+    intensity_thres_fact: 0.75
+
+    # Cart frame alignment
+    cart_ref_off: true
+    flip_cart_frames: false
+
+    align_ahead_dist: 0.30
+    align_cart_center_dist: 0.48
+    position_tolerance: 0.05
+    # angle_tolerance: 0.20
+    angle_tolerance: 0.02
+    angular_speed: 0.3
+    linear_speed: 0.2
+
+    # -nav2_apps pkg
     initial_position: [0.030, 0.022, 0.01, 1.0]
     # loading_position: [5.710, -0.030, -0.695, 0.718]
     loading_position: [5.680, -0.030, -0.695, 0.718]
     shipping_position: [2.465, 1.500, 0.707, 0.706]
     throughPoint1_position: [2.365, 0.188, 0.711, 0.702]
 
-    # Cart frame alignment
-    align_ahead_dist: 0.30
-    position_tolerance: 0.05
-    angle_tolerance: 0.20
-    angular_speed: 0.3
-    linear_speed: 0.2
-
     # Transforming Footprint
     footprint_with_shelf: "[[0.41, 0.41], [0.41, -0.41], [-0.41, -0.41], [-0.41, 0.41]]"
     footprint_without_shelf: "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
 
     ## Manual Manuering movement parameters
-    # Positioning underneath shelf
-    align_cart_center_dist: 0.48
     
     # need to remove this later
     shelf_center_distance: 0.55
     shelf_center_speed: 0.1
 
-    loaded_backward_distance: 1.40
-    loaded_curvature_deg: 6.0
+    loaded_backward_distance: 1.45
+    loaded_curvature_deg: 5.2
     loaded_backward_speed: 0.3
 
-    loaded_rotate_deg: -180
+    loaded_rotate_deg: -187
     loaded_rotate_speed: 0.5
 
     shipping_backward_distance: 1.40
     shipping_backward_speed: 0.3
 
-    shipping_rotate_deg: 90
+    shipping_rotate_deg: 97
     shipping_rotate_speed: 0.5
