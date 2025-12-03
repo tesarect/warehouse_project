@@ -1,0 +1,50 @@
+/**:
+  ros__parameters:
+    ## common params
+    global_frame: "map"
+    odom_frame: "robot_odom"
+    base_frame: "base_link"   # robot_base_link, base_link
+    cmd_vel_topic: "/cmd_vel"
+
+    ## -attach_shelf pkg
+    debug: false
+    debug_restrict_move: false
+    debug_restrict_attach_shelf: false
+
+    # laser
+    front_side_band: 5.0 # degrees
+    intensity_thres_fact: 0.80  # 0.75, 0.86, 0.92
+
+    # Cart frame alignment
+    cart_ref_off: false
+    flip_cart_frames: true
+
+    align_ahead_dist: 0.35
+    align_cart_center_dist: 0.34
+    position_tolerance: 0.05
+    angle_tolerance: 0.05
+    angular_speed: 0.3
+    linear_speed: 0.1
+
+    # -nav2_apps pkg
+    initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
+    loading_position: [4.3817, -0.421, -0.722, 0.684]
+    shipping_position: [1.840, 0.960, 0.660, 0.750]
+    throughPoint1_position: [1.930, -0.177, 0.724, 0.689]
+
+    footprint_with_shelf: "[[0.32, 0.32], [0.32, -0.32], [-0.32, -0.32], [-0.32, 0.32]]"
+    footprint_without_shelf: "[[0.26, 0.26], [0.26, -0.26], [-0.26, -0.26], [-0.26, 0.26]]"
+
+    ## Manual Manuering movement parameters
+    loaded_backward_distance: 1.40
+    loaded_curvature_deg: 6.0
+    loaded_backward_speed: 0.3
+
+    loaded_rotate_deg: -150
+    loaded_rotate_speed: 0.5
+
+    shipping_backward_distance: 2.30
+    shipping_backward_speed: 0.3
+
+    shipping_rotate_deg: 90
+    shipping_rotate_speed: 0.5

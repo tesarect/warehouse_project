@@ -4,19 +4,55 @@ source ~/sim_ws/install/setup.bash
 ros2 launch the_construct_office_gazebo warehouse_rb1.launch.xml
 
 cd ~/ros2_ws && colcon build && source install/setup.bash
+cd ~/ros2_ws && colcon build > __bld_op 2>&1
 
-ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_sim.yaml > __lo_op 2>&1
 
 source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=True > __pp_op 2>&1
+
+source ~/ros2_ws/install/setup.bash && ros2 launch attach_shelf test_tf_detect.launch.py > __debugAttachService_op 2>&1
+source ~/ros2_ws/install/setup.bash && ros2 launch attach_shelf test_tf_detect.launch.py use_sim_time:=False > __debugAttachService_op 2>&1
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/scripts/move_shelf_to_ship.py
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship.py
+python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/moveShelf_sim.py
+
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/manual_movement.py
+python3 -i ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/manual_movement.py
 
 ros2 run attach_shelf approach_service_server
 
-ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}44
+ros2 service call /approach_shelf attach_shelf/srv/GoToLoading "{attach_to_shelf: true}"
 
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+ros2 run tf2_tools view_frames
+
+ros2 run <package_name> <executable_name> --ros-args -p speed:=20 -p mode:=manual
+
+
+Real robot:
+==========
+check:
+1. topics list and compare 
+2. modify rviz for color variasion for odom thats asked formatter
+3. make note of all amcl pose 
+    ros2 topic echo /amcl_pose
+    ros2 teleop
+
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml
+source ~/ros2_ws/install/setup.bash && ros2 launch localization_server localization.launch.py map_file:=warehouse_map_keepout_real.yaml > __lo_op 2>&1
+
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False
+source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplanner.launch.py use_sim_time:=False > __pp_op 2>&1
+
+python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship_real.py
+
+ros2 topic pub /elevator_up std_msgs/msg/String --once
+ros2 topic pub /elevator_down std_msgs/msg/String --once
 ------------------------------------------------------------
 
 even after costmap is reduced the goal is met.
@@ -25,3 +61,63 @@ the keep out is not being added to local costmap for me
 
 changing the raytracing in config file will seemlesly affect with or without shape transformation right ?
 
+> __pp_op 2>&1
+
+
+initial:    DONE
+    position:
+      x: -0.025973593492282575
+      y: -0.046246606599482036
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.04147286716157203
+      w: 0.9991396305268841
+
+through point1:
+    position:
+      x: 1.9300398265042489
+      y: -0.17741572146152879
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.7243370431537813
+      w: 0.6894460442378628
+
+loading:    DONE
+    position:
+      x: 4.356337187311272
+      y: -0.777410510885947
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: -0.717813808704359
+      w: 0.6962351154842321
+
+shipping:   DONE
+    position:
+      x: 1.8402229625636803
+      y: 0.9419437861978953
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.660758285937777
+      w: 0.7505987527065117
+
+cd ~/ros2_ws/src/cartographer_slam/config
+
+ros2 run nav2_map_server map_saver_cli -f warehouse_map_real_05
+
+--------------------------------------------------------------------
+
+[approach_service_server-1] [INFO] [1763193371.633031736] [approach_service_server]: Cart frame successfully broadcasted
+[approach_service_server-1] [INFO] [1763193371.633042750] [approach_service_server]: Starting final approach to shelf
+[approach_service_server-1] Warning: Invalid frame ID "cart_frame" passed to canTransform argument source_frame - frame does not exist
+[approach_service_server-1]          at line 93 in ./src/buffer_core.cpp
+[approach_service_server-1] [INFO] [1763193371.643173570] [approach_service_server]: `cart_frame` TF found: x=1.00, y=-0.03
+[approach_service_server-1] [INFO] [1763193371.643220248] [approach_service_server]: Distance to cart_frame: 1.00 m, Angle: -0.03 rad (-2.0 deg)
+[approach_service_server-1] [INFO] [1763193371.643231047] [approach_service_server]: Moving forward to cart_frame (1.00 m)...
