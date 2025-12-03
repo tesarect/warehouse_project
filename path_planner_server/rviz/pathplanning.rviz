@@ -4,7 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /TF1/Frames1
+        - /TF1/Status1
         - /ParticleCloud1/Topic1
         - /RB1 Odometry1/Shape1
         - /Main Odometry1/Shape1
@@ -89,64 +89,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        robot_base_docking_contact_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_evelator_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_evelator_platform_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_front_cover_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_front_laser_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_left_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_omni_backwheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_omni_front_leftwheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_omni_front_rightwheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_right_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robot_top_cover_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Mass Properties:
         Inertia: false
         Mass: false
@@ -161,7 +103,7 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_link:
-          Value: true
+          Value: false
         cart_align_frame:
           Value: true
         cart_center_frame:
@@ -170,25 +112,57 @@ Visualization Manager:
           Value: true
         map:
           Value: true
-        odom:
-          Value: true
         robot_base_docking_contact_link:
           Value: false
         robot_base_footprint:
           Value: false
         robot_base_link:
-          Value: false
-        robot_evelator_base_link:
           Value: true
+        robot_cart_laser:
+          Value: false
+        robot_cart_laser_noisy:
+          Value: false
+        robot_cart_laser_noisy_0:
+          Value: false
+        robot_docking_station_laser:
+          Value: false
+        robot_docking_station_laser_noisy:
+          Value: false
+        robot_docking_station_laser_noisy_0:
+          Value: false
+        robot_elevator_base_link:
+          Value: false
+        robot_elevator_platform_link:
+          Value: false
         robot_front_cover_link:
           Value: false
         robot_front_laser_base_link:
           Value: false
+        robot_front_laser_link:
+          Value: false
+        robot_front_rgbd_camera_depth_frame:
+          Value: false
+        robot_front_rgbd_camera_depth_optical_frame:
+          Value: false
+        robot_front_rgbd_camera_link:
+          Value: false
+        robot_front_rgbd_camera_rgb_base_link:
+          Value: false
+        robot_front_rgbd_camera_rgb_optical_frame:
+          Value: false
+        robot_imu_link:
+          Value: false
+        robot_left_wheel_link:
+          Value: false
+        robot_odom:
+          Value: true
         robot_omni_backwheel_link:
           Value: false
         robot_omni_front_leftwheel_link:
           Value: false
         robot_omni_front_rightwheel_link:
+          Value: false
+        robot_right_wheel_link:
           Value: false
         robot_top_cover_link:
           Value: false
@@ -205,17 +179,30 @@ Visualization Manager:
             {}
           cart_entry_frame:
             {}
-          odom:
+          robot_odom:
             robot_base_footprint:
               robot_base_link:
                 base_link:
                   {}
-                robot_evelator_base_link:
-                  {}
+                robot_elevator_base_link:
+                  robot_elevator_platform_link:
+                    {}
                 robot_front_cover_link:
                   robot_base_docking_contact_link:
                     {}
                 robot_front_laser_base_link:
+                  {}
+                robot_front_rgbd_camera_rgb_base_link:
+                  robot_front_rgbd_camera_depth_frame:
+                    robot_front_rgbd_camera_depth_optical_frame:
+                      {}
+                  robot_front_rgbd_camera_link:
+                    {}
+                  robot_front_rgbd_camera_rgb_optical_frame:
+                    {}
+                robot_imu_link:
+                  {}
+                robot_left_wheel_link:
                   {}
                 robot_omni_backwheel_link:
                   {}
@@ -223,15 +210,31 @@ Visualization Manager:
                   {}
                 robot_omni_front_rightwheel_link:
                   {}
+                robot_right_wheel_link:
+                  {}
+              robot_front_laser_link:
+                {}
               robot_top_cover_link:
                 {}
+            robot_cart_laser:
+              {}
+            robot_cart_laser_noisy:
+              {}
+            robot_cart_laser_noisy_0:
+              {}
+            robot_docking_station_laser:
+              {}
+            robot_docking_station_laser_noisy:
+              {}
+            robot_docking_station_laser_noisy_0:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.2348419576883316
-        Min Value: 0.23478861153125763
+        Max Value: 0.10001437366008759
+        Min Value: 0.09996814280748367
         Value: true
       Axis: Z
       Channel Name: intensity

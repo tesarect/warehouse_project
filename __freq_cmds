@@ -51,8 +51,8 @@ source ~/ros2_ws/install/setup.bash && ros2 launch path_planner_server pathplann
 
 python3 ~/ros2_ws/src/warehouse_project/nav2_apps/nav2_scripts/move_shelf_to_ship_real.py
 
-ros2 topic pub /elevator_up std_msgs/msg/String --once
-ros2 topic pub /elevator_down std_msgs/msg/String --once
+ros2 topic pub /elevator_up std_msgs/msg/String
+ros2 topic pub /elevator_down std_msgs/msg/String
 ------------------------------------------------------------
 
 even after costmap is reduced the goal is met.
