@@ -22,7 +22,7 @@ class ManualMover(Node):
         # self.scan_topics()
 
         # Load respective command velocity throug self/Node.get_parameter(x).vale
-        print(f'-----{self.cmd_vel_topic}')
+        print(f'-[ManualMover]-{self.cmd_vel_topic}')
 
         # # Create publisher for cmd_vel
         # self.cmd_vel_pub = self.create_publisher(

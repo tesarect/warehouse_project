@@ -37,8 +37,6 @@ public:
     this->declare_parameter<double>("angle_tolerance");
     this->declare_parameter<double>("angular_speed");
     this->declare_parameter<double>("linear_speed");
-    this->declare_parameter<double>("shelf_center_distance");
-    this->declare_parameter<double>("shelf_center_speed");
 
     // Get parameters
     this->get_parameter("debug", debug_);
@@ -59,8 +57,6 @@ public:
     this->get_parameter("angle_tolerance", angle_tolerance_);
     this->get_parameter("angular_speed", angular_speed_);
     this->get_parameter("linear_speed", linear_speed_);
-    this->get_parameter("shelf_center_distance", shelf_center_distance_);
-    this->get_parameter("shelf_center_speed", shelf_center_speed_);
 
     RCLCPP_INFO(this->get_logger(), "Debugging: %s", debug_ ? "ON" : "OFF");
     RCLCPP_INFO(this->get_logger(), "Frames: global=%s, base=%s",
@@ -126,8 +122,6 @@ private:
   double angle_tolerance_;
   double angular_speed_;
   double linear_speed_;
-  double shelf_center_distance_;
-  double shelf_center_speed_;
 
   // Frame names
   const std::string cart_entry_frame_ = "cart_entry_frame";
@@ -213,7 +207,7 @@ private:
     }
 
     //   cart_frames_created_ = true;
-    RCLCPP_INFO(this->get_logger(), "✅ Cart frames created successfully");
+    RCLCPP_INFO(this->get_logger(), "Cart frames created successfully");
 
     // Validate TF tree consistency once
     validate_tf_tree_consistency();
@@ -227,35 +221,6 @@ private:
       response->complete = true;
     }
   }
-
-  // ============================================================================
-  // CART DETECTION AND FRAME CREATION
-  //   bool detect_cart_legs_with_retry(int max_retries = 3,
-  //                                    float retry_step_distance = 0.05) {
-  //     for (int attempt = 1; attempt <= max_retries; attempt++) {
-  //       bool legs_found = detect_and_create_cart_frames();
-  //       if (legs_found) {
-  //         return true;
-  //       }
-  //       if (attempt < max_retries) {
-  //         RCLCPP_WARN(get_logger(),
-  //                     "⚠️  Attempt %d/%d failed - legs not found",
-  //                     attempt, max_retries);
-  //         RCLCPP_INFO(get_logger(), "Moving forward %.3fm before retry...",
-  //                     retry_step_distance);
-
-  //         if (!move_forward_small_distance(retry_step_distance)) {
-  //           RCLCPP_ERROR(get_logger(), "Failed to move forward for retry");
-  //           // Continue anyway - maybe detection will work from current
-  //           position
-  //         }
-
-  //         // Small delay before retry
-  //         rclcpp::sleep_for(std::chrono::milliseconds(300));
-  //       }
-  //     }
-  //     return false;
-  //   }
 
   bool detect_legs() {
     // Find shelf legs
@@ -368,11 +333,11 @@ private:
 
         use_reference = true;
         RCLCPP_INFO(this->get_logger(),
-                    "✅ Also, found %s frame, cloning position & orientation",
+                    "Also, found %s frame, cloning position & orientation",
                     ref_frame.c_str());
 
       } catch (const tf2::TransformException &ex) {
-        RCLCPP_WARN(this->get_logger(), "⚠️  %s not available: %s",
+        RCLCPP_WARN(this->get_logger(), "- %s not available: %s",
                     ref_frame.c_str(), ex.what());
         RCLCPP_INFO(this->get_logger(),
                     "Using fallback: transforming laser coordinates to %s",
@@ -391,24 +356,11 @@ private:
       // ENTRY frame: Clone reference frame
       geometry_msgs::msg::TransformStamped entry_tf;
       entry_tf.header.stamp = this->now();
-      entry_tf.header.frame_id = global_frame_; // map
+      entry_tf.header.frame_id = global_frame_;
       entry_tf.child_frame_id = cart_entry_frame_;
       entry_tf.transform = tf2::toMsg(T_ref);
 
-      ////////////////// in simulation
       // ALIGN frame: Offset forward (in reference frame's X axis)
-      //   tf2::Transform T_align =
-      //       T_ref * tf2::Transform(tf2::Quaternion::getIdentity(),
-      //                              tf2::Vector3(align_ahead_dist_, 0.0,
-      //                              0.0));
-
-      ////////////////// in real
-      //   tf2::Transform T_align =
-      //       T_ref * tf2::Transform(tf2::Quaternion::getIdentity(),
-      //                              tf2::Vector3(-align_ahead_dist_, 0.0,
-      //                              0.0));
-
-      ////////////////// combined
       tf2::Transform T_align =
           T_ref *
           tf2::Transform(tf2::Quaternion::getIdentity(),
@@ -418,24 +370,11 @@ private:
 
       geometry_msgs::msg::TransformStamped align_tf;
       align_tf.header.stamp = this->now();
-      align_tf.header.frame_id = global_frame_; // map
+      align_tf.header.frame_id = global_frame_;
       align_tf.child_frame_id = cart_ahead_frame_;
       align_tf.transform = tf2::toMsg(T_align);
 
-      ////////////////// in simulation
       // CENTER frame: Offset backward (in reference frame's X axis)
-      //   tf2::Transform T_center =
-      //       T_ref *
-      //       tf2::Transform(tf2::Quaternion::getIdentity(),
-      //                      tf2::Vector3(-align_cart_center_dist_, 0.0, 0.0));
-
-      ////////////////// in real
-      //   tf2::Transform T_center =
-      //       T_ref *
-      //       tf2::Transform(tf2::Quaternion::getIdentity(),
-      //                      tf2::Vector3(align_cart_center_dist_, 0.0, 0.0));
-
-      ////////////////// combined
       tf2::Transform T_center =
           T_ref *
           tf2::Transform(tf2::Quaternion::getIdentity(),
@@ -445,7 +384,7 @@ private:
 
       geometry_msgs::msg::TransformStamped center_tf;
       center_tf.header.stamp = this->now();
-      center_tf.header.frame_id = global_frame_; // map
+      center_tf.header.frame_id = global_frame_;
       center_tf.child_frame_id = cart_center_frame_;
       center_tf.transform = tf2::toMsg(T_center);
 
@@ -542,8 +481,6 @@ private:
     // Broadcast static transforms
     static_tf_broadcaster_->sendTransform(static_transforms);
 
-    // throw std::runtime_error("~~~~~~~~~~~~~~~~~~~~DEGUGGING STOPPING cart "
-    //                          "frame broadcasted~~~~~~~~~~~~~~~~~~~~");
     // Log frame positions
     for (const auto &tf : static_transforms) {
       RCLCPP_INFO(this->get_logger(), "  %s @ (%.2f, %.2f) in %s",
@@ -556,312 +493,6 @@ private:
 
     return true;
   }
-
-  // ============================================================================
-
-  //   bool detect_and_create_cart_frames() {
-
-  //     // Find shelf legs
-  //     const std::vector<float> &intensity_data = latest_scan_->intensities;
-  //     const std::vector<float> &ranges = latest_scan_->ranges;
-
-  //     if (intensity_data.empty()) {
-  //       RCLCPP_WARN(this->get_logger(), "No intensity data");
-  //       return false;
-  //     }
-
-  //     // Calculate threshold
-  //     float max_intensity =
-  //         *std::max_element(intensity_data.begin(), intensity_data.end());
-  //     float threshold = max_intensity * intensity_thres_fact_;
-
-  //     RCLCPP_INFO(this->get_logger(), "max intensity found to be : %f",
-  //                 max_intensity);
-  //     RCLCPP_INFO(this->get_logger(), "Intensity threshold: %.2f",
-  //     threshold);
-
-  //     // Find legs
-  //     struct ShelfLeg {
-  //       size_t start, end;
-  //     };
-  //     std::vector<ShelfLeg> legs;
-  //     auto iter = intensity_data.begin();
-
-  //     while (iter != intensity_data.end() && legs.size() < 2) {
-  //       iter = std::find_if(iter, intensity_data.end(),
-  //                           [threshold](float v) { return v >= threshold; });
-  //       if (iter == intensity_data.end())
-  //         break;
-
-  //       size_t start = std::distance(intensity_data.begin(), iter);
-
-  //       iter = std::find_if(iter, intensity_data.end(),
-  //                           [threshold](float v) { return v < threshold; });
-  //       size_t end = (iter == intensity_data.end())
-  //                        ? intensity_data.size() - 1
-  //                        : std::distance(intensity_data.begin(), iter) - 1;
-
-  //       legs.push_back({start, end});
-  //       RCLCPP_INFO(this->get_logger(), "Leg %zu: [%zu, %zu]", legs.size(),
-  //       start,
-  //                   end);
-  //     }
-
-  //     if (legs.size() != 2) {
-  //       RCLCPP_WARN(this->get_logger(), "Found %zu legs, need 2",
-  //       legs.size()); return false;
-  //     }
-
-  //     // Calculate leg positions in laser frame
-  //     size_t left_idx = (legs[0].start + legs[0].end) / 2;
-  //     size_t right_idx = (legs[1].start + legs[1].end) / 2;
-
-  //     float angle_left =
-  //         latest_scan_->angle_min + left_idx * latest_scan_->angle_increment;
-  //     float angle_right =
-  //         latest_scan_->angle_min + right_idx *
-  //         latest_scan_->angle_increment;
-
-  //     float x1 = ranges[left_idx] * std::cos(angle_left);
-  //     float y1 = ranges[left_idx] * std::sin(angle_left);
-  //     float x2 = ranges[right_idx] * std::cos(angle_right);
-  //     float y2 = ranges[right_idx] * std::sin(angle_right);
-
-  //     // Calculate entry point and perpendicular vector
-  //     float entry_x = (x1 + x2) / 2.0f;
-  //     float entry_y = (y1 + y2) / 2.0f;
-
-  //     float dx = x2 - x1;
-  //     float dy = y2 - y1;
-  //     float length = std::sqrt(dx * dx + dy * dy);
-  //     float perp_x = -dy / length;
-  //     float perp_y = dx / length;
-
-  //     // Calculate frame positions in laser frame
-  //     float ahead_x = entry_x + align_ahead_dist_ * perp_x;
-  //     float ahead_y = entry_y + align_ahead_dist_ * perp_y;
-  //     float center_x = entry_x - align_cart_center_dist_ * perp_x;
-  //     float center_y = entry_y - align_cart_center_dist_ * perp_y;
-
-  //     if (debug_) {
-  //       RCLCPP_INFO(this->get_logger(), "=== Geometry Analysis ===");
-  //       RCLCPP_INFO(this->get_logger(), "Leg 1: (%.2f, %.2f)", x1, y1);
-  //       RCLCPP_INFO(this->get_logger(), "Leg 2: (%.2f, %.2f)", x2, y2);
-  //       RCLCPP_INFO(this->get_logger(), "Entry: (%.2f, %.2f)", entry_x,
-  //       entry_y); RCLCPP_INFO(this->get_logger(), "Perpendicular: (%.3f,
-  //       %.3f)", perp_x,
-  //                   perp_y);
-  //     }
-
-  //     // Try to use robot_cart_laser frame if available
-  //     return create_static_cart_frames(entry_x, entry_y, ahead_x, ahead_y,
-  //                                      center_x, center_y);
-  //   }
-
-  // ============================================================================
-  // CREATE STATIC FRAMES
-  // ============================================================================
-
-  //   bool create_static_cart_frames(float entry_x, float entry_y, float
-  //   ahead_x,
-  //                                  float ahead_y, float center_x,
-  //                                  float center_y) {
-
-  //     const std::string ref_frame = "robot_cart_laser";
-  //     bool use_reference = false;
-  //     geometry_msgs::msg::TransformStamped ref_tf;
-
-  //     // Check if robot_cart_laser is available
-  //     if (!cart_ref_off_) {
-  //       try {
-  //         RCLCPP_INFO(this->get_logger(),
-  //                     "Trying to fetch ref frame 0000000000000000");
-  //         ref_tf = tf_buffer_->lookupTransform(
-  //             global_frame_, // map
-  //             ref_frame,     // robot_cart_laser (parent: odom)
-  //             tf2::TimePointZero, tf2::durationFromSec(1.0));
-
-  //         use_reference = true;
-  //         RCLCPP_INFO(this->get_logger(),
-  //                     "✅ Also, found %s frame, cloning position &
-  //                     orientation", ref_frame.c_str());
-
-  //       } catch (const tf2::TransformException &ex) {
-  //         RCLCPP_WARN(this->get_logger(), "⚠️  %s not available: %s",
-  //                     ref_frame.c_str(), ex.what());
-  //         RCLCPP_INFO(this->get_logger(),
-  //                     "Using fallback: transforming laser coordinates to %s",
-  //                     global_frame_.c_str());
-  //       }
-  //     } else {
-  //       RCLCPP_INFO(this->get_logger(),
-  //                   "FORCING cart frame creating to use legs");
-  //     }
-  //     std::vector<geometry_msgs::msg::TransformStamped> static_transforms;
-
-  //     if (use_reference) {
-  //       //
-  //       ========================================================================
-  //       // METHOD 1: Clone robot_cart_laser frame with offsets
-  //       //
-  //       ========================================================================
-
-  //       tf2::Transform T_ref;
-  //       tf2::fromMsg(ref_tf.transform, T_ref);
-
-  //       // ENTRY frame: Clone reference frame exactly
-  //       geometry_msgs::msg::TransformStamped entry_tf;
-  //       entry_tf.header.stamp = this->now();
-  //       entry_tf.header.frame_id = global_frame_; // map
-  //       entry_tf.child_frame_id = cart_entry_frame_;
-  //       entry_tf.transform = tf2::toMsg(T_ref);
-
-  //       // ALIGN frame: Offset forward (in reference frame's X axis)
-  //       //   tf2::Transform T_align =
-  //       //       T_ref * tf2::Transform(tf2::Quaternion::getIdentity(),
-  //       //                              tf2::Vector3(align_ahead_dist_, 0.0,
-  //       //                              0.0));
-  //       tf2::Transform T_align =
-  //           T_ref * tf2::Transform(tf2::Quaternion::getIdentity(),
-  //                                  tf2::Vector3(-align_ahead_dist_, 0.0,
-  //                                  0.0));
-
-  //       geometry_msgs::msg::TransformStamped align_tf;
-  //       align_tf.header.stamp = this->now();
-  //       align_tf.header.frame_id = global_frame_; // map
-  //       align_tf.child_frame_id = cart_ahead_frame_;
-  //       align_tf.transform = tf2::toMsg(T_align);
-
-  //       // CENTER frame: Offset backward (in reference frame's X axis)
-  //       //   tf2::Transform T_center =
-  //       //       T_ref *
-  //       //       tf2::Transform(tf2::Quaternion::getIdentity(),
-  //       //                      tf2::Vector3(-align_cart_center_dist_, 0.0,
-  //       0.0)); tf2::Transform T_center =
-  //           T_ref *
-  //           tf2::Transform(tf2::Quaternion::getIdentity(),
-  //                          tf2::Vector3(align_cart_center_dist_, 0.0, 0.0));
-
-  //       geometry_msgs::msg::TransformStamped center_tf;
-  //       center_tf.header.stamp = this->now();
-  //       center_tf.header.frame_id = global_frame_; // map
-  //       center_tf.child_frame_id = cart_center_frame_;
-  //       center_tf.transform = tf2::toMsg(T_center);
-
-  //       static_transforms = {entry_tf, align_tf, center_tf};
-
-  //       RCLCPP_INFO(this->get_logger(), "Created frames by cloning %s",
-  //                   ref_frame.c_str());
-
-  //     } else {
-  //       //
-  //       ========================================================================
-  //       // METHOD 2: Transform laser coordinates to map frame
-  //       //
-  //       ========================================================================
-
-  //       std::string laser_frame = latest_scan_->header.frame_id;
-
-  //       try {
-  //         // Transform entry point
-  //         geometry_msgs::msg::PointStamped entry_pt;
-  //         entry_pt.header.frame_id = laser_frame;
-  //         entry_pt.header.stamp = latest_scan_->header.stamp;
-  //         entry_pt.point.x = entry_x;
-  //         entry_pt.point.y = entry_y;
-  //         entry_pt.point.z = 0.0;
-
-  //         auto entry_map = tf_buffer_->transform(entry_pt, global_frame_,
-  //                                                tf2::durationFromSec(1.0));
-
-  //         // Transform ahead point
-  //         geometry_msgs::msg::PointStamped ahead_pt;
-  //         ahead_pt.header.frame_id = laser_frame;
-  //         ahead_pt.header.stamp = latest_scan_->header.stamp;
-  //         ahead_pt.point.x = ahead_x;
-  //         ahead_pt.point.y = ahead_y;
-  //         ahead_pt.point.z = 0.0;
-
-  //         auto ahead_map = tf_buffer_->transform(ahead_pt, global_frame_,
-  //                                                tf2::durationFromSec(1.0));
-
-  //         // Transform center point
-  //         geometry_msgs::msg::PointStamped center_pt;
-  //         center_pt.header.frame_id = laser_frame;
-  //         center_pt.header.stamp = latest_scan_->header.stamp;
-  //         center_pt.point.x = center_x;
-  //         center_pt.point.y = center_y;
-  //         center_pt.point.z = 0.0;
-
-  //         auto center_map = tf_buffer_->transform(center_pt, global_frame_,
-  //                                                 tf2::durationFromSec(1.0));
-
-  //         // Create orientation (facing into shelf, -90 degrees)
-  //         tf2::Quaternion q;
-  //         q.setRPY(0, 0, -M_PI / 2.0);
-  //         geometry_msgs::msg::Quaternion orientation = tf2::toMsg(q);
-
-  //         // ENTRY frame
-  //         geometry_msgs::msg::TransformStamped entry_tf;
-  //         entry_tf.header.stamp = this->now();
-  //         entry_tf.header.frame_id = global_frame_;
-  //         entry_tf.child_frame_id = cart_entry_frame_;
-  //         entry_tf.transform.translation.x = entry_map.point.x;
-  //         entry_tf.transform.translation.y = entry_map.point.y;
-  //         entry_tf.transform.translation.z = 0.0;
-  //         entry_tf.transform.rotation = orientation;
-
-  //         // ALIGN frame
-  //         geometry_msgs::msg::TransformStamped align_tf;
-  //         align_tf.header.stamp = this->now();
-  //         align_tf.header.frame_id = global_frame_;
-  //         align_tf.child_frame_id = cart_ahead_frame_;
-  //         align_tf.transform.translation.x = ahead_map.point.x;
-  //         align_tf.transform.translation.y = ahead_map.point.y;
-  //         align_tf.transform.translation.z = 0.0;
-  //         align_tf.transform.rotation = orientation;
-
-  //         // CENTER frame
-  //         geometry_msgs::msg::TransformStamped center_tf;
-  //         center_tf.header.stamp = this->now();
-  //         center_tf.header.frame_id = global_frame_;
-  //         center_tf.child_frame_id = cart_center_frame_;
-  //         center_tf.transform.translation.x = center_map.point.x;
-  //         center_tf.transform.translation.y = center_map.point.y;
-  //         center_tf.transform.translation.z = 0.0;
-  //         center_tf.transform.rotation = orientation;
-
-  //         static_transforms = {entry_tf, align_tf, center_tf};
-
-  //         RCLCPP_INFO(this->get_logger(),
-  //                     "Created frames from transformed laser coordinates");
-
-  //       } catch (const tf2::TransformException &ex) {
-  //         RCLCPP_ERROR(this->get_logger(), "Failed to transform coordinates:
-  //         %s",
-  //                      ex.what());
-  //         return false;
-  //       }
-  //     }
-
-  //     // Broadcast static transforms
-  //     static_tf_broadcaster_->sendTransform(static_transforms);
-
-  //     // throw std::runtime_error("~~~~~~~~~~~~~~~~~~~~DEGUGGING STOPPING
-  //     cart "
-  //     //                          "frame broadcasted~~~~~~~~~~~~~~~~~~~~");
-  //     // Log frame positions
-  //     for (const auto &tf : static_transforms) {
-  //       RCLCPP_INFO(this->get_logger(), "  %s @ (%.2f, %.2f) in %s",
-  //                   tf.child_frame_id.c_str(), tf.transform.translation.x,
-  //                   tf.transform.translation.y, tf.header.frame_id.c_str());
-  //     }
-
-  //     // Wait for static transforms to propagate
-  //     rclcpp::sleep_for(std::chrono::milliseconds(200));
-
-  //     return true;
-  //   }
 
   void validate_tf_tree_consistency() {
     try {
@@ -884,11 +515,11 @@ private:
 
       double diff = std::abs(map_odom_time.seconds() - cart_time.seconds());
       if (diff < 2.0) {
-        RCLCPP_INFO(this->get_logger(), "✅ Timestamps consistent (diff: %.3fs)",
+        RCLCPP_INFO(this->get_logger(), "Timestamps consistent (diff: %.3fs)",
                     diff);
       } else {
         RCLCPP_WARN(this->get_logger(),
-                    "⚠️  Large timestamp difference: %.3fs", diff);
+                    "Large timestamp difference: %.3fs", diff);
       }
 
     } catch (const tf2::TransformException &ex) {
@@ -937,50 +568,46 @@ private:
 
     float min_distance =
         std::isfinite(*valid_min_it) ? *valid_min_it : INFINITY;
-    // RCLCPP_INFO(get_logger(), "Window [%d,%d]: min=%.3fm", start_idx,
-    // end_idx,
-    //             min_distance);
+    RCLCPP_DEBUG(get_logger(), "Window [%d,%d]: min=%.3fm", start_idx,
+                end_idx,
+                min_distance);
 
     return min_distance;
   }
 
   // NAVIGATIONS
   bool perform_final_approach() {
-    RCLCPP_INFO(get_logger(), "=== Starting Final Approach ===");
+    RCLCPP_INFO(get_logger(), "Starting Final Approach");
 
     // Step 1: Align position
-    RCLCPP_INFO(get_logger(), "Step 1/3: Moving to align position");
+    RCLCPP_INFO(get_logger(), "TargetFrame 1/3: Moving to align position");
     if (!move_to_tf_frame(cart_ahead_frame_)) {
       RCLCPP_ERROR(get_logger(), "Failed to reach align position");
       stop_robot();
       return false;
     }
-    RCLCPP_INFO(get_logger(), "✅✅✅ Reached Cart Align Frame");
+    RCLCPP_INFO(get_logger(), "- Reached Cart Align Frame");
     rclcpp::sleep_for(500ms);
 
     // Step 2: Entry position
-    RCLCPP_INFO(get_logger(), "Step 2/3: Moving to entry position");
+    RCLCPP_INFO(get_logger(), "TargetFrame 2/3: Moving to entry position");
     if (!move_to_tf_frame(cart_entry_frame_)) {
       RCLCPP_ERROR(get_logger(), "Failed to reach entry");
       stop_robot();
       return false;
     }
-    RCLCPP_INFO(get_logger(), "✅✅✅ Reached Cart Entry Frame");
+    RCLCPP_INFO(get_logger(), "- Reached Cart Entry Frame");
     rclcpp::sleep_for(500ms);
 
     // Step 3: Center position
-    RCLCPP_INFO(get_logger(), "Step 3/3: Moving to center");
+    RCLCPP_INFO(get_logger(), "TargetFrame 3/3: Moving to center");
     if (!move_to_tf_frame(cart_center_frame_)) {
       RCLCPP_ERROR(get_logger(), "Failed to reach center");
       stop_robot();
       return false;
     }
-    RCLCPP_INFO(get_logger(), "✅✅✅ Reached Cart Center Frame");
+    RCLCPP_INFO(get_logger(), "- Reached Cart Center Frame");
 
-    // Attach shelf
-    // throw std::runtime_error("~~~~~~~~~~~~~~~~~~~~DEGUGGING STOPPING
-    // attaching "
-    //                          "shelf~~~~~~~~~~~~~~~~~~~~");
     bool attached = attach_shelf();
 
     RCLCPP_INFO(get_logger(), "Final Approach Complete");
@@ -1078,15 +705,12 @@ private:
 
       if (fabs(error) < angle_tolerance_) {
         stop_robot();
-        RCLCPP_INFO(this->get_logger(), "✅✅ rotated for current goal");
+        RCLCPP_INFO(this->get_logger(), "\t-Rotate completed for current goal");
         return true;
       }
 
-      //   RCLCPP_INFO_THROTTLE(this->get_logger(), *get_clock(), 500,
-      //                        "\t- Phase 1: Rotating towards phase goal (%f >
-      //                        %f)", error, angle_tolerance_);
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *get_clock(), 300,
-                           "\t🚧 Phase 1: Rotating towards phase goal (%f > %f)",
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *get_clock(), 700,
+                           "\t\t-Phase 1: Rotating towards phase goal (%f > %f)",
                            error, angle_tolerance_);
       geometry_msgs::msg::Twist cmd;
       cmd.angular.z = copysign(angular_speed_, error);
@@ -1120,15 +744,15 @@ private:
 
       if (distance < position_tolerance_) {
         stop_robot();
-        RCLCPP_INFO(this->get_logger(), "✅✅ Reached position");
+        RCLCPP_INFO(this->get_logger(), "\t-Reached position");
         return true;
       }
 
       double desired_yaw = atan2(dy, dx);
       double angle_error = normalize_angle(desired_yaw - yaw);
 
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *get_clock(), 300,
-                           "🚧 Phase2: Dist: %.2fm - PosTol: %.2f | Pos: "
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *get_clock(), 700,
+                           "\t\t-Phase2: Dist: %.2fm - PosTol: %.2f | Pos: "
                            "(%.2f,%.2f) → Goal: (%.2f,%.2f)",
                            distance, position_tolerance_, x, y, goal_x, goal_y);
 
@@ -1157,7 +781,7 @@ private:
       double x, y, yaw;
       if (!get_robot_pose(x, y, yaw)) {
         rate.sleep();
-        RCLCPP_INFO(this->get_logger(), "✅✅ aligned to next goal");
+        RCLCPP_INFO(this->get_logger(), "\t-aligned current goal");
         continue;
       }
 
@@ -1169,8 +793,8 @@ private:
       }
 
       RCLCPP_INFO_THROTTLE(
-          this->get_logger(), *get_clock(), 300,
-          "\t🚧 Phase 3: Rotating towards next phase goal (%f > %f)", error,
+          this->get_logger(), *get_clock(), 700,
+          "\t\t-Phase 3: Rotating for current goal (%f > %f)", error,
           angle_tolerance_);
       geometry_msgs::msg::Twist cmd;
       cmd.angular.z = copysign(angular_speed_, error);
@@ -1204,7 +828,7 @@ private:
       return true;
     }
 
-    // Get initial position
+    // Get current position
     double start_x, start_y, start_yaw;
     if (!get_robot_pose(start_x, start_y, start_yaw)) {
       RCLCPP_ERROR(get_logger(), "Failed to get starting position");
@@ -1276,7 +900,7 @@ private:
     }
 
     rclcpp::sleep_for(5500ms);
-    RCLCPP_INFO(this->get_logger(), "✅ Shelf attached");
+    RCLCPP_INFO(this->get_logger(), "Shelf attached");
 
     return true;
   }

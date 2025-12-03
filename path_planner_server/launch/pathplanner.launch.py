@@ -74,7 +74,6 @@ def launch_setup(context, *args, **kwargs):
         name='planner_server', 
         output='screen',
         parameters=[planner_yaml_sim],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_pathplanner_str == 'true' else None
     )
     
@@ -84,7 +83,6 @@ def launch_setup(context, *args, **kwargs):
         name='planner_server', 
         output='screen',
         parameters=[planner_yaml_real],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_pathplanner_str == 'true' else None
     )
     
@@ -96,7 +94,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         parameters=[controller_yaml_sim],
         remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_controller_str == 'true' else None
     )
     
@@ -107,7 +104,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         parameters=[controller_yaml_real],
         remappings=[('/cmd_vel', '/cmd_vel')],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_controller_str == 'true' else None
     )
 
@@ -119,7 +115,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         parameters=[recoveries_yaml_sim],
         remappings=[('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped')],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_recoveries_str == 'true' else None
     )
     
@@ -130,7 +125,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         parameters=[recoveries_yaml_real],
         remappings=[('/cmd_vel', '/cmd_vel')],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_recoveries_str == 'true' else None
     )
 
@@ -141,7 +135,6 @@ def launch_setup(context, *args, **kwargs):
         name='bt_navigator', 
         output='screen',
         parameters=[bt_navigator_yaml_sim],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_bt_nav_str == 'true' else None
     )
     
@@ -151,7 +144,6 @@ def launch_setup(context, *args, **kwargs):
         name='bt_navigator', 
         output='screen',
         parameters=[bt_navigator_yaml_real],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_bt_nav_str == 'true' else None
     )
 
@@ -163,7 +155,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_sim],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_filter_mask_str == 'true' else None
     )
 
@@ -174,7 +165,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_real],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_filter_mask_str == 'true' else None
     )
 
@@ -186,7 +176,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_sim],
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_costmap_filter_str == 'true' else None
     )
 
@@ -197,7 +186,6 @@ def launch_setup(context, *args, **kwargs):
         output='screen',
         emulate_tty=True,
         parameters=[filters_yaml_real],
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_costmap_filter_str == 'true' else None
     )
 
@@ -235,7 +223,6 @@ def launch_setup(context, *args, **kwargs):
         name='approach_service_server', 
         output='screen',
         parameters=[robot_config_sim], 
-        # condition=IfCondition(str(use_sim_time).lower())
         condition=IfCondition(str(use_sim_time).lower()) if run_approach_service_str == 'true' else None
     )
 
@@ -245,7 +232,6 @@ def launch_setup(context, *args, **kwargs):
         name='approach_service_server', 
         output='screen',
         parameters=[robot_config_real], 
-        # condition=UnlessCondition(str(use_sim_time).lower())
         condition=UnlessCondition(str(use_sim_time).lower()) if run_approach_service_str == 'true' else None
     )
 
