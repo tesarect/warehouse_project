@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /TF1
         - /TF1/Frames1
         - /LaserScan1/Topic1
       Splitter Ratio: 0.7382352948188782
@@ -62,6 +63,12 @@ Visualization Manager:
           Value: false
         robot_base_link:
           Value: true
+        robot_cart_laser:
+          Value: false
+        robot_cart_laser_noisy:
+          Value: false
+        robot_cart_laser_noisy_0:
+          Value: false
         robot_docking_station_laser:
           Value: false
         robot_docking_station_laser_noisy:
@@ -148,6 +155,12 @@ Visualization Manager:
           robot_base_footprint:
             robot_top_cover_link:
               {}
+          robot_cart_laser:
+            {}
+          robot_cart_laser_noisy:
+            {}
+          robot_cart_laser_noisy_0:
+            {}
           robot_docking_station_laser:
             {}
           robot_docking_station_laser_noisy:
@@ -171,9 +184,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 4678
+      Max Intensity: 6884
       Min Color: 0; 0; 0
-      Min Intensity: 320
+      Min Intensity: 163
       Name: LaserScan
       Position Transformer: XYZ
       Selectable: true

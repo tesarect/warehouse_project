@@ -123,8 +123,8 @@ def launch_setup(context, *args, **kwargs):
         localization_launch_sim,
         localization_launch_real,
         pathplanner_launch,
-        # approach_service_server_node_sim,
-        # approach_service_server_node_real
+        approach_service_server_node_sim,
+        approach_service_server_node_real
     ]
 
 def generate_launch_description():

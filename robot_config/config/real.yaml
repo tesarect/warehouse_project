@@ -1,26 +1,38 @@
 /**:
   ros__parameters:
     ## common params
-    # odom_frame: "robot_odom"
-    odom_frame: "map"
+    global_frame: "map"
+    odom_frame: "robot_odom"
     base_frame: "base_link"
     # base_frame: "robot_base_link"
     cmd_vel_topic: "/cmd_vel"
 
     ## -attach_shelf pkg
-    debug: true
-    debug_restrict_move: true
-    debug_restrict_attach_shelf: true
+    debug: false
+    debug_restrict_move: false
+    debug_restrict_attach_shelf: false
 
-    intensity_thres_fact: 0.86  # 0.75, 0.86, 0.92
+    # laser
+    front_side_band: 5.0 # degrees
+    intensity_thres_fact: 0.80  # 0.75, 0.86, 0.92
 
     # Cart frame alignment
-    align_ahead_dist: 0.50
-    align_cart_center_dist: 0.35
+    cart_ref_off: false
+    flip_cart_frames: true
+    # align_ahead_dist: 0.50
+    align_ahead_dist: 0.35
+    # align_cart_center_dist: 0.35
+    align_cart_center_dist: 0.34
     position_tolerance: 0.05
-    angle_tolerance: 0.20
+    # position_tolerance: 0.06
+    # position_tolerance: 0.20
+
+    # angle_tolerance: 0.20
+    # angle_tolerance: 0.4
+    angle_tolerance: 0.05
     angular_speed: 0.3
-    linear_speed: 0.2
+    # linear_speed: 0.2
+    linear_speed: 0.1
 
     # -nav2_apps pkg
     initial_position: [-0.0250, -0.0462, 0.041472, 1.0]
@@ -40,7 +52,7 @@
     loaded_curvature_deg: 6.0
     loaded_backward_speed: 0.3
 
-    loaded_rotate_deg: -180
+    loaded_rotate_deg: -165
     loaded_rotate_speed: 0.5
 
     shipping_backward_distance: 2.10

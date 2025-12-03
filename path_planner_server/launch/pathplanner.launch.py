@@ -227,25 +227,6 @@ def launch_setup(context, *args, **kwargs):
             'node_names': node_names
         }]
     )    
-    # # Define lifecycle manager node to manage the lifecycle of all nodes
-    # lifecycle_manager_node = Node(
-    #     package='nav2_lifecycle_manager', 
-    #     executable='lifecycle_manager',
-    #     name='lifecycle_manager_pathplanner', 
-    #     output='screen',
-    #     parameters=[{
-    #         'use_sim_time': use_sim_time,
-    #         'autostart': True,
-    #         'node_names': [
-    #             'planner_server',
-    #             'controller_server',
-    #             'behavior_server',
-    #             'bt_navigator',
-    #             'filter_mask_server',
-    #             'costmap_filter_info_server'
-    #         ]
-    #     }]
-    # )
     
     # Approach service server nodes
     approach_service_server_node_sim = Node(

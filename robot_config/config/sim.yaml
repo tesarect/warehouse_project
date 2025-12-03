@@ -1,24 +1,32 @@
 /**:
   ros__parameters:
     ## common params
-    # odom_frame: "odom"
-    odom_frame: "map"
+    # use_sim_time: true
+    global_frame: "map"
+    odom_frame: "odom"
+    # odom_frame: "map"
     # base_frame: "robot_base_link"
     base_frame: "base_link"
     cmd_vel_topic: "/diffbot_base_controller/cmd_vel_unstamped"
 
-    ## -attach_shelf pkg
-    debug: true
-    debug_restrict_move: true
-    debug_restrict_attach_shelf: true
+    ## -attach_shelf pkg 
+    debug: false
+    debug_restrict_move: false
+    debug_restrict_attach_shelf: false
 
+    # laser
+    front_side_band: 5.0 # degrees
     intensity_thres_fact: 0.75
 
     # Cart frame alignment
+    cart_ref_off: true
+    flip_cart_frames: false
+
     align_ahead_dist: 0.30
     align_cart_center_dist: 0.48
     position_tolerance: 0.05
-    angle_tolerance: 0.20
+    # angle_tolerance: 0.20
+    angle_tolerance: 0.02
     angular_speed: 0.3
     linear_speed: 0.2
 
